@@ -1,0 +1,46 @@
+
+*{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	outline: none;
+	text-decoration: none;
+}
+body{
+	background: #f8f8f8;
+}
+a:hover{
+	text-decoration: none;
+}
+.exam-question{
+	margin: 20px auto;
+	background: #fff;
+	box-shadow: 0 0 8px rgba(0, 0, 0, .12);
+}
+.exam-question>h2{
+	text-align: center;
+}
+.exam-question>from{
+	padding: 15px;
+}
+.exam-question fieldset{
+	margin-bottom: 15px;
+	overflow: hidden;
+}
+.exam-question .submit-paper{
+	padding: 6px 12px;
+	background-color:  #00aeee;
+	border-radius: 6px;
+	border: 1px solid #00aeee;
+	color: #fff;
+	font-size: 18px;
+	margin-bottom: 20px;
+	cursor: pointer;
+}
+.exam-question fieldset>input{
+	margin:0px 5px 0 10px;
+	width: 15px;
+	height: 15px;
+	vertical-align: middle;
+}
+

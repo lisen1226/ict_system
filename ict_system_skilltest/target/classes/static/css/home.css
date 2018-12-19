@@ -1,0 +1,235 @@
+
+
+body{
+	background: #f8f8f8;
+	position: relative;
+}
+/* 导航栏 */
+.navbar-default .navbar-nav .exam{
+	font-weight: normal;
+    color: #777;
+    z-index: 3;
+}
+.img-circle{
+	width: 40px;
+	height: 40px;
+}
+
+/* 内容 */
+.home-con{
+	margin: 73px auto 0;
+	position: relative;
+	overflow: hidden;
+}
+.home-top{
+	width: 100%;
+}
+/* 轮播图 */
+.carousel{
+
+	width: 100%;
+	box-shadow:  1px 5px 8px rgba(0, 0, 0, .5);
+}
+.carousel-control {
+	opacity: 1;
+    top: 50%;
+    margin-top: -10px;
+    font-size: 30px;
+    
+}
+.carousel-control.left,.carousel-control.right {
+	background-image: none;
+}
+/* 登录 注册 */
+
+
+/* 登录部分 */
+
+.login-right,.register-right{
+	height: 469px;
+	background: rgba(255,255,255,.5);
+	border-radius: 15px;
+	box-shadow:  0 0 8px rgba(255, 255,255, .4);
+}
+
+.title{
+	display: none;
+}
+.login>h1{
+	margin-bottom: 45px;
+}
+.login-left>ul>li{
+	margin-bottom: 20px;
+}
+.login-form,.register-form{
+	display: block;
+	margin-top: 16%;
+	width: 95%;
+}
+
+.login-register{
+	position: absolute;
+	top: 50px;
+	right: 20px;
+	width: 30%;
+	
+	display: none;
+}
+.login-right,.register-right{
+		padding: 30px;
+}
+.register-right{
+	display: none;
+}
+.login-right input,.register-right input{
+	display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #000;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding-right: 35px;
+    background-color: #fff;
+}
+
+.login-right .find-back>input{
+	width: 15px;
+	height: 15px;
+	float: left;
+	margin-right: 10px;
+}
+.login-right .find-back>span{
+	float: right;
+	vertical-align: middle;
+}
+.login-right .find-back>span:hover,.reg-text:hover{
+	cursor: pointer;
+	color:  #125690;
+}
+.login-right .register-btn,.register-right .register-btn{
+	width: 100%;
+	height: 40px;
+	background-color: #337ab7;
+    padding: 6px 12px;
+	margin-bottom: 20px;
+	font-size: 16px;
+	border: 1px solid #2e6da4;
+	border-radius: 4px;
+	color: #fff;
+	opacity: 0.7;
+}
+.login-right .register-btn:hover,.register-btn:hover{
+	opacity: 1;
+}
+/* 注册部分 */
+.register-right{
+	padding-top: 5px;
+}
+.register-right fieldset{
+	position: relative;
+	margin-bottom: 10px;
+}
+sub{
+	color: red;
+}
+.input-icon{
+	display: block;
+	position: absolute;
+	right: 20px;
+	bottom: 5px;
+	padding-top: 34px;
+}
+.remove{
+	color: #f96868;
+	display: none;
+}
+.ok-sign{
+	color: #46be8a;
+	display: none;
+}
+.register-btn{
+	margin-top: 10px;
+}
+
+/* 项目展示 */
+.project-show{
+	margin: 40px auto;
+	background: #fff;
+	padding: 20px 0;
+	box-shadow: 0 0 8px rgba(0, 0, 0, .12);
+}
+.project-show img{
+	width: 200px;
+	height: 200px;
+}
+
+.media-heading {
+	color: #07284b;
+}
+.media-left>a{
+	display: block;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+}
+.media-left>a:hover{
+	border-color:  #07284b;
+}
+
+/* 底部 */
+footer{
+		height: 200px;
+		background:  #07284b;
+		color: #fff;
+	}
+
+/* web端 */
+@media(min-width: 768px){
+	.navbar-default .navbar-nav>.details>a{
+		padding-top: 6px;
+		padding-bottom: 10px;
+	}
+	
+
+}
+
+/* phone端 */
+@media(max-width:768px){
+
+	/* 登录部分 */
+
+	.login{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.login-right,.register-right{
+
+		width: 100%;
+		height: 389px;
+		margin-right: 0px;
+		/* background: #337ab7; */
+		border-radius: 0;
+	    padding: 20px 15%;
+	  
+	}
+	.title{
+		display: block;
+		margin-bottom: 45px;
+		text-align: center;
+	}
+
+		/* 登录注册 */
+	.login-register {
+    position: static;
+	margin-top: 20px;
+    width: 100%;
+    
+    display: none;
+	}
+	.register-form{
+		margin-top: 5%;
+	}
+}

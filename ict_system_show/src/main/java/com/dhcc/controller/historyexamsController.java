@@ -40,16 +40,16 @@ public class historyexamsController {
 	@ResponseBody
 	public List selectNumber1() {
 		String date = "2018-10";
-		List data = historyexamsMapper.selectByTime(date);
-		return data;
+		List data1 = historyexamsMapper.selectByTime(date);
+		return data1;
 	}
 	
 	@RequestMapping(value="/select2")
 	@ResponseBody
 	public List selectNumber2() {
 		String date = "2018-10";
-		List data = historyexamsMapper.selectAvgByTime(date);
-		return data;
+		List data2 = historyexamsMapper.selectAvgByTime(date);
+		return data2;
 	}
 	
 	@RequestMapping(value="/select3")
@@ -58,12 +58,12 @@ public class historyexamsController {
 		String date = "2018-10";
 		String max = "100";
 		String min = "80";
-		List data = historyexamsMapper.selectAccuracyByTime(date, max, min);
+		List data3 = historyexamsMapper.selectAccuracyByTime(date, max, min);
 		System.out.println("aaa");
-		for (Object object : data) {
+		for (Object object : data3) {
 			System.out.println(object.toString());
 		}
-		return data;
+		return data3;
 	}
 	
 }

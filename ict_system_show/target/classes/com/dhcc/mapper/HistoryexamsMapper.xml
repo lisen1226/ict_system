@@ -284,10 +284,10 @@
   <!-- 根据时间按考试类别统计考试人数 -->
   <select id="selectAccuracyByTime" resultMap="eaxmNumberResult" parameterType="java.lang.String" >
     select
-    count(testType) num,testType
+    count(username) num,testType
     from historyexams
     <where>
-    	testtime like "%"#{date,jdbcType=VARCHAR}"%" and (accuracy &lt; #{max,jdbcType=VARCHAR} AND accuracy &gt; #{min,jdbcType=VARCHAR})
+    	testtime like "%"#{date,jdbcType=VARCHAR}"%" and #{min,jdbcType=VARCHAR} <![CDATA[ <= ]]> accuracy <![CDATA[ <= ]]> #{max,jdbcType=VARCHAR}
     </where>
     group by testType
   </select>

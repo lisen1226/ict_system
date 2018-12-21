@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+<link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+<link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+<link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+<link href="css/animate.css" rel="stylesheet">
+<link href="css/style.css?v=4.1.0" rel="stylesheet">
+<title>Document</title>
+</head>
+
+<body>
+	<div style="padding: 10px 50px">
+		<div class="col-sm-4" th:each="exam,opts : ${exams}">
+			<div class="panel panel-primary">
+				<div class="panel-heading" th:text="${exam.examTitle}"></div>
+				<div class="panel-body">
+					<p th:text="${exam.examMsg}"></p>
+				</div>
+				<div class="panel-footer">
+					<div class="text-center">
+						<button type="button" class="btn btn-outline btn-info start" th:data-exam="${exam.id}">立即参加</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+
+
+
+	<!-- 全局js -->
+	<script src="js/jquery.min.js?v=2.1.4"></script>
+	<script src="js/bootstrap.min.js?v=3.3.6"></script>
+
+	<!-- iCheck -->
+	<script src="js/plugins/iCheck/icheck.min.js"></script>
+	<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+	<script type="text/javascript">
+		$().ready(function() {
+			$('.start').click(function(){
+				var examid = $(this).data("exam");
+				switch (examid) {
+                	case (3):
+                    	location.href="showNew_test"
+                    break;
+                	default:
+                		$.ajax({
+        					url:"checkBasicTest",
+                			type:"post",
+                			data:{
+                				examid:examid
+                			},
+                			success: function(data){
+                				if(data=="true"){
+                					swal({
+                	                    title: "开始考试",
+                	                    text: "考试一经开始无法中止，请谨慎操作！",
+                	                    type: "warning",
+                	                    showCancelButton: true,
+                	                    confirmButtonColor: "#DD6B55",
+                	                    confirmButtonText: "开始考试",
+                	                    closeOnConfirm: false
+                	                }, function () {
+                	                	location.href="showBasicTest1?examid="+examid;
+                	                })
+                				}else{
+                					swal({
+                                        title: "抱歉！",
+                                        text: "您已经做过该笔试！请不要重复答题！",
+                                        type: "warning"
+                                    })
+                				}
+                				
+                			}
+        					
+        					
+        				})
+            	}
+			})
+			
+			
+			$('#start').click(function() {
+				swal({
+					title : "确定开始考试？",
+					text : "考试无法暂停，退出不会保存！",
+					type : "warning",
+					showCancelButton : true,
+					confirmButtonColor : "#DD6B55",
+					confirmButtonText : "开始",
+					closeOnConfirm : false
+				}, function() {
+					location.href = "generateTest";
+				})
+			})
+		})
+	</script>
+</body>
+
+</html>

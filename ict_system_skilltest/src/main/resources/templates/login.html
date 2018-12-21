@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/lzh.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<title>能力资源管理系统</title>
+</head>
+<body>
+	<!-- 登录页面 -->
+	<div id="main-div">
+		<div id="login-left">
+			<div id="login-left-text">
+				<h1>ICT能力资源管理及运营平台</h1>
+				<ul>
+					<li>提供简历的注册及管理。</li>
+					<li>ICT能力信息评估管理。</li>
+					<li>厂商产品、工具、方案管理，以及提供授权认证支持。</li>
+					<li>提供岗位与机会的发布。</li>
+				</ul>
+				<div id="login-tools">
+					<a href="index.html" class="home">
+						<span class="glyphicon glyphicon-home"></span>
+						<span>网站首页</span>
+					</a>
+
+					<a href="javascript:void(0);" class="contact">
+						<span class="glyphicon glyphicon-user"></span>
+						<span>联系我们</span>
+					</a>
+				</div>
+			</div>
+		</div>
+		
+		<div id="login-right">
+			<div id="login-msg">
+				<div id="login-logo"></div>
+				<div id="login-form">
+					<form action="showIndex" method="post" id="login-f">
+						<div class="login-input">
+							<input type="text" placeholder="用户名" id="login-user" name="username">
+						</div>
+						<div class="login-input">
+								<input type="password" placeholder="密码" id="login-pass" name="password">
+						</div>
+						<div id="login-info">
+							<div id="remember">
+								<span id="remember-icon"><input type="checkbox" name="" id=""></span>
+								<span id="remember-text">记住我</span>
+							</div>
+							<div id="find-pass">找回密码</div>
+						</div>
+						<input type="submit" value="登 录" id="login-sub">
+					</form>
+					
+					<span th:text="${msg}" style="color: red"></span> 
+					
+				</div>
+
+				<div class="footer">Copyright © 2018 DHC 保留一切权利</div>
+			</div>
+		</div>
+		
+
+	</div>
+	
+	
+	
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+    <title>Document</title>
+</head>
+
+<body>
+    <div th:each="exam,opts : ${exams}" style="margin: 10px 50px;" class="well">
+        <div th:text="${exam.subjectTitle}" th:data-testnum="${exam.subjectNumber}" th:data-optnum="${exam.subjectNumber}+''+${opts.index}" class="test" style="font-weight: bold;font-size: 14px"></div>
+        <div th:each="opt : ${exam.subjectOptions}" class="radio i-checks">
+                <label class="testNum" >
+                    <div class="iradio_square-green" style="position: relative;"><input type="radio" th:value="${opt}"
+                            th:name="${exam.subjectNumber}+''+${opts.index}" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                    <i th:text="${opt}"></i>
+                </label>
+            </div>
+    </div>
+    <div style="height: 60px"></div>
+   <div class="text-center" style="height:70px;width:100%;position:fixed;bottom: 0;background: #fff">
+        <button id="sub" type="button" class="btn btn-primary" style="margin-top: 15px" th:data-examid="${examid}">提交试卷</button>
+    </div>
+    
+
+
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- iCheck -->
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script>
+        $(document).ready(function () {
+        	
+        	$('#sub').click(function(){
+        		swal({
+                    title: "您确定要交卷吗",
+                    text: "交卷后将无法更改，请谨慎操作！",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "交卷",
+                    closeOnConfirm: false
+                }, function () {
+                	var map = {}; // Map map = new HashMap();
+            		$('.test').each(function(){
+            			var testNum = $(this).data("testnum");
+            			var name = $(this).data("optnum");
+            			var Answer=$('input:radio[name="'+name+'"]:checked').val();
+            			map[testNum] = Answer; // map.put(key, value);
+            		});
+            		var map = JSON.stringify(map);
+            		var examid = $('#sub').data('examid');
+            		$.ajax({
+            			url:"saveTest",
+            			type:"post",
+            			data:{
+            				map:map,
+            				examid:examid
+            			},
+            			success:function(data){
+            				swal({
+                                title: "考试结束！",
+                                text: "您的考试成绩为："+data,
+                                type: "success"
+                            },function(){
+                            	location.href="showAllExams";
+                            });
+            			}
+            			     			
+            		})
+            	
+                });
+        		
+        		
+        	});
+        	
+        	
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
+</body>
+
+</html>

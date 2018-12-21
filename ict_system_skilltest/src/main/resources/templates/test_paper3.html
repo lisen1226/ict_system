@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+    <style type="text/css">
+    .no{
+    	display: none;
+    }
+    .qu{
+    	padding:3px 6px;
+    	margin: 5px;
+    	background: #E8E8E8;
+    	border: 1px solid #B8B8B8; 
+    	border-radius: 2px;
+    	cursor: pointer;
+    }
+    .sel{
+    background:#C0C0C0;
+    }
+    .biaoji{
+    color: red;
+    }
+    </style>
+    <title>Document</title>
+</head>
+
+<body>
+    <div th:each="exam,opts : ${exams}" style="margin: 10px 50px;" class="well no" >
+        <div th:text="${opts.index+1}+'、'+${exam.subjectTitle}" th:data-testnum="${exam.subjectNumber}" th:data-optnum="${exam.subjectNumber}+''+${opts.index}" class="test" style="font-weight: bold;font-size: 14px"></div>
+        <div th:each="opt : ${exam.subjectOptions}" class="radio i-checks" >
+                <label class="testNum" th:data-va='${opts.index}'>
+                    <div class="iradio_square-green" style="position: relative;"><input type="radio" th:value="${opt}" 
+                            th:name="${exam.subjectNumber}+''+${opts.index}" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                    <i th:text="${opt}"></i>
+                </label>
+            </div>
+            
+            <div class="checkbox checkbox-danger" th:data-val='${opts.index}'>
+                <input th:id='${opts.index}' type="checkbox" class="cb">
+                <label th:for="${opts.index}">标记</label>
+            </div>
+    </div>
+    
+    <button id="last">上一题</button>
+    <button id="next">下一题</button>
+    <div id="card" style="margin: 20px"></div>
+    <div style="height: 60px"></div>
+   <div class="text-center" style="height:70px;width:100%;position:fixed;bottom: 0;background: #fff">
+        <button id="sub" type="button" class="btn btn-primary" style="margin-top: 15px" th:data-examid="${examid}">提交试卷</button>
+    </div>
+    
+
+
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- iCheck -->
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script>
+        $(document).ready(function () {
+        	
+        	var num = $(".well").length;
+        	// 显示第一个
+        	$('.well:first').removeClass("no");
+        	
+        	// 点击下一个
+        	$('#next').click(function(){
+        		$('.well').each(function(){
+        			if(!$(this).hasClass("no")){
+        				if($(this).is($('.well:last'))){
+        					alert("当前已经是最后一题！")
+        				}else{
+        					$(this).addClass("no");
+            				$(this).next().removeClass("no");
+            				return false;
+        				}
+        			}	
+        		})
+        		
+        	})
+        	// 点击上一个
+        	$('#last').click(function(){
+        		$('.well').each(function(){
+        			if(!$(this).hasClass("no")){
+        				if($(this).is($('.well:first'))){
+        					alert("当前已经是第一道题！")
+        				}else{
+        					$(this).addClass("no");
+            				$(this).prev().removeClass("no");
+            				return false;
+        				}
+        			}	
+        		})
+        	})
+        	
+        	// 添加答题卡
+        	for(var i=0;i<num;i++){
+        		$('#card').append('<span class="qu">'+(i+1)+'</span>')
+        	}
+        	// 点击答题卡跳转指定题目
+        	$('.qu').click(function(){
+        		var n = $(this).text();
+        		$('.well').addClass("no");
+        		$('.well').eq(n-1).removeClass('no')
+        	})
+        	// 点击radio在答题卡显示已做
+        	$('.testNum').click(function(){
+        		var va = $(this).data('va');
+        		$('.qu').eq(va).addClass('sel');
+        	})
+        	// 点击标记或取消标记
+        	$('.cb').click(function(){
+        		$('.qu').eq($(this).parents().data('val')).toggleClass('biaoji');      		
+        	})
+        	
+        	
+        	
+        	$('#sub').click(function(){
+        		swal({
+                    title: "您确定要交卷吗",
+                    text: "交卷后将无法更改，请谨慎操作！",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "交卷",
+                    closeOnConfirm: false
+                }, function () {
+                	var map = {}; // Map map = new HashMap();
+            		$('.test').each(function(){
+            			var testNum = $(this).data("testnum");
+            			var name = $(this).data("optnum");
+            			var Answer=$('input:radio[name="'+name+'"]:checked').val();
+            			map[testNum] = Answer; // map.put(key, value);
+            		});
+            		var map = JSON.stringify(map);
+            		var examid = $('#sub').data('examid');
+            		$.ajax({
+            			url:"saveTest",
+            			type:"post",
+            			data:{
+            				map:map,
+            				examid:examid
+            			},
+            			success:function(data){
+            				swal({
+                                title: "考试结束！",
+                                text: "您的考试成绩为："+data,
+                                type: "success"
+                            },function(){
+                            	location.href="showAllExams";
+                            });
+            			}
+            			     			
+            		})
+            	
+                });
+        		
+        		
+        	});
+        	
+        	
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
+</body>
+
+</html>

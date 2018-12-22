@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.dhcc.mapper.ExaminationMapper">
+	<resultMap id="BaseResultMap"
+		type="com.dhcc.pojo.Examination">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="examination_number"
+			property="examinationNumber" jdbcType="VARCHAR" />
+		<result column="examination_genre" property="examinationGenre"
+			jdbcType="VARCHAR" />
+		<result column="examination_type" property="examinationType"
+			jdbcType="VARCHAR" />
+		<result column="examination_title" property="examinationTitle"
+			jdbcType="VARCHAR" />
+		<result column="examination_right" property="examinationRight"
+			jdbcType="VARCHAR" />
+		<result column="examination_wrong1"
+			property="examinationWrong1" jdbcType="VARCHAR" />
+		<result column="examination_wrong2"
+			property="examinationWrong2" jdbcType="VARCHAR" />
+		<result column="examination_wrong3"
+			property="examinationWrong3" jdbcType="VARCHAR" />
+
+		
+
+		
+	</resultMap>
+
+	<resultMap id="testType" type="com.dhcc.pojo.ExaminationType">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="type_Number" property="typeNumber"
+			jdbcType="VARCHAR" />
+		<result column="type_Name" property="typeName"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	
+
+	<select id="selectAllTestType" resultMap="testType">
+		select * from
+		examination_type
+	</select>
+	
+	<select id="selectTestType" parameterType="String" resultType="java.lang.Integer">
+		SELECT COUNT(type_Number) FROM
+		examination_type WHERE type_Number=#{type}  
+	</select>
+
+	<!-- <select id="selectAllType" resultMap="String">
+		select type_Number from
+		examination_type
+	</select> -->
+	
+		
+	<select  id="finalByType" parameterType="com.dhcc.pojo.Examination" resultMap="BaseResultMap">
+	  SELECT * FROM examination where examination_type =#{examinationType} and examination_genre=#{examinationGenre}
+	</select>
+	
+	<select  id="updateFindExamin" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	  SELECT * FROM examination where id=#{id}
+	</select>
+	
+	<select  id="finalAll" parameterType="String"  resultMap="BaseResultMap">
+		SELECT * FROM examination where examination_genre=#{examinationGenre}
+	</select>
+	<delete id="delectExaminById" parameterType="java.lang.Integer">
+		DELETE FROM examination WHERE id=#{num}
+	</delete> 
+	<insert id="addExamin" parameterType="com.dhcc.pojo.Examination">
+		insert into examination(examination_number,examination_genre,examination_type,examination_title,examination_right,examination_wrong1,examination_wrong2,examination_wrong3) values(#{examinationNumber},#{examinationGenre},#{examinationType},#{examinationTitle},#{examinationRight},#{examinationWrong1},#{examinationWrong2},#{examinationWrong3})
+	</insert>
+	<update id="updateExamin" parameterType="com.dhcc.pojo.Examination">
+		update  examination  set examination_type=#{examinationType},
+		examination_title=#{examinationTitle},examination_right=#{examinationRight},
+		examination_wrong1=#{examinationWrong1},examination_wrong2=#{examinationWrong2},
+		examination_wrong3=#{examinationWrong3} where id=#{id}
+	</update>
+</mapper>

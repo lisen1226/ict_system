@@ -4,10 +4,17 @@
 <meta charset="utf-8">
 <title>统计显示</title>
 <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
 <script type="text/javascript" src="js/echarts.min.js"></script>
-<link href="css/datepicker3.css" rel="stylesheet">
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<script type="text/javascript" src="js/content.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/form-advanced-demo.js"></script>
 <script src="js/bootstrap-datepicker.js"></script>
+<link href="css/datepicker3.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<link href="css/font-awesome.css" rel="stylesheet">
+<link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <!-- 1.按考试类别统计考试人数（可选择时间段）
@@ -42,6 +49,7 @@ body {
 				<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 				<input type="text" class="form-control" value="2014-11-11">
 			</div>
+			<div><button id="btn">999</button></div>
 		</div>
 		<div id="echarts1"></div>
 		<div id="echarts2"></div>
@@ -57,6 +65,7 @@ body {
 		autoclose : true,
 		todayHighlight : true
 	});
+	
 	//图表一	
 	var Chart1 = echarts.init(document.getElementById('echarts1'));
 

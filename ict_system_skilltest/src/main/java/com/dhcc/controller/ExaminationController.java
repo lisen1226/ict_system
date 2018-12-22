@@ -75,7 +75,7 @@ public class ExaminationController {
 		@RequestMapping("showBasicTest1")
 		public ModelAndView showBasicTest1(HttpSession session, String examid) {
 			ModelAndView mv = new ModelAndView("test_paper3");
-
+ 
 			/**
 			 * 查出该用户所对应的出题类型
 			 */

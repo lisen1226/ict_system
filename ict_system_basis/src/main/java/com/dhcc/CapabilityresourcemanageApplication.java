@@ -1,5 +1,6 @@
 package com.dhcc;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -10,7 +11,8 @@ import org.springframework.web.client.RestTemplate;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@ComponentScan(value="com.dhcc")
+@ComponentScan(basePackages= {"com.dhcc"})
+@MapperScan(value="com.dhcc.mapper")
 public class CapabilityresourcemanageApplication {
 	@Bean
 	@LoadBalanced
@@ -18,5 +20,6 @@ public class CapabilityresourcemanageApplication {
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CapabilityresourcemanageApplication.class, args);
+		System.out.println("------------------------------------服务器已开启-----------------------------------------------------------");
 	}
 }

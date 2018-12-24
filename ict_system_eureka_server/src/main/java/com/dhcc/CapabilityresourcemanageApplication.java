@@ -11,5 +11,6 @@ public class CapabilityresourcemanageApplication {
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CapabilityresourcemanageApplication.class, args);
+		System.out.println("----------------------service已经开启-------------------------");
 	}
 }

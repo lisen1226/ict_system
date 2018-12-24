@@ -41,7 +41,7 @@ public class historyexamsController {
 	@ResponseBody
 	public List selectNumber1(String date) {
 		String time = null;
-		if("-".equals(date.charAt(6))) {
+		if("-".equals(String.valueOf(date.charAt(6)))) {
 			time = date.substring(0, 5);
 		}else {
 			time = date.substring(0, 6);
@@ -55,7 +55,7 @@ public class historyexamsController {
 	@ResponseBody
 	public List selectNumber2(String date) {
 		String time = null;
-		if("-".equals(date.charAt(6))) {
+		if("-".equals(String.valueOf(date.charAt(6)))) {
 			time = date.substring(0, 5);
 		}else {
 			time = date.substring(0, 6);
@@ -69,7 +69,7 @@ public class historyexamsController {
 	@ResponseBody
 	public Map selectNumber3(String date) {
 		String time = null;
-		if("-".equals(date.charAt(6))) {
+		if("-".equals(String.valueOf(date.charAt(6)))) {
 			time = date.substring(0, 6);
 		}else {
 			time = date.substring(0, 7);

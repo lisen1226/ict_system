@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dhcc.mapper.HistoryexamsMapper" >
+  <resultMap id="BaseResultMap" type="com.dhcc.pojo.Historyexams" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="testTime" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="uuid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="accuracy" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="testType" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="examType" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapq" type="String">
+    <constructor >
+    	<arg column="testtime" jdbcType="VARCHAR" javaType="java.lang.String" />
+    	<arg column="countNum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, username, testTime, uuid, accuracy, testType, examType
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dhcc.pojo.HistoryexamsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from historyexams
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from historyexams
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from historyexams
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dhcc.pojo.HistoryexamsExample" >
+    delete from historyexams
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dhcc.pojo.Historyexams" >
+    insert into historyexams (id, username, testTime, 
+      uuid, accuracy, testType, 
+      examType)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{testtime,jdbcType=VARCHAR}, 
+      #{uuid,jdbcType=VARCHAR}, #{accuracy,jdbcType=VARCHAR}, #{testtype,jdbcType=VARCHAR}, 
+      #{examtype,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dhcc.pojo.Historyexams" >
+    insert into historyexams
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="testtime != null" >
+        testTime,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="accuracy != null" >
+        accuracy,
+      </if>
+      <if test="testtype != null" >
+        testType,
+      </if>
+      <if test="examtype != null" >
+        examType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="testtime != null" >
+        #{testtime,jdbcType=VARCHAR},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="accuracy != null" >
+        #{accuracy,jdbcType=VARCHAR},
+      </if>
+      <if test="testtype != null" >
+        #{testtype,jdbcType=VARCHAR},
+      </if>
+      <if test="examtype != null" >
+        #{examtype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dhcc.pojo.HistoryexamsExample" resultType="java.lang.Integer" >
+    select count(*) from historyexams
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update historyexams
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null" >
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.testtime != null" >
+        testTime = #{record.testtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uuid != null" >
+        uuid = #{record.uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accuracy != null" >
+        accuracy = #{record.accuracy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.testtype != null" >
+        testType = #{record.testtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.examtype != null" >
+        examType = #{record.examtype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update historyexams
+    set id = #{record.id,jdbcType=INTEGER},
+      username = #{record.username,jdbcType=VARCHAR},
+      testTime = #{record.testtime,jdbcType=VARCHAR},
+      uuid = #{record.uuid,jdbcType=VARCHAR},
+      accuracy = #{record.accuracy,jdbcType=VARCHAR},
+      testType = #{record.testtype,jdbcType=VARCHAR},
+      examType = #{record.examtype,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dhcc.pojo.Historyexams" >
+    update historyexams
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="testtime != null" >
+        testTime = #{testtime,jdbcType=VARCHAR},
+      </if>
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="accuracy != null" >
+        accuracy = #{accuracy,jdbcType=VARCHAR},
+      </if>
+      <if test="testtype != null" >
+        testType = #{testtype,jdbcType=VARCHAR},
+      </if>
+      <if test="examtype != null" >
+        examType = #{examtype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dhcc.pojo.Historyexams" >
+    update historyexams
+    set username = #{username,jdbcType=VARCHAR},
+      testTime = #{testtime,jdbcType=VARCHAR},
+      uuid = #{uuid,jdbcType=VARCHAR},
+      accuracy = #{accuracy,jdbcType=VARCHAR},
+      testType = #{testtype,jdbcType=VARCHAR},
+      examType = #{examtype,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+
+
+  	<resultMap id="eaxmNumberResult" type="java.util.HashMap">
+    	<result property="key" column="testtime"/>
+    	<result property="value" column="countnum"/>
+	</resultMap>
+  <!-- 根据时间按考试类别统计考试人数 -->
+  <select id="selectByTime" resultMap="eaxmNumberResult" parameterType="java.lang.String" >
+    select
+    count(testType) num,testType
+    from historyexams
+    <where>
+    	testtime like "%"#{date,jdbcType=VARCHAR}"%"
+    </where>
+    group by testType
+  </select>
+  
+  	<!-- <resultMap id="averageResult" type="java.util.HashMap">
+    	<result property="key" column="testtype"/>
+    	<result property="value" column="countnum"/>
+	</resultMap> -->
+  <!-- 根据时间按考试类别统计考试人数 -->
+  <select id="selectAvgByTime" resultMap="eaxmNumberResult" parameterType="java.lang.String" >
+    select
+    sum(accuracy)/count(testType) avg,testType
+    from historyexams
+    <where>
+    	testtime like "%"#{date,jdbcType=VARCHAR}"%"
+    </where>
+    group by testType
+  </select>
+  
+  <!-- 根据时间按考试类别统计考试人数 -->
+  <select id="selectAccuracyByTime" resultMap="eaxmNumberResult" parameterType="java.lang.String" >
+    select
+    count(username) num,testType
+    from historyexams
+    <where>
+    	testtime like "%"#{date,jdbcType=VARCHAR}"%" and #{min,jdbcType=VARCHAR} <![CDATA[ <= ]]> accuracy <![CDATA[ <= ]]> #{max,jdbcType=VARCHAR}
+    </where>
+    group by testType
+  </select>
+</mapper>

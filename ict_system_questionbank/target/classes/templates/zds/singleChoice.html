@@ -366,7 +366,6 @@
 		        	$('#Wrong1').val(data.examinationWrong1);
 		        	$('#Wrong2').val(data.examinationWrong2);
 		        	$('#Wrong3').val(data.examinationWrong3);
-		        	
 				}
 			}) 
 		}
@@ -387,7 +386,7 @@
 			        	'examinationWrong3':$('#Wrong3').val()},
 					dataType:'json',	
 			        success: function (data) {
-			        	finalExamin(1);
+						finalExamin(1);
 					}
 				}) 
 			}
@@ -422,6 +421,7 @@
 					   }
 					   
 				   }else{
+					   finalExamin(pageObject.currentPage);
 					   $("#import-input").css("display","none");
 					   $("#save").css("display","none");
 					   $("#hint").text("上传成功");

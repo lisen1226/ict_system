@@ -34,6 +34,7 @@ public class ExaServiceimpl implements ExaService {
         PageHelper.startPage(currPage, pageSize);
         //查询
         List<Examination> list = examinMap.finalAll(examinationGenre);
+        list=change(list);
         // 取分页信息
         PageInfo<Examination> pageInfo = new PageInfo<Examination>(list);
         //获取总记录数
@@ -61,6 +62,7 @@ public class ExaServiceimpl implements ExaService {
         examin.setExaminationGenre(examinationGenre);
         examin.setExaminationType(type);
         List<Examination> list = examinMap.finalByType(examin);//查询
+        list=change(list);
         // 取分页信息
         PageInfo<Examination> pageInfo = new PageInfo<Examination>(list);
         Long total = pageInfo.getTotal(); //获取总记录数
@@ -158,5 +160,18 @@ public class ExaServiceimpl implements ExaService {
 		examinMap.updateExamin(record);
 		return 0;
 	}
-
+	public List<Examination> change(List<Examination> list){
+		 List<ExaminationType> types= selectAllTestType();
+	        for(int i=0;i<list.size();i++) {
+	        	for(int j=0;j<types.size();j++) {
+	        		if(types.get(j).getTypeNumber().equals(list.get(i).getExaminationType())) {
+	        			
+	        			examin=list.get(i);
+	        			examin.setExaminationType(types.get(j).getTypeName());
+	        			list.set(i, examin);
+	        		};
+	        	}	
+	        }
+	        return list;
+	}
 }

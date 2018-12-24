@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>统计显示</title>
+<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/echarts.min.js"></script>
+<script type="text/javascript" src="js/content.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/form-advanced-demo.js"></script>
+<script src="js/bootstrap-datepicker.js"></script>
+<link href="css/datepicker3.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<link href="css/font-awesome.css" rel="stylesheet">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<!-- 1.按考试类别统计考试人数（可选择时间段）
+2.按考试类别统计考试平均成绩（可选择时间段）
+3.按考试类别统计每个分数段的人数（可选择时间段） -->
+<style type="text/css">
+body {
+	width: 100vw;
+	height: 100vh;
+}
+
+#echarts1 {
+	width: 100vw;
+	height: 55vh;
+}
+
+#echarts2 {
+	width: 100vw;
+	height: 55vh;
+}
+
+#echarts3 {
+	width: 100vw;
+	height: 55vh;
+}
+</style>
+<body>
+	<div>
+		<div class="form-group" id="data_4">
+			<label class="font-noraml">选择月份</label>
+			<div class="input-group date">
+				<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+				<input type="text" class="form-control" value="2014-11-11">
+			</div>
+			<div><button id="btn">999</button></div>
+		</div>
+		<div id="echarts1"></div>
+		<div id="echarts2"></div>
+		<div id="echarts3"></div>
+	</div>
+</body>
+
+<script type="text/javascript">
+	$('#data_4').datepicker({
+		minViewMode : 1,
+		keyboardNavigation : false,
+		forceParse : false,
+		autoclose : true,
+		todayHighlight : true
+	});
+	
+	//图表一	
+	var Chart1 = echarts.init(document.getElementById('echarts1'));
+
+	option1 = {
+		xAxis : {
+			type : 'category',
+			data : []
+		},
+		yAxis : {
+			type : 'value'
+		},
+		series : [ {
+			data : [],
+			type : 'bar'
+		} ]
+	};
+
+	//图表二	
+	var Chart2 = echarts.init(document.getElementById('echarts2'));
+
+	option2 = {
+		xAxis : {
+			type : 'category',
+			data : []
+		},
+		yAxis : {
+			type : 'value'
+		},
+		series : [ {
+			data : [],
+			type : 'bar'
+		} ]
+	};
+
+	//图表三	
+	var Chart3 = echarts.init(document.getElementById('echarts3'));
+
+	option3 = {
+		xAxis : {
+			type : 'category',
+			data : []
+		},
+		yAxis : {
+			type : 'value'
+		},
+		series : [ {
+			data : [],
+			type : 'bar'
+		} ]
+	};
+
+	$('#btn').click(function() {
+		//图表一ajax获取数据
+		$.ajax({
+			url : "/select1",
+			// 数据发送方式
+			type : "post",
+			// 接受数据格式
+			dataType : "json",
+			success : function(data1) {
+				console.log(data1);
+				for (var i = 0; i < data1.length; i++) {
+					option1.xAxis.data.push(data1[i].testType);
+					option1.series[0].data.push(data1[i].num);
+				}
+				Chart1.setOption(option1);
+			}
+		});
+
+		//图表二ajax获取数据
+		$.ajax({
+			url : "/select2",
+			// 数据发送方式
+			type : "post",
+			// 接受数据格式
+			dataType : "json",
+			success : function(data2) {
+				console.log(data2);
+				for (var i = 0; i < data2.length; i++) {
+					option2.xAxis.data.push(data2[i].testType);
+					option2.series[0].data.push(data2[i].avg);
+				}
+				Chart2.setOption(option2);
+			}
+		});
+
+		//图表三ajax获取数据
+		$.ajax({
+			url : "/select3",
+			// 数据发送方式
+			type : "post",
+			// 接受数据格式
+			dataType : "json",
+			success : function(data3) {
+				console.log(data3);
+				for (var i = 0; i < data3.length; i++) {
+					option3.xAxis.data.push(data3[i].testType);
+					option3.series[0].data.push(data3[i].num);
+				}
+				Chart3.setOption(option3);
+			}
+		});
+	});
+</script>
+</html>

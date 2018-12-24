@@ -25,6 +25,7 @@ public class questionbankController {
 	@Autowired
 	private ExaService service;
 	
+	
 	@RequestMapping(value="/index")
 	public String index() {
 		//addListExamin();
@@ -152,4 +153,6 @@ public class questionbankController {
 			return 0;
 		}
 	}
+	
+	
 }

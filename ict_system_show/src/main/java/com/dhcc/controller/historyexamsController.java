@@ -1,6 +1,5 @@
 package com.dhcc.controller;
 
-<<<<<<< HEAD
 
 
 import static org.mockito.Mockito.timeout;
@@ -9,17 +8,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-=======
->>>>>>> branch 'master' of https://github.com/lisen1226/ict_system.git
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.dhcc.mapper.HistoryexamsMapper;
+
 @Controller
 @ResponseBody
 public class historyexamsController {
+	@Autowired
+	private HistoryexamsMapper historyexamsMapper;
+	
 	@Autowired
 	private RestTemplate restTemplate;
 	
@@ -33,7 +35,6 @@ public class historyexamsController {
 		System.out.println("qqq");
 		return this.restTemplate.getForObject("http://ict-system-basis/", String.class);
 	}
-<<<<<<< HEAD
 	
 	
 	/*ajax请求echarts图表*/
@@ -103,7 +104,4 @@ public class historyexamsController {
 		
 		return data;
 	}
-	
-=======
->>>>>>> branch 'master' of https://github.com/lisen1226/ict_system.git
 }

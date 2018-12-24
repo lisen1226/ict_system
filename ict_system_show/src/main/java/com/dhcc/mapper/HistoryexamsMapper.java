@@ -19,6 +19,12 @@ public interface HistoryexamsMapper {
     int insertSelective(Historyexams record);
 
     List<Historyexams> selectByExample(HistoryexamsExample example);
+    
+    List selectByTime(String date);
+    
+    List selectAvgByTime(String date);
+    
+    List selectAccuracyByTime(String date,String max,String min);
 
     Historyexams selectByPrimaryKey(Integer id);
 

@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dhcc.mapper.ExaminationMapper">
+	<resultMap id="BaseResultMap"
+		type="com.dhcc.pojo.Examination">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="examination_number"
+			property="examinationNumber" jdbcType="VARCHAR" />
+		<result column="examination_genre" property="examinationGenre"
+			jdbcType="VARCHAR" />
+		<result column="examination_title" property="examinationTitle"
+			jdbcType="VARCHAR" />
+		<result column="examination_right" property="examinationRight"
+			jdbcType="VARCHAR" />
+		<result column="examination_wrong1"
+			property="examinationWrong1" jdbcType="VARCHAR" />
+		<result column="examination_wrong2"
+			property="examinationWrong2" jdbcType="VARCHAR" />
+		<result column="examination_wrong3"
+			property="examinationWrong3" jdbcType="VARCHAR" />
+
+		<association property="examType"
+			javaType="com.dhcc.pojo.ExaminationType">
+			<id column="type_Number" property="examination_genre" />
+			<result column="type_Name" property="typeName" />
+		</association>
+
+		<association property="testType"
+			javaType="com.dhcc.pojo.TestType">
+			<id column="test_id" property="examination_type" />
+			<result column="type_testname" property="type_testname" />
+		</association>
+	</resultMap>
+
+	<resultMap id="testType" type="com.dhcc.pojo.ExaminationType">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="type_Number" property="typeNumber"
+			jdbcType="VARCHAR" />
+		<result column="type_Name" property="typeName"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="type" type="com.dhcc.pojo.TestType">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="type_id" property="type_id" jdbcType="VARCHAR" />
+		<result column="type_testname" property="type_testname"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap type="com.dhcc.pojo.Exams" id="exams">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="examTitle" property="examTitle"
+			jdbcType="VARCHAR" />
+		<result column="examMsg" property="examMsg" jdbcType="VARCHAR" />
+		<result column="examPermission" property="examPermission"
+			jdbcType="VARCHAR" />
+		<result column="examDate" property="examDate"
+			jdbcType="VARCHAR" />
+		<result column="uuid" property="uuid" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="matters" type="com.dhcc.pojo.Matter">
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="number" property="number" jdbcType="INTEGER" />
+		<result column="fraction" property="fraction" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, examination_number, examination_genre,
+		examination_title,
+		examination_right,
+		examination_wrong1,
+		examination_wrong2, examination_wrong3
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.dhcc.pojo.ExaminationExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from examination
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from examination
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from examination
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample"
+		parameterType="com.dhcc.pojo.ExaminationExample">
+		delete from examination
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.dhcc.pojo.Examination">
+		insert into examination (id,
+		examination_number, examination_genre,
+		examination_title,
+		examination_right, examination_wrong1,
+		examination_wrong2,
+		examination_wrong3)
+		values (#{id,jdbcType=INTEGER},
+		#{examinationNumber,jdbcType=VARCHAR},
+		#{examinationGenre,jdbcType=VARCHAR},
+		#{examinationTitle,jdbcType=VARCHAR},
+		#{examinationRight,jdbcType=VARCHAR},
+		#{examinationWrong1,jdbcType=VARCHAR},
+		#{examinationWrong2,jdbcType=VARCHAR},
+		#{examinationWrong3,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.dhcc.pojo.Examination">
+		insert into examination
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="examinationNumber != null">
+				examination_number,
+			</if>
+			<if test="examinationGenre != null">
+				examination_genre,
+			</if>
+			<if test="examinationTitle != null">
+				examination_title,
+			</if>
+			<if test="examinationRight != null">
+				examination_right,
+			</if>
+			<if test="examinationWrong1 != null">
+				examination_wrong1,
+			</if>
+			<if test="examinationWrong2 != null">
+				examination_wrong2,
+			</if>
+			<if test="examinationWrong3 != null">
+				examination_wrong3,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="examinationNumber != null">
+				#{examinationNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationGenre != null">
+				#{examinationGenre,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationTitle != null">
+				#{examinationTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationRight != null">
+				#{examinationRight,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationWrong1 != null">
+				#{examinationWrong1,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationWrong2 != null">
+				#{examinationWrong2,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationWrong3 != null">
+				#{examinationWrong3,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample"
+		parameterType="com.dhcc.pojo.ExaminationExample"
+		resultType="java.lang.Integer">
+		select count(*) from examination
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update examination
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.examinationNumber != null">
+				examination_number =
+				#{record.examinationNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="record.examinationGenre != null">
+				examination_genre =
+				#{record.examinationGenre,jdbcType=VARCHAR},
+			</if>
+			<if test="record.examinationTitle != null">
+				examination_title =
+				#{record.examinationTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="record.examinationRight != null">
+				examination_right =
+				#{record.examinationRight,jdbcType=VARCHAR},
+			</if>
+			<if test="record.examinationWrong1 != null">
+				examination_wrong1 =
+				#{record.examinationWrong1,jdbcType=VARCHAR},
+			</if>
+			<if test="record.examinationWrong2 != null">
+				examination_wrong2 =
+				#{record.examinationWrong2,jdbcType=VARCHAR},
+			</if>
+			<if test="record.examinationWrong3 != null">
+				examination_wrong3 =
+				#{record.examinationWrong3,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update examination
+		set id = #{record.id,jdbcType=INTEGER},
+		examination_number = #{record.examinationNumber,jdbcType=VARCHAR},
+		examination_genre = #{record.examinationGenre,jdbcType=VARCHAR},
+		examination_title = #{record.examinationTitle,jdbcType=VARCHAR},
+		examination_right = #{record.examinationRight,jdbcType=VARCHAR},
+		examination_wrong1 = #{record.examinationWrong1,jdbcType=VARCHAR},
+		examination_wrong2 = #{record.examinationWrong2,jdbcType=VARCHAR},
+		examination_wrong3 = #{record.examinationWrong3,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.dhcc.pojo.Examination">
+		update examination
+		<set>
+			<if test="examinationNumber != null">
+				examination_number =
+				#{examinationNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationGenre != null">
+				examination_genre = #{examinationGenre,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationTitle != null">
+				examination_title = #{examinationTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationRight != null">
+				examination_right = #{examinationRight,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationWrong1 != null">
+				examination_wrong1 =
+				#{examinationWrong1,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationWrong2 != null">
+				examination_wrong2 =
+				#{examinationWrong2,jdbcType=VARCHAR},
+			</if>
+			<if test="examinationWrong3 != null">
+				examination_wrong3 =
+				#{examinationWrong3,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.dhcc.pojo.Examination">
+		update examination
+		set examination_number =
+		#{examinationNumber,jdbcType=VARCHAR},
+		examination_genre =
+		#{examinationGenre,jdbcType=VARCHAR},
+		examination_title =
+		#{examinationTitle,jdbcType=VARCHAR},
+		examination_right =
+		#{examinationRight,jdbcType=VARCHAR},
+		examination_wrong1 =
+		#{examinationWrong1,jdbcType=VARCHAR},
+		examination_wrong2 =
+		#{examinationWrong2,jdbcType=VARCHAR},
+		examination_wrong3 =
+		#{examinationWrong3,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="selectAllExams" resultMap="BaseResultMap">
+		select
+		examination.*,examination_type.type_Name,test_type.type_testname from
+		examination
+		left join
+		examination_type on examination.examination_genre
+		=
+		examination_type.type_Number
+		left join test_type on
+		examination.examination_type =
+		test_type.type_id
+	</select>
+
+	<select id="selectByTypeAndNumber" resultMap="BaseResultMap">
+		select
+		examination.*,examination_type.type_Name,test_type.type_testname from
+		examination
+		left join
+		examination_type on examination.examination_genre
+		=
+		examination_type.type_Number
+		left join test_type on
+		examination.examination_type =
+		test_type.type_id where
+		examination_genre =
+		#{testType} and examination_type
+		= #{type}
+		ORDER BY
+		RAND()
+		LIMIT
+		#{testNumber}
+	</select>
+
+	<select id="selectRightByTestId"
+		parameterType="java.lang.String" resultType="String">
+		select examination_right
+		from examination where
+		examination_number = #{ans}
+	</select>
+
+	<select id="selectAllTestType" resultMap="testType">
+		select * from
+		examination_type
+	</select>
+
+	<select id="selectAllType" resultMap="type">
+		select * from
+		test_type
+	</select>
+
+	<select id="selectAllExamsByPer" resultMap="exams">
+		select * from exams
+		where examPermission+0 &lt;= #{per}
+	</select>
+
+	<select id="selectMatters" resultType="com.dhcc.pojo.Matter">
+		select
+		type,number,fraction from
+		question_type where uuid=(select uuid from
+		exams where id = #{examid})
+	</select>
+</mapper>

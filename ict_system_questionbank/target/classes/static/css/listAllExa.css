@@ -1,0 +1,40 @@
+.ibox-tools{
+	float: right;
+	width: 250px;
+}
+.ibox-title{
+	margin:10px 0;
+}
+.checkbox{
+	margin:0px;
+	height: 20px;
+}
+th{
+	text-align: center;
+	height: 20px;
+}
+table{
+	text-align: center;
+}
+.Title{
+	width: 200px;
+}
+textarea{
+	height: 30px;
+	width: 60px;
+	margin: 0px,0px;
+	padding: 0px;
+}
+.pagination>li>a, .pagination>li>span{
+			height: 35px;
+			width: 35px;
+			padding:6px 3%;
+			text-align: center;
+		}
+		
+.div-table{
+	width: 100%;
+}
+.iframe{
+	border: 0px;
+}

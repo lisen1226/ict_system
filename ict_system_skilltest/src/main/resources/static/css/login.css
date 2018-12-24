@@ -1,162 +1,93 @@
-*{
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	text-decoration: none;
-	outline: none;
-}
-.main{
-	position: relative;
-	overflow: hidden;
-}
-/* 背景图片 */
-.index-bg{
-	width: 100%;
-	height: 100%;
-	background: url(../img/login_background.jpg);
-	background-size: 100% 100%;
-	position: fixed;
-	top: 0;
-	left: 0;
-}
-.index-bg1{
-	width: 100%;
-	height: 100%;
-	background: rgba(0,0,0,.5);
-	background-size: 100% 100%;
-	position: fixed;
-	top: 0;
-	left: 0;
-}
-/* 登录部分 */
-.login{
-	display: block;
-	position: relative;
-	width: 100%;
-	height: 100%;
-	color: #fff;
-	z-index: 2;
-}
-.login-left,.login-right,.register-right{
-	margin-top: 10%;
-	height: 100%;
-}
-.login-left{
-	float: left;
-	width: 50%;
-	margin-left: 5%;
-	
-}
-.title{
-	display: none;
-}
-.login>h1{
-	margin-bottom: 45px;
-}
-.login-left>ul>li{
-	margin-bottom: 20px;
+html{height: 100%;}
+body.signin {
+    background: #18c8f6;
+    height: auto;
+    background:url("../img/login-background.jpg") no-repeat center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: rgba(255,255,255,.95);
 }
 
-
-.login-right,.register-right{
-	float: right;
-	width: 30%;
-	margin-right: 5%;
-	padding: 30px;
-}
-.register-right{
-	display: none;
-}
-.login-right input,.register-right input{
-	display: block;
-    width: 100%;
-    height: 34px;
-    padding: 6px 12px;
-    font-size: 14px;
-    color: #000;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding-right: 35px;
-    background-color: #fff;
+.signinpanel {
+    width: 320px;
+    margin: 10% auto 0 auto;
 }
 
-.login-right .find-back>input{
-	width: 15px;
-	height: 15px;
-	float: left;
-	margin-right: 10px;
-}
-.login-right .find-back>span{
-	float: right;
-	vertical-align: middle;
-}
-.login-right .find-back>span:hover,.reg-text:hover{
-	cursor: pointer;
-	color:  #125690;
-}
-.login-right .register-btn,.register-right .register-btn{
-	width: 100%;
-	height: 40px;
-	background-color: #337ab7;
-    padding: 6px 12px;
-	margin-bottom: 20px;
-	font-size: 16px;
-	border: 1px solid #2e6da4;
-	border-radius: 4px;
-	color: #fff;
-	opacity: 0.7;
-}
-.login-right .register-btn:hover,.register-btn:hover{
-	opacity: 1;
-}
-/* 注册部分 */
-.register-right{
-	padding-top: 5px;
-}
-.register-right fieldset{
-	position: relative;
-	margin-bottom: 10px;
-}
-sub{
-	color: red;
-}
-.input-icon{
-	display: block;
-	position: absolute;
-	right: 20px;
-	bottom: 5px;
-	padding-top: 34px;
-}
-.remove{
-	color: #f96868;
-	display: none;
-}
-.ok-sign{
-	color: #46be8a;
-	display: none;
-}
-.register-btn{
-	margin-top: 10px;
+.signinpanel .logopanel {
+    float: none;
+    width: auto;
+    padding: 0;
+    background: none;
 }
 
-/* 移动端显示 */
-@media (max-width: 662px) {
-	.login-left{
-		display: none;
-	}
-	.login{
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	.login-right,.register-right{
-		float: none;
-		width: 65%;
-		margin-right: 0px;
-	}
-	.title{
-		display: block;
-		margin-bottom: 45px;
-		text-align: center;
-	}
+.signinpanel .signin-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.signinpanel .form-control {
+    display: block;
+    margin-top: 15px;
+}
+
+.signinpanel .uname {
+    background: #fff url(../img/user.png) no-repeat 95% center;color:#333;
+}
+
+.signinpanel .pword {
+    background: #fff url(../img/locked.png) no-repeat 95% center;color:#333;
+}
+
+.signinpanel .btn {
+    margin-top: 15px;
+}
+
+.signinpanel form {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255,255,255,.3);
+    -moz-box-shadow: 0 3px 0 rgba(12, 12, 12, 0.03);
+    -webkit-box-shadow: 0 3px 0 rgba(12, 12, 12, 0.03);
+    box-shadow: 0 3px 0 rgba(12, 12, 12, 0.03);
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    padding: 30px;
+}
+
+.signup-footer{border-top: solid 1px rgba(255,255,255,.3);margin:20px 0;padding-top: 15px;}
+
+@media screen and (max-width: 768px) {
+    .signinpanel,
+    .signuppanel {
+        margin: 0 auto;
+        width: 420px!important;
+        padding: 20px;
+    }
+    .signinpanel form {
+        margin-top: 20px;
+    }
+    .signup-footer {
+        margin-bottom: 10px;
+    }
+    .signuppanel .form-control {
+        margin-bottom: 10px;
+    }
+    .signup-footer .pull-left,
+    .signup-footer .pull-right {
+        float: none !important;
+        text-align: center;
+    }
+    .signinpanel .signin-info ul {
+        display: none;
+    }
+}
+@media screen and (max-width: 320px) {
+    .signinpanel,
+    .signuppanel {
+        margin:0 20px;
+        width:auto;
+    }
 }

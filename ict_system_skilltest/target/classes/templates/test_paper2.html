@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+    <title>Document</title>
+</head>
+
+<body>
+	<div class="well" style="margin: 10px 50px;"></div>
+	<button id="last">上一题</button>
+    <button id="next">下一题</button>
+    <div style="height: 60px"></div>
+    <div class="text-center" style="height:70px;width:100%;position:fixed;bottom: 0;background: #fff">
+    	<button id="sub" type="button" class="btn btn-primary" style="margin-top: 15px" th:data-examid="${examid}">提交试卷</button>
+    </div>
+    
+
+
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- iCheck -->
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script>
+       
+        	
+        	var examid = $('#sub').data('examid');
+        	var exams = new Array();
+        	
+        	var map = {}; // Map map = new HashMap();
+        	$.ajax({
+        		url:"creatExam",
+        		type:"post",
+        		async: false,
+        		dataType:"json",
+        		data:{
+        			examid:examid
+        		},
+        		success:function(data){
+        			$.each(data,function(n,value){
+        				var exam={};
+        				var opts=new Array();
+        				exam.subjectNumber = value.subjectNumber;
+        				exam.subjectTitle = value.subjectTitle;
+        				exam.subjectType = value.subjectType;
+        				for(var i=0;i<value.subjectOptions.length;i++){
+        					opts.push(value.subjectOptions[i]);
+        				}
+        				exam.subjectOptions = opts;
+        				exams.push(exam)
+        			})	
+        			
+        		}	
+        	})
+        	
+        	function apd(num){
+        		var number = exams[num].subjectNumber;
+        		var title = exams[num].subjectTitle;
+        		
+        		$('.well').html('<div data-testnum='+number+' data-optnum='+number+num+' class="test" style="font-weight: bold;font-size: 14px">'+title+'</div>');
+        		for(var i=0;i<exams[num].subjectOptions.length;i++){
+        		$('.test').append('<br><input type="radio" name='+number+num+' value='+exams[num].subjectOptions[i]+'>'+exams[num].subjectOptions[i]+'')
+        		}
+        	}
+        	
+        	function save(){
+        		var testNum = $('.test').data("testnum");
+        		var name = $('.test').data("optnum");
+        		var Answer=$('input:radio[name="'+name+'"]:checked').val();
+        		map[testNum] = Answer; // map.put(key, value);	
+        	}
+        	
+        	$(':radio').click(function(){
+        		alert(1)
+        		save();
+        	})
+        	
+        	var num = 0;
+        	apd(num);
+        	
+        	$('#next').click(function(){
+        		if(num==exams.length-1){
+        			alert("已经是最后一题")
+        		}else{
+        			num++;
+            		apd(num)
+        		}
+        	})
+        	
+        	$('#last').click(function(){
+        		if(num==0){
+        			alert("当前是第一道题")
+        		}else{
+        			num--;
+            		apd(num)
+        		}
+        	})
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	$('#sub').click(function(){
+        		swal({
+                    title: "您确定要交卷吗",
+                    text: "交卷后将无法更改，请谨慎操作！",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "交卷",
+                    closeOnConfirm: false
+                }, function () {
+                	
+            		var map = JSON.stringify(map);
+            		console.log(map)
+            		$.ajax({
+            			url:"saveTest",
+            			type:"post",
+            			data:{
+            				map:map,
+            				examid:examid
+            			},
+            			success:function(data){
+            				swal({
+                                title: "考试结束！",
+                                text: "您的考试成绩为："+data,
+                                type: "success"
+                            },function(){
+                            	location.href="showAllExams";
+                            });
+            			}
+            			     			
+            		})
+            	
+                });
+        		
+        		
+        	});
+        	
+        	
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        
+    </script>
+</body>
+
+</html>

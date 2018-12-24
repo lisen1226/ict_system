@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<script src="../js/jquery-1.9.1.js"></script>
+	<script src="../js/bootstrap.js"></script>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/listAllExa.css">
+	
+</head>
+<body>
+
+ 	 <div>
+        <div class="ibox float-e-margins">
+
+            <div class="ibox-title">
+                <samp>
+                    <button class="btn btn-info" type="button" id="main-btn"  data-toggle="modal" data-target="#addData1">
+                        <i class="glyphicon glyphicon-plus"></i>&nbsp;新增
+                    </button>
+                    
+                     <button class="btn btn-default " type="button"  data-toggle="modal" data-target="#import" onclick="visible()">
+                        <i class="glyphicon glyphicon-import"></i>&nbsp;导入
+                    </button>
+                    <button class="btn btn-default " type="button"  onclick="deleteAll()">
+                        <i class="glyphicon glyphicon-trash"></i>&nbsp;删除
+                    </button>
+                    <i style="color: gray;">共有：<span id="in-total" style="color: red;">0</span>条数据</i>
+                </samp>
+                <div class="ibox-tools">
+                    <div class="input-group">
+                       	<select class="form-control selectType" id="finalType">
+                       	
+
+                       	</select>
+                        <span class="input-group-btn">
+	                        <button type="button" class="btn btn-default" onclick="finalType(1)">
+	                            <i class="glyphicon glyphicon-search"></i>
+	                        </button>
+                        </span>   
+                    </div>
+                </div>
+            </div>
+
+            <div class="ibox-content">
+            	<div id="div-table">
+	                <table class="table table-bordered">
+	                    <tr class="active">
+	                        <th>
+	                            <div class="checkbox">
+	                                <label>
+	                                    <input type="checkbox" id="checkAll" onclick="checkAll()">
+	                                </label>
+	                            </div>
+	                        </th>
+	                        <th>试题编号</th>
+	                        <th>试题类别</th>
+	                        <th>题目类型</th>
+	                        <th>题目</th>
+	                        <th>正确答案</th>
+	                        <th>错误答案</th>
+	                        <th>错误答案</th>
+	                        <th>错误答案</th>
+	                       	<th>操作</th>
+
+	                    </tr>
+	                    <tbody id="table-body">
+	                    	
+	                    </tbody>
+	                    
+	                </table>
+				</div>
+            </div>
+			<div style="text-align: right;">
+				<p>
+					<a onclick="paging('first')">首页</a>||
+					<a onclick="paging('prior')">上一页</a>
+					<input type="text" id="page" style="width: 40px" value=""/>
+					<a onclick="paging('next')">下一页</a>||
+					<a onclick="paging('last')">尾页</a></p>
+			
+			
+            	<!-- <ul class="pagination" id="pagination"></ul> -->
+            </div>
+        </div>
+    </div>
+	            
+	<div class="modal inmodal fade" id="addData1" tabindex="-1" role="dialog"  aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		            <h4 class="modal-title">添加</h4>
+		        </div>
+		        <div class="modal-body">
+			        <p>
+						题目类型：
+						<select class="selectType" id="examinationType">
+					
+						</select>
+					</p>
+					<p>题目：</p>
+					<p> <textarea id="examinationTitle" style="width: 200px"></textarea></p>
+					<p>正确答案：</p>
+					<p> <textarea id="examinationRight" style="width: 200px"></textarea></p>
+					<p> 错误答案：</p>	
+					<p> <textarea id="examinationWrong1" style="width: 200px"></textarea></p>
+					  	<p> 错误答案：</p>
+					<p> <textarea id="examinationWrong2" style="width: 200px"></textarea></p>
+					<p> 错误答案：</p>     
+					<p> <textarea id="examinationWrong3" style="width: 200px"></textarea></p>
+				</div>
+				<div class="modal-footer">
+				    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+				    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addExamin()">保存</button>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	
+	<div class="modal inmodal fade" id="updateFind" tabindex="-1" role="dialog"  aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		            <h4 class="modal-title">修改</h4>
+		        </div>
+		        <div class="modal-body">
+		        	<input type="hidden" id="examinId"/>
+			        <p>
+						题目类型：
+						<select class="selectType" id="examinType">
+					
+						</select>
+					</p>
+					<p>题目：</p>
+					<p> <textarea id="Title" style="width: 200px"></textarea></p>
+					<p>正确答案：</p>
+					<p> <textarea id="Right" style="width: 200px"></textarea></p>
+					<p> 错误答案：</p>	
+					<p> <textarea id="Wrong1" style="width: 200px"></textarea></p>
+					<p> 错误答案：</p>
+					<p> <textarea id="Wrong2" style="width: 200px"></textarea></p>
+					<p> 错误答案：</p>     
+					<p> <textarea id="Wrong3" style="width: 200px"></textarea></p>
+				</div>
+				<div class="modal-footer">
+				    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+				    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updateExamin()">保存</button>
+		        </div>
+		    </div>
+		</div>
+	</div>
+    <div class="modal inmodal fade" id="import" tabindex="-1" role="dialog"  aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+		    <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal" onclick="empty()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		            <h4 class="modal-title">导入</h4>
+		        </div>
+		        <div class="modal-body">
+		        	<p id="hint" style="color: red;"></p>
+		        	
+	          		<div class="input-group" id="import-input">
+	          	
+                        <input class="form-control yi-file yi-validation" type="text" name="fileUpload" placeholder="选择数据文件..." id="updateFile">
+                        <input id="file1" type="file" name="componentUpload" accept=".xlsx,.xls" style="display:none">
+                        <span class="input-group-btn" id="input-group-btn">
+                            <button class="btn btn-default" type="button" id="but-import">
+                                <span class="glyphicon glyphicon-folder-open"></span>
+                            </button>
+                        </span>
+                    </div>
+	                
+		        </div>
+		
+		        <div class="modal-footer">
+		            <button type="button" class="btn btn-white" data-dismiss="modal" onclick="empty()">关闭</button>
+		            <button type="button" class="btn btn-primary" onclick="importExaminExcel()" id="save">保存</button>
+		        </div>
+		    </div>
+		</div>
+	</div>    
+        
+        
+        
+        
+        
+        
+        
+	<script type="text/javascript">
+		var examinationGenre="单选";
+		var pageObject={
+			currentPage: 1,//当前页面  
+		    numberOfPages: 10,//一页显示几个按钮（在ul里面生成5个li）  
+		    totalPages:0 ,//总页数 
+		    totalNum:0,//总数据条数
+		 	listId:new Array()
+		}
+		//分页操作
+		function paging(page){
+			
+		 	if(page=="first" && pageObject.currentPage!=1){			//首页
+		 		pageObject.currentPage = 1;
+		 		finalExamin();
+		 	}else if(page=="prior" && pageObject.currentPage>1){    //上一页
+		 		--pageObject.currentPage
+		 		finalExamin();	
+		 	}else if(page=="next" && pageObject.currentPage<pageObject.totalPages){     //下一页
+		 		++pageObject.currentPage
+		 		finalExamin();
+		 	}else if(page=="last" && pageObject.currentPage!=pageObject.totalPages){    //尾页
+		 		pageObject.currentPage = pageObject.totalPages
+		 		finalExamin();
+		 	}
+	 	}
+
+		//查询数据:单选题
+		function finalExamin(){
+			$.ajax({
+		        url: "listAll",
+		        type:'post',
+		        data:{'currPage':pageObject.currentPage,'examinationGenre':examinationGenre},
+				dataType:'json',	
+		        success: function (data) {
+		        	var examinArray=data.PageBean.items;
+		        	listTable(examinArray);//显示表格数据
+		        	pageObject.totalNum=data.PageBean.totalNum;//总数据条数
+		        	pageObject.totalPages=data.PageBean.totalPage;//总页数	
+		        	$('#in-total').html(pageObject.totalNum);//显示总数据条数
+		        	$("#page").attr("value",pageObject.currentPage);//显示当前页
+				}
+			}) 
+		}
+		
+		
+		//遍历输出表格
+		function listTable(list){
+			$("#table-body").children().filter("tr").remove();
+			var tr="";
+			for(var i=0;i<list.length;i++){
+				 tr+="<tr><td><div class='checkbox'><label>"+
+	            "<input type='checkbox' class='checkId' id='"+i+"' value='"+list[i].id+"' onclick='choice("+i+")' ></label></div>     </td>"+
+	            "<td>"+list[i].examinationNumber +" </td>"+
+	            "<td>"+list[i].examinationGenre +" </td>"+
+	            "<td>"+list[i].examinationType +" </td>"+
+	            "<td class='Title'>"+list[i].examinationTitle +" </td>"+
+	            "<td class='Title'>"+list[i].examinationRight +" </td>"+
+	            "<td class='Title'>"+list[i].examinationWrong1 +" </td>"+
+	            "<td class='Title'>"+list[i].examinationWrong2 +" </td>"+
+	            "<td class='Title'>"+list[i].examinationWrong3 +" </td>"+
+	            "<td><a onclick='delectExaminOne("+list[i].id+")'><span class='glyphicon glyphicon-trash'></span>  </a>"+
+	            "<a onclick='updateFindExamin("+list[i].id+")' data-toggle='modal' data-target='#updateFind'>  <span class='glyphicon glyphicon-edit'></span></a></td></tr>"
+			}
+			$("#table-body").append(tr);
+		}
+		
+		//删除一条信息
+		function delectExaminOne(number){
+			var rjudge = confirm("是否确认删除？");
+			if(rjudge == true){
+				$.ajax({
+			        url: "delectExaminById",
+			        type:'post',
+			        data:{'id':number},
+					dataType:'json',	
+			        success: function (data) {
+			        	finalExamin(1);
+					}
+				}) 
+			}
+		}
+		
+		
+		//批量删除试题
+		function deleteAll(){
+			var rjudge = confirm("是否确认删除？");
+			if(rjudge == true){
+				if(pageObject.listId.length!=0){
+					 $.ajax({
+				        url: "deleteAll",
+				        type:'post',
+				        async : false,
+			            cache : false,
+			            traditional: true,
+				        data:{listId:pageObject.listId},
+						dataType:'json',	
+				        success: function (data) {
+				        	$('#checkAll').prop('checked',false)
+				        	finalExamin(1);
+						}
+					})
+				}
+			}
+		}
+		
+		
+		//添加数据
+		function addExamin(){
+			$.ajax({
+		        url: "addExamin",
+		        type:'post',
+		        async : false,
+	            cache : false,
+	            traditional: true,
+	            
+		        data:{"examinationType":$('#examinationType').val(),
+		        	"examinationTitle":$('#examinationTitle').val(),
+		        	"examinationRight":$('#examinationRight').val(),
+		        	"examinationWrong1":$('#examinationWrong1').val(),
+		        	"examinationWrong2":$('#examinationWrong2').val(),
+		        	"examinationWrong3":$('#examinationWrong3').val(),
+		        	"examinationGenre":examinationGenre},
+				dataType:'json',	
+		        success: function (data) {
+		        	$('#checkAll').prop('checked',false)
+		        	finalExamin(1);
+				}
+			})
+		}
+		//查询所有试题类型
+		function selectAllTestType(){
+			 $.ajax({
+		        url: "selectAllTestType",
+		        type:'post',
+		        dataType:'json',
+		        success: function (data) {
+		    		var option=""
+		        	for(var i=0;i<data.length;i++){
+		        		option+="<option value='"+data[i].typeNumber+"'>"+data[i].typeName+"</option>"
+		        	}
+		        	$('.selectType').append(option);
+				}     
+			 })
+		}
+		//按类型查询数据
+		function finalType(d){
+			$.ajax({
+		        url: "finalByType",
+		        type:'post',
+		        data:{'currPage':d,"type":$('#finalType').val(),"examinationGenre":examinationGenre},
+				dataType:'json',	
+		        success: function (data) {
+		        	pageObject.totalNum=data.PageBean.totalNum;
+		        	pageObject.totalPages=data.PageBean.totalPage;
+		        	var examinArray=data.PageBean.items;	
+		        	listTable(examinArray)
+		        	$('#in-total').html(pageObject.totalNum);
+				}
+			}) 
+		}
+		//修改前查询数据
+		function updateFindExamin(number){
+			$.ajax({
+		        url: "updateFindExamin",
+		        type:'post',
+		        data:{'id':number},
+				dataType:'json',	
+		        success: function (data) {
+		        	$('#examinId').val(data.id);
+		        	$('#Title').val(data.examinationTitle);
+		        	$('#Right').val(data.examinationRight);
+		        	$('#Wrong1').val(data.examinationWrong1);
+		        	$('#Wrong2').val(data.examinationWrong2);
+		        	$('#Wrong3').val(data.examinationWrong3);
+		        	
+				}
+			}) 
+		}
+		
+		//修改数据
+		function updateExamin(){
+			var rjudge = confirm("是否确认修改吗？");
+			if(rjudge == true){
+				$.ajax({
+			        url: "updateExamin",
+			        type:'post',
+			        data:{'id':$('#examinId').val(),
+			        	'examinationType':$('#examinType').val(),
+			        	'examinationTitle':$('#Title').val(),
+			        	'examinationRight':$('#Right').val(),
+			        	'examinationWrong1':$('#Wrong1').val(),
+			        	'examinationWrong2':$('#Wrong2').val(),
+			        	'examinationWrong3':$('#Wrong3').val()},
+					dataType:'json',	
+			        success: function (data) {
+			        	finalExamin(1);
+					}
+				}) 
+			}
+		}
+		//导入Excel文件
+		function importExaminExcel(){
+			$("#hint").text("");
+			var formData = new FormData();
+		    var name = $("#file1").val();
+		    formData.append("file",$("#file1")[0].files[0]);
+		    formData.append("name",name);
+		    $.ajax({
+		        url : 'importExaminExcel',
+		        type : 'POST',
+		        async : false,
+		        data : formData,
+		        // 告诉jQuery不要去处理发送的数据
+		        processData : false,
+		        // 告诉jQuery不要去设置Content-Type请求头
+		        contentType : false,
+				success: function (data) {
+				   if(data.length!=0){
+					   if(data[0]!=0){
+						   var h="第";
+						   for(var i=0;i<data.length;i++){
+							   h+=data[i]+"、";
+						   }
+						   h+="条数据有误，请检查正确后再导入"
+						   $("#hint").text(h);
+					   }else{
+						   $("#hint").text("请按模板要求导入Excel文件");
+					   }
+					   
+				   }else{
+					   $("#import-input").css("display","none");
+					   $("#save").css("display","none");
+					   $("#hint").text("上传成功");
+				   }
+				}
+			})
+		}
+		function visible(){
+			 $("#import-input").css("display","");
+			   $("#save").css("display","");
+		}
+		
+		function empty(){
+			$("#hint").text("");
+		}
+
+		function checkAll(){
+			if ($('#checkAll').is(':checked')) {
+				var i=0;
+				$(".checkId").each(function(){
+					pageObject.listId[i]=$(this).val();
+					  $(this).prop('checked',true)
+					  i++;
+				});
+			}else{
+				$(".checkId").each(function(){
+					  $(this).prop('checked',false) 
+				});
+				pageObject.listId.length = 0;
+				console.log(pageObject.listId); 
+			}
+		}
+		function choice(index){
+			if ($("#"+index).is(':checked')) {
+				pageObject.listId.push($("#"+index).val())
+			}else{
+				pageObject.listId.splice(index, 1);
+			}
+		}
+		
+		$(function() {
+			//点击updateFile文本框触发上传按钮
+			$("#updateFile").click(function() {
+				$("#file1").trigger("click");
+			});
+			
+			$("#but-import").click(function() {
+				$("#file1").trigger("click");
+			});
+			$("#file1").change(function(){
+				//获取FileUpload对象
+				var x = document.getElementById("file1").files;
+				//把获得的文件名放入text里面显示
+				$("#updateFile").val(x[0].name);
+			})
+			
+		});
+		$(document).ready(function(){
+			finalExamin();
+			selectAllTestType();
+		})
+	</script>
+</body>
+</html>

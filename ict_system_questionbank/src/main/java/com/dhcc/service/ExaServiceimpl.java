@@ -24,7 +24,8 @@ public class ExaServiceimpl implements ExaService {
 	ExaminationMapper examinMap;
 	@Autowired
 	Examination examin;
-	
+	@Autowired
+	ExaminationType examinationType;
 	//分页查询信息
 	@Override
 	public Map<String,Object> finalAll(int currPage,int pageSize,String examinationGenre) {
@@ -45,7 +46,6 @@ public class ExaServiceimpl implements ExaService {
         }else {
         	total=total/pageSize+1;
         }
-       
         PageBean<Examination > bean=new PageBean<Examination>(num,total, list);
         map.put("PageBean", bean);
       
@@ -102,51 +102,66 @@ public class ExaServiceimpl implements ExaService {
 		return examinMap.selectAllTestType();
 	}
 
-	
+	//导入Excel文件
 	@SuppressWarnings( "resource" )
-	public List<Integer> importExaminExcel(MultipartFile myFile) throws Exception {
+	public String importExaminExcel(MultipartFile myFile,int num) throws Exception {
 		Excel<Examination> excel=new Excel();
 		List lists=excel.importExcel(myFile);
 		int type=0;
+		String hint="第";
 		List<Integer> errors=new ArrayList<Integer>();
 		
 		for(int i=0;i<lists.size();i++) {
 			
 			List list= (List) lists.get(i);
-			if(list.size()==7) {
-				System.out.println("type:"+list.get(1));
+			if(list.size()==num) {
+				//System.out.println("type:"+list.get(1)+"  :"+list.size());
 				type=examinMap.selectTestType((String)list.get(1));
 				if(type==0) {
-					errors.add(i+1);
+					hint+=i+1+",";
+					
 				}
-			}else {
-				errors.add(0);
-				return errors;
+				if(i==lists.size()-1&&!hint.equals("第")) {
+					hint=hint.substring(0,hint.length()-1);
+					hint+="条试题类型错误,请修改后重新导入";
+				}
+			} else {
+				hint="文件格式不符合上传要求,请使用模板上传数据";
 			}
-			
 		}
-		if(errors.size()==0) {
+		
+		if("第".equals(hint)) {
 			for(int i=0;i<lists.size();i++) {
 				try {
 					List list= (List) lists.get(i);
 					Date now=new Date();
 					SimpleDateFormat f=new SimpleDateFormat((String)list.get(0)+(String)list.get(1)+"yyyyMMddHHmmss"+i);
-					examin.setExaminationNumber(f.format(now));
-					examin.setExaminationGenre((String)list.get(0));
-					examin.setExaminationType((String)list.get(1));
-					examin.setExaminationTitle((String)list.get(2));
-					examin.setExaminationRight((String)list.get(3));
-					examin.setExaminationWrong1((String)list.get(4));
-					examin.setExaminationWrong2((String)list.get(5));
-					examin.setExaminationWrong3((String)list.get(6));
+					if(num==7) {
+						examin.setExaminationNumber(f.format(now));
+						examin.setExaminationGenre((String)list.get(0));
+						examin.setExaminationType((String)list.get(1));
+						examin.setExaminationTitle((String)list.get(2));
+						examin.setExaminationRight((String)list.get(3));
+						examin.setExaminationWrong1((String)list.get(4));
+						examin.setExaminationWrong2((String)list.get(5));
+						examin.setExaminationWrong3((String)list.get(6));
+					}else {
+						examin.setExaminationNumber(f.format(now));
+						examin.setExaminationGenre((String)list.get(0));
+						examin.setExaminationType((String)list.get(1));
+						examin.setExaminationTitle((String)list.get(2));
+						examin.setExaminationRight((String)list.get(3));
+						examin.setExaminationWrong1((String)list.get(4));
+					}
 					examinMap.addExamin(examin);
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
 			}
+			hint="上传成功";
 		}
 		
-		return errors;
+		return hint;
 	}
 
 	@Override
@@ -173,5 +188,27 @@ public class ExaServiceimpl implements ExaService {
 	        	}	
 	        }
 	        return list;
+	}
+
+	@Override
+	public int addType(String typeName) {
+		Date now=new Date();
+		SimpleDateFormat f=new SimpleDateFormat("yyyyMMddHHmmss"+0);
+		examinationType.setTypeName(typeName);
+		examinationType.setTypeNumber(f.format(now));
+		examinMap.addType(examinationType);
+		return 0;
+	}
+
+	@Override
+	public int deleteType(String typeNumber) {
+		examinMap.deleteType(typeNumber);
+		return 0;
+	}
+
+	@Override
+	public int updateType(ExaminationType examinationType) {
+		examinMap.updateType(examinationType);
+		return 0;
 	}
 }

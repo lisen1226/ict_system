@@ -74,11 +74,17 @@
             </div>
 			<div style="text-align: right;">
 				<p>
-					<a onclick="paging('first')">首页</a>||
-					<a onclick="paging('prior')">上一页</a>
+					
+					<span class="glyphicon glyphicon-fast-backward" id="first"  onclick="paging('first')"  style="display:none;"> </span> 
+					<span class="glyphicon glyphicon-step-backward" id="prior" onclick="paging('prior')"  style="display:none;"></span>
 					<input type="text" id="page" style="width: 40px" value=""/>
-					<a onclick="paging('next')">下一页</a>||
-					<a onclick="paging('last')">尾页</a></p>
+					<span class="glyphicon glyphicon-step-forward" id="next" onclick="paging('next')"></span> 
+					<span class="glyphicon glyphicon-fast-forward" id="last" onclick="paging('last')"> </span>
+					<span style="color: gray;">共有
+						<span id="totalPages" style="color: red;"></span>
+						页   
+					</span>
+				</p>
 			
 			
             	<!-- <ul class="pagination" id="pagination"></ul> -->
@@ -164,7 +170,7 @@
                             </button>
                         </span>
                     </div>
-	                
+	                <p style="color: gray;">判断题模板下载<a onclick="downloadfile()" >下载</a></p>
 		        </div>
 		
 		        <div class="modal-footer">
@@ -190,25 +196,47 @@
 		    totalNum:0,//总数据条数
 		 	listId:new Array()
 		}
+		
+		function downloadfile(){
+		    window.location.href="../Excel/判断题模板.xlsx";
+		}
 		//分页操作
 		function paging(page){
 			
 		 	if(page=="first" && pageObject.currentPage!=1){			//首页
+		 		$('#first').css({"display":"none"});
+		 		$('#prior').css({"display":"none"});
+		 		$('#next').css({"display":""});
+		 		$('#last').css({"display":""});
 		 		pageObject.currentPage = 1;
 		 		finalExamin();
 		 	}else if(page=="prior" && pageObject.currentPage>1){    //上一页
-		 		--pageObject.currentPage
+		 		$('#last').css({"display":""});
+		 		$('#next').css({"display":""});
+		 		if(--pageObject.currentPage==1){
+		 			$('#first').css({"display":"none"});
+		 			$('#prior').css({"display":"none"});
+		 		}
 		 		finalExamin();	
 		 	}else if(page=="next" && pageObject.currentPage<pageObject.totalPages){     //下一页
-		 		++pageObject.currentPage
+		 		$('#prior').css({"display":""});
+		 		$('#first').css({"display":""});
+		 		if(++pageObject.currentPage==pageObject.totalPages){
+		 			$('#next').css({"display":"none"});
+		 			$('#last').css({"display":"none"});
+		 		}
 		 		finalExamin();
 		 	}else if(page=="last" && pageObject.currentPage!=pageObject.totalPages){    //尾页
+		 		$('#last').css({"display":"none"});
+		 		$('#next').css({"display":"none"});
+		 		$('#prior').css({"display":""});
+		 		$('#first').css({"display":""});
 		 		pageObject.currentPage = pageObject.totalPages
 		 		finalExamin();
 		 	}
 	 	}
 
-		//查询数据:单选题
+		//查询数据
 		function finalExamin(){
 			$.ajax({
 		        url: "listAll",
@@ -219,7 +247,8 @@
 		        	var examinArray=data.PageBean.items;
 		        	listTable(examinArray);//显示表格数据
 		        	pageObject.totalNum=data.PageBean.totalNum;//总数据条数
-		        	pageObject.totalPages=data.PageBean.totalPage;//总页数	
+		        	pageObject.totalPages=data.PageBean.totalPage;//总页数
+		        	$('#totalPages').text(pageObject.totalPages);
 		        	$('#in-total').html(pageObject.totalNum);//显示总数据条数
 		        	$("#page").attr("value",pageObject.currentPage);//显示当前页
 				}
@@ -380,7 +409,7 @@
 		    formData.append("file",$("#file1")[0].files[0]);
 		    formData.append("name",name);
 		    $.ajax({
-		        url : 'importExaminExcel',
+		        url : 'importExaminExcelJudge',
 		        type : 'POST',
 		        async : false,
 		        data : formData,
@@ -389,23 +418,13 @@
 		        // 告诉jQuery不要去设置Content-Type请求头
 		        contentType : false,
 				success: function (data) {
-				   if(data.length!=0){
-					   if(data[0]!=0){
-						   var h="第";
-						   for(var i=0;i<data.length;i++){
-							   h+=data[i]+"、";
-						   }
-						   h+="条数据有误，请检查正确后再导入"
-						   $("#hint").text(h);
-					   }else{
-						   $("#hint").text("请按模板要求导入Excel文件");
-					   }
-					   
-				   }else{
-					   finalExamin(pageObject.currentPage);
-					   $("#import-input").css("display","none");
-					   $("#save").css("display","none");
-					   $("#hint").text("上传成功");
+					if(data!="上传成功"){
+						$("#hint").text(data);	   
+				   	}else{
+					  	finalExamin(pageObject.currentPage);
+					   	$("#import-input").css("display","none");
+					   	$("#save").css("display","none");
+					   	$("#hint").text(data);
 				   }
 				}
 			})

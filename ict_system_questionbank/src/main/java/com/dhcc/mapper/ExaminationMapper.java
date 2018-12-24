@@ -20,4 +20,7 @@ public interface ExaminationMapper {
 	public Integer selectTestType(String type);
 	public Examination updateFindExamin(Integer id);
 	public void updateExamin(Examination record) ;
+	public int addType(ExaminationType examinationType);
+	public int deleteType(String typeNumber);
+	public int updateType(ExaminationType examinationType);
 }

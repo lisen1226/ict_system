@@ -39,6 +39,13 @@ public class questionbankController {
 	public String judge() {
 		return "zds/judge";
 	}
+	@RequestMapping(value="/topicType")
+	public String topicType() {
+		return "zds/topicType";
+	}
+	
+	
+	
 	//分页查询数据
 	@ResponseBody
 	@RequestMapping("/listAll")
@@ -120,18 +127,36 @@ public class questionbankController {
 	//Excel导入
 	@ResponseBody
 	@RequestMapping(value="/importExaminExcel",method=RequestMethod.POST)
-	public List<Integer> importExaminExcel(MultipartFile file){
-		List<Integer> errors=new ArrayList<Integer>();
+	public String importExaminExcel(MultipartFile file){
+		String errors="";
         if(!file.isEmpty()){  
         	try {
-        		errors=service.importExaminExcel(file);
+        		errors=service.importExaminExcel(file,7);
     		} catch (Exception e) {
     			System.out.println(e.getMessage());
     			return errors;
     		}
          }	
+        System.out.println(errors);
 		return errors;
 	}
+	
+	//Excel导入
+		@ResponseBody
+		@RequestMapping(value="/importExaminExcelJudge",method=RequestMethod.POST)
+		public String importExaminExcelJudge(MultipartFile file){
+			String errors="";
+	        if(!file.isEmpty()){  
+	        	try {
+	        		errors=service.importExaminExcel(file,5);
+	    		} catch (Exception e) {
+	    			System.out.println(e.getMessage());
+	    			return errors;
+	    		}
+	         }	
+	        System.out.println(errors);
+			return errors;
+		}
 	//修改前查询数据
 	@ResponseBody
 	@RequestMapping("/updateFindExamin")
@@ -153,6 +178,42 @@ public class questionbankController {
 			return 0;
 		}
 	}
-	
-	
+	//添加题目类型
+	@ResponseBody
+	@RequestMapping("/addType")
+	public int addType(String typeName) {
+		try {
+
+    		service.addType(typeName);
+    		return 1;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return 0;
+		}
+	}
+	//删除题目类型
+	@ResponseBody
+	@RequestMapping("/deleteType")
+	public int deleteType(String typeNumber) {
+		try {
+
+    		service.deleteType(typeNumber);
+    		return 1;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return 0;
+		}
+	}
+	//修改题目类型
+	@ResponseBody
+	@RequestMapping("/updateType")
+	public int updateType(ExaminationType examinationType) {
+		try {
+    		service.updateType(examinationType);
+    		return 1;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return 0;
+		}
+	}
 }

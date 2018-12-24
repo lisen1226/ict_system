@@ -196,9 +196,6 @@ $(document).ready(function () {
                 width: "95%"
             }
         }
-        for (var selector in config) {
-            $(selector).chosen(config[selector]);
-        }
 
         $("#ionrange_1").ionRangeSlider({
             min: 0,

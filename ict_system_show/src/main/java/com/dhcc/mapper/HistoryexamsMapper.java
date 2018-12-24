@@ -22,7 +22,11 @@ public interface HistoryexamsMapper {
     
     List selectAvgByTime(String date);
     
+<<<<<<< HEAD
     List selectAccuracyByTime(@Param("date") String date,@Param("max") String max,@Param("min") String min);
+=======
+    List selectAccuracyByTime(String date,String max,String min);
+>>>>>>> branch 'master' of https://github.com/lisen1226/ict_system.git
 
     Historyexams selectByPrimaryKey(Integer id);
 

@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dhcc.mapper.PersonnelMapper" >
+  <resultMap id="BaseResultMap" type="com.dhcc.pojo.Personnel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uname" property="uname" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="unumber" property="unumber" jdbcType="VARCHAR" />
+    <result column="urole" property="urole" jdbcType="VARCHAR" />
+    <result column="Jurisdiction" property="jurisdiction" jdbcType="VARCHAR" />
+    <result column="post" property="post" jdbcType="VARCHAR" />
+    <result column="ElectronicResume" property="electronicresume" jdbcType="VARCHAR" />
+    <result column="Registrationtime" property="registrationtime" jdbcType="VARCHAR" />
+    <result column="PersonInCharge" property="personincharge" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, uname, password, phone, unumber, urole, Jurisdiction, post, ElectronicResume, 
+    Registrationtime, PersonInCharge
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dhcc.pojo.PersonnelExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from personnel
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from personnel
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from personnel
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dhcc.pojo.PersonnelExample" >
+    delete from personnel
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dhcc.pojo.Personnel" >
+    insert into personnel (id, uname, password, 
+      phone, unumber, urole, 
+      Jurisdiction, post, ElectronicResume, 
+      Registrationtime, PersonInCharge)
+    values (#{id,jdbcType=INTEGER}, #{uname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{unumber,jdbcType=VARCHAR}, #{urole,jdbcType=VARCHAR}, 
+      #{jurisdiction,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{electronicresume,jdbcType=VARCHAR}, 
+      #{registrationtime,jdbcType=VARCHAR}, #{personincharge,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dhcc.pojo.Personnel" >
+    insert into personnel
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uname != null" >
+        uname,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="unumber != null" >
+        unumber,
+      </if>
+      <if test="urole != null" >
+        urole,
+      </if>
+      <if test="jurisdiction != null" >
+        Jurisdiction,
+      </if>
+      <if test="post != null" >
+        post,
+      </if>
+      <if test="electronicresume != null" >
+        ElectronicResume,
+      </if>
+      <if test="registrationtime != null" >
+        Registrationtime,
+      </if>
+      <if test="personincharge != null" >
+        PersonInCharge,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uname != null" >
+        #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="unumber != null" >
+        #{unumber,jdbcType=VARCHAR},
+      </if>
+      <if test="urole != null" >
+        #{urole,jdbcType=VARCHAR},
+      </if>
+      <if test="jurisdiction != null" >
+        #{jurisdiction,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null" >
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="electronicresume != null" >
+        #{electronicresume,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationtime != null" >
+        #{registrationtime,jdbcType=VARCHAR},
+      </if>
+      <if test="personincharge != null" >
+        #{personincharge,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dhcc.pojo.PersonnelExample" resultType="java.lang.Integer" >
+    select count(*) from personnel
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update personnel
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.uname != null" >
+        uname = #{record.uname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unumber != null" >
+        unumber = #{record.unumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.urole != null" >
+        urole = #{record.urole,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jurisdiction != null" >
+        Jurisdiction = #{record.jurisdiction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.post != null" >
+        post = #{record.post,jdbcType=VARCHAR},
+      </if>
+      <if test="record.electronicresume != null" >
+        ElectronicResume = #{record.electronicresume,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registrationtime != null" >
+        Registrationtime = #{record.registrationtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personincharge != null" >
+        PersonInCharge = #{record.personincharge,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update personnel
+    set id = #{record.id,jdbcType=INTEGER},
+      uname = #{record.uname,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      unumber = #{record.unumber,jdbcType=VARCHAR},
+      urole = #{record.urole,jdbcType=VARCHAR},
+      Jurisdiction = #{record.jurisdiction,jdbcType=VARCHAR},
+      post = #{record.post,jdbcType=VARCHAR},
+      ElectronicResume = #{record.electronicresume,jdbcType=VARCHAR},
+      Registrationtime = #{record.registrationtime,jdbcType=VARCHAR},
+      PersonInCharge = #{record.personincharge,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dhcc.pojo.Personnel" >
+    update personnel
+    <set >
+      <if test="uname != null" >
+        uname = #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="unumber != null" >
+        unumber = #{unumber,jdbcType=VARCHAR},
+      </if>
+      <if test="urole != null" >
+        urole = #{urole,jdbcType=VARCHAR},
+      </if>
+      <if test="jurisdiction != null" >
+        Jurisdiction = #{jurisdiction,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null" >
+        post = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="electronicresume != null" >
+        ElectronicResume = #{electronicresume,jdbcType=VARCHAR},
+      </if>
+      <if test="registrationtime != null" >
+        Registrationtime = #{registrationtime,jdbcType=VARCHAR},
+      </if>
+      <if test="personincharge != null" >
+        PersonInCharge = #{personincharge,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dhcc.pojo.Personnel" >
+    update personnel
+    set uname = #{uname,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      unumber = #{unumber,jdbcType=VARCHAR},
+      urole = #{urole,jdbcType=VARCHAR},
+      Jurisdiction = #{jurisdiction,jdbcType=VARCHAR},
+      post = #{post,jdbcType=VARCHAR},
+      ElectronicResume = #{electronicresume,jdbcType=VARCHAR},
+      Registrationtime = #{registrationtime,jdbcType=VARCHAR},
+      PersonInCharge = #{personincharge,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="checkLogin" resultMap="BaseResultMap">
+		select * from personnel where
+		unumber = #{unumber,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+	</select>
+	<select id="checkLoginByPhone" resultMap="BaseResultMap">
+		select * from personnel where
+		phone = #{phone,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+	</select>
+</mapper>

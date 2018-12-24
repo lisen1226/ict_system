@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dhcc.mapper.HistoryExamsMapper">
+	<resultMap id="BaseResultMap"
+		type="com.dhcc.pojo.HistoryExams">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="username" property="username"
+			jdbcType="VARCHAR" />
+		<result column="accuracy" property="accuracy"
+			jdbcType="VARCHAR" />
+		<result column="uuid" property="uuid" jdbcType="VARCHAR" />
+		<result column="testTime" property="testTime"
+			jdbcType="VARCHAR" />
+
+		<collection property="exams"
+			ofType="com.dhcc.pojo.DidExams">
+			<id column="uuid" property="uuid" jdbcType="VARCHAR" />
+			<result column="username" property="username"
+				jdbcType="VARCHAR" />
+			<result column="testid" property="testid" jdbcType="VARCHAR" />
+			<result column="choose" property="choose" jdbcType="VARCHAR" />
+			<result column="flag" property="flag" jdbcType="VARCHAR" />
+			<result column="uuid" property="uuid" jdbcType="VARCHAR" />
+			<result column="testTime" property="testTime"
+				jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+
+	<insert id="insertHistoryExams"
+		parameterType="com.dhcc.pojo.HistoryExams">
+
+		insert into historyexams
+		(username,testTime,uuid,accuracy,testType,examType)
+		values(#{username,jdbcType=VARCHAR},
+		#{testTime,jdbcType=VARCHAR},
+		#{uuid,jdbcType=VARCHAR},
+		#{accuracy,jdbcType=VARCHAR},
+		#{testType,jdbcType=VARCHAR},
+		#{examType,jdbcType=VARCHAR}
+		)
+
+	</insert>
+	
+	
+
+
+</mapper>

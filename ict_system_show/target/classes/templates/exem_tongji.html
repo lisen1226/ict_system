@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<<<<<<< HEAD
 <meta charset="utf-8">
 <title>统计显示</title>
 <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
@@ -169,5 +170,292 @@ body {
 			}
 		});
 	});
+=======
+	<meta charset="utf-8">
+	<title>统计显示</title>
+	
+	<!-- 全局js -->
+	<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="js/echarts.min.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+
+    <!-- Data picker -->
+    <script src="js/bootstrap-datepicker.js"></script>
+
+    <!-- Image cropper -->
+    <script src="js/cropper.min.js"></script>
+
+    <script src="js/form-advanced-demo.js"></script>
+    
+    <!-- css -->
+    <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="css/datepicker3.css" rel="stylesheet">
+    
+</head>
+
+<!-- 1.按考试类别统计考试人数（可选择时间段）
+2.按考试类别统计考试平均成绩（可选择时间段）
+3.按考试类别统计每个分数段的人数（可选择时间段） -->
+<style type="text/css">
+body {
+	width: 100vw;
+	height: 100vh;
+}
+
+#echarts1 {
+	width: 100vw;
+	height: 55vh;
+}
+
+#echarts2 {
+	width: 100vw;
+	height: 55vh;
+}
+
+#echarts3 {
+	width: 100vw;
+	height: 55vh;
+}
+</style>
+<body>
+	<div>
+		<div class="form-group" id="data_4">
+			<label class="font-noraml">选择月份</label>
+			<div class="input-group date">
+				<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+				<input type="text" id="time" class="form-control" value="2018-12-24">
+			</div>
+		</div>
+		<div id="echarts1"></div>
+		<div id="echarts2"></div>
+		<div id="echarts3"></div>
+	</div>
+</body>
+
+<script type="text/javascript">
+
+	var defalut = $('#time').val();
+	console.log(defalut);
+	ajax_echarts(defalut);
+	$('#time').change(function() {
+		var defalut_time = $('#time').val();
+		console.log(defalut_time);
+		ajax_echarts(defalut_time);
+	});
+	function ajax_echarts(date){
+		//图表一ajax获取数据
+		$.ajax({
+			url : "/select_echarts1",
+			// 数据发送方式
+			type : "post",
+			//传递的数据
+			data : {
+				"date" : date 
+			},
+			// 接受数据格式
+			dataType : "json",
+			success : function(data) {
+				console.log(data);
+				for (var i = 0; i < data.length; i++) {
+					option1.xAxis[0].data.push(data[i].testType);
+					option1.series[0].data.push(data[i].num);
+				}
+				Chart1.setOption(option1);
+			}
+		});
+
+		//图表二ajax获取数据
+		$.ajax({
+			url : "/select_echarts2",
+			// 数据发送方式
+			type : "post",
+			//传递的数据
+			data : {
+				"date" : date 
+			},
+			// 接受数据格式
+			dataType : "json",
+			success : function(data) {
+				console.log(data);
+				for (var i = 0; i < data.length; i++) {
+					option2.xAxis[0].data.push(data[i].testType);
+					option2.series[0].data.push(data[i].avg);
+				}
+				Chart2.setOption(option2);
+			}
+		});
+
+		//图表三ajax获取数据
+		$.ajax({
+			url : "/select_echarts3",
+			// 数据发送方式
+			type : "post",
+			//传递的数据
+			data : {
+				"date" : date 
+			},
+			// 接受数据格式
+			dataType : "json",
+			success : function(data) {
+				console.log(data);
+				option3.xAxis[0].data.push("0-10");
+				option3.xAxis[0].data.push("10-20");
+				option3.xAxis[0].data.push("20-30");
+				option3.xAxis[0].data.push("30-40");
+				option3.xAxis[0].data.push("40-50");
+				option3.xAxis[0].data.push("50-60");
+				option3.xAxis[0].data.push("60-70");
+				option3.xAxis[0].data.push("70-80");
+				option3.xAxis[0].data.push("80-90");
+				option3.xAxis[0].data.push("90-100");
+				console.log((data.seven).length);
+				
+					for (var i = 0; i < (data.seven).length; i++) {
+						var aa = data.seven;
+						option3.legend.push(aa[i].testType);
+						option3.series[i].name.push(data.seven[i].testType);
+						option3.series[i].data.push(data.seven[i].num);
+						
+					}
+				
+				Chart3.setOption(option3);
+			}
+		});
+	}
+	
+	//图表一	
+	var Chart1 = echarts.init(document.getElementById('echarts1'));
+
+	option1 = {
+	 	color: ['#3398DB'],
+	    tooltip : {
+	        trigger: 'axis',
+	        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+	            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+	        }
+	    },
+	    grid: {
+	        left: '3%',
+	        right: '4%',
+	        bottom: '3%',
+	        containLabel: true
+	    },
+	    xAxis : [
+	        {
+	            type : 'category',
+	            data : [],
+	            axisTick: {
+	                alignWithLabel: true
+	            }
+	        }
+	    ],
+	    yAxis : [
+	        {
+	            type : 'value'
+	        }
+	    ],
+	    series : [
+	        {
+	            name:'类别考试人数',
+	            type:'bar',
+	            barWidth: '60%',
+	            data:[]
+	        }
+	    ]
+	};
+
+	//图表二	
+	var Chart2 = echarts.init(document.getElementById('echarts2'));
+
+	option2 = {
+		color: ['#3398DB'],
+	    tooltip : {
+	        trigger: 'axis',
+	        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+	            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+	        }
+	    },
+	    grid: {
+	        left: '3%',
+	        right: '4%',
+	        bottom: '3%',
+	        containLabel: true
+	    },
+	    xAxis : [
+	        {
+	            type : 'category',
+	            data : [],
+	            axisTick: {
+	                alignWithLabel: true
+	            }
+	        }
+	    ],
+	    yAxis : [
+	        {
+	            type : 'value'
+	        }
+	    ],
+	    series : [
+	        {
+	            name:'类别考试平均成绩',
+	            type:'bar',
+	            barWidth: '60%',
+	            data:[]
+	        }
+	    ]
+	};
+
+	//图表三	
+	var Chart3 = echarts.init(document.getElementById('echarts3'));
+
+	option3 = {
+	    color: ['#003366', '#006699', '#4cabce', '#e5323e'],
+	    tooltip : {
+	        trigger: 'axis',
+	        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+	            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+	        }
+	    },
+	    legend: {
+	        data:[]
+	    },
+	    grid: {
+	        left: '3%',
+	        right: '4%',
+	        bottom: '3%',
+	        containLabel: true
+	    },
+	    xAxis : [
+	    	{
+	            type : 'category',
+	            axisTick : {show: false},
+	            data : []
+	        }
+	    	
+	    ],
+	    yAxis : [
+	    	{
+	            type : 'value'
+	        } 
+	    ],
+	    series : [
+	        {
+	            name:[],
+	            type:'bar',
+	            label: {
+	                normal: {
+	                    show: true,
+	                    position: 'inside'
+	                }
+	            },
+	            data:[]
+	        }
+	    ]
+	};
+>>>>>>> branch 'master' of https://github.com/lisen1226/ict_system.git
 </script>
 </html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - jqGird</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <!-- jqgrid-->
+    <link href="css/ui.jqgrid.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css?v=4.1.0" rel="stylesheet">
+    <style>
+        /* Additional style to fix warning dialog position */
+       /*  #alertmod_table_list_2 {
+            top: 900px !important;
+        } */
+    </style>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content  animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5>在此处查询自己考试情况</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <p>
+                            <strong>jqGrid</strong> 是一个用来显示网格数据的jQuery插件，文档比较全面，附带中文版本。访问 官网
+                        </p>
+                        <p>jqGrid的主要特点为：</p>
+                        <ol>
+                            <li>基于jquery UI主题，开发者可以根据客户要求更换不同的主题</li>
+                            <li>兼容目前所有流行的web浏览器</li>
+                            <li>Ajax分页，可以控制每页显示的记录数</li>
+                            <li>支持XML，JSON，数组形式的数据源</li>
+                            <li>提供丰富的选项配置及方法事件接口</li>
+                            <li>支持表格排序，支持拖动列、隐藏列</li>
+                            <li>支持滚动加载数据</li>
+                            <li>支持实时编辑保存数据内容</li>
+                            <li>支持子表格及树形表格</li>
+                            <li>支持多语言</li>
+                            <li>免费</li>
+                        </ol>
+                        <hr>
+                        <h4>基本示例</h4>
+
+                        <div class="jqGrid_wrapper">
+                            <table id="table_list_1"></table>
+                            <div id="pager_list_1"></div>
+                        </div>
+                        <p>&nbsp;</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="js/jquery-1.9.1.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <!-- Peity -->
+    <script src="js/jquery.peity.min.js"></script>
+    <!-- jqGrid -->
+    <script src="js/grid.locale-cn.js"></script>
+    <script src="js/jquery.jqGrid.min.js"></script>
+    <!-- Page-Level Scripts -->
+    <script>
+        $(document).ready(function () {
+
+            $.jgrid.defaults.styleUI = 'Bootstrap';
+            // Examle data for jqGrid
+              var mydata = [
+                {
+                    id: "1",
+                    testtime: "24",
+                    username: "24",
+                    accuracy: "24",
+                    testtype: "24",
+                    examType: "24"
+                    
+                },
+            ];  
+
+            // Configuration for jqGrid Example 1
+            $("#table_list_1").jqGrid({
+            	url:"/ExamByOne",
+                data: mydata,
+                datatype: "json",
+                height: 400,
+                autowidth: true,
+                shrinkToFit: true,
+                rowNum: 14,
+                rowList: [10, 20, 30],
+                colNames: ['序号', '考试时间', '分数', '考试类型', '题目类型'],
+                colModel: [
+                    {
+                        name: 'id',
+                        index: "id",
+                        width: 60,
+                        sorttype: "int"
+                    },
+                    {
+                        name: 'testtime',
+                        index: 'testTime',
+                        width: 90,
+                        sorttype: "int"
+                    },
+                    {
+                        name: 'accuracy',
+                        index: 'accuracy',
+                        width: 100
+                    },
+                    {
+                        name: 'testtype',
+                        index: 'testtype',
+                        width: 80,
+                        sorttype: "float"
+                    },
+                    {
+                    	 name: 'examtype',
+                         index: 'examtype',
+                         width: 100
+                    }
+                ],
+                pager: "#pager_list_1",
+                viewrecords: true,
+                caption: "jqGrid 示例1",
+                hidegrid: false
+            });
+
+            // Configuration for jqGrid Example 2
+            
+
+            // Add selection
+            $("#table_list_2").setSelection(4, true);
+
+            // Add responsive to jqGrid
+            $(window).bind('resize', function () {
+                var width = $('.jqGrid_wrapper').width();
+                $('#table_list_1').setGridWidth(width);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

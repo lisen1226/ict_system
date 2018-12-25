@@ -216,4 +216,11 @@ public class questionbankController {
 			return 0;
 		}
 	}
+	
+	//根据编号查询试题类型
+	@ResponseBody
+	@RequestMapping("/finalTypeByNum")
+	public ExaminationType finalTypeByNum(String typeNumber) {
+		return service.finalTypeByNum(typeNumber);
+	}
 }

@@ -36,15 +36,7 @@
 	</resultMap>
 	
 
-	<select id="selectAllTestType" resultMap="testType">
-		select * from
-		examination_type
-	</select>
 	
-	<select id="selectTestType" parameterType="String" resultType="java.lang.Integer">
-		SELECT COUNT(type_Number) FROM
-		examination_type WHERE type_Number=#{type}  
-	</select>
 
 	<!-- <select id="selectAllType" resultMap="String">
 		select type_Number from
@@ -75,12 +67,34 @@
 		examination_wrong1=#{examinationWrong1},examination_wrong2=#{examinationWrong2},
 		examination_wrong3=#{examinationWrong3} where id=#{id}
 	</update>
+	
+	
+	
+
+	
+	<select id="selectAllTestType" resultMap="testType">
+		select * from
+		examination_type
+	</select>
+	
+	<select id="finalTypeByNum" parameterType="String" resultMap="testType">
+		select * from
+		examination_type where type_Number=#{typeNumber}
+	</select>
+	
+	<select id="selectTestType" parameterType="String" resultType="java.lang.Integer">
+		SELECT COUNT(type_Number) FROM
+		examination_type WHERE type_Number=#{type}  
+	</select>
+	
 	<insert id="addType" parameterType="com.dhcc.pojo.Examination">
 		insert into examination_type(type_Number,type_Name) values(#{typeNumber},#{typeName})
 	</insert>
+	
 	<delete id="deleteType" parameterType="String">
 		DELETE FROM examination_type WHERE type_Number=#{typeNumber}
 	</delete> 
+	
 	<update id="updateType" parameterType="com.dhcc.pojo.ExaminationType">
 		update  examination_type  set type_Name=#{typeName} where type_Number=#{typeNumber}
 	</update>

@@ -163,18 +163,18 @@ public class ExaServiceimpl implements ExaService {
 		
 		return hint;
 	}
-
+	//根据id查询试题
 	@Override
 	public Examination updateFindExamin(Integer id) {
 		
 		return examinMap.updateFindExamin(id);
 	}
-
+	//修改试题
 	@Override
-	public int updateExamin(Examination record) {
+	public void updateExamin(Examination record) {
 		examinMap.updateExamin(record);
-		return 0;
 	}
+	
 	public List<Examination> change(List<Examination> list){
 		 List<ExaminationType> types= selectAllTestType();
 	        for(int i=0;i<list.size();i++) {
@@ -189,26 +189,32 @@ public class ExaServiceimpl implements ExaService {
 	        }
 	        return list;
 	}
-
+	//添加试题类型
 	@Override
-	public int addType(String typeName) {
+	public void addType(String typeName) {
 		Date now=new Date();
 		SimpleDateFormat f=new SimpleDateFormat("yyyyMMddHHmmss"+0);
 		examinationType.setTypeName(typeName);
 		examinationType.setTypeNumber(f.format(now));
 		examinMap.addType(examinationType);
-		return 0;
 	}
-
+	//删除试题类型
 	@Override
-	public int deleteType(String typeNumber) {
+	public void deleteType(String typeNumber) {
 		examinMap.deleteType(typeNumber);
-		return 0;
+		
 	}
-
+	//修改试题类型
 	@Override
-	public int updateType(ExaminationType examinationType) {
+	public void updateType(ExaminationType examinationType) {
+		System.out.println("---------------:"+examinationType.getTypeName()+"  "+examinationType.getTypeNumber());
 		examinMap.updateType(examinationType);
-		return 0;
+		
+	}
+	//根据试题类型编号查询试题类型
+	@Override
+	public ExaminationType finalTypeByNum(String typeNumber) {
+		
+		return examinMap.finalTypeByNum(typeNumber);
 	}
 }

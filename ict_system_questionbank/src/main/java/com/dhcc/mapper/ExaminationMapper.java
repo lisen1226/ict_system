@@ -23,4 +23,5 @@ public interface ExaminationMapper {
 	public int addType(ExaminationType examinationType);
 	public int deleteType(String typeNumber);
 	public int updateType(ExaminationType examinationType);
+	public ExaminationType finalTypeByNum(String typeNumber);
 }

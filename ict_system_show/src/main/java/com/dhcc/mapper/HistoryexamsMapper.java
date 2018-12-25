@@ -1,9 +1,11 @@
 package com.dhcc.mapper;
 
-import com.dhcc.pojo.Historyexams;
-import com.dhcc.pojo.HistoryexamsExample;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import com.dhcc.pojo.Historyexams;
+import com.dhcc.pojo.HistoryexamsExample;
 
 public interface HistoryexamsMapper {
     int countByExample(HistoryexamsExample example);
@@ -22,11 +24,7 @@ public interface HistoryexamsMapper {
     
     List selectAvgByTime(String date);
     
-<<<<<<< HEAD
-    List selectAccuracyByTime(@Param("date") String date,@Param("max") String max,@Param("min") String min);
-=======
     List selectAccuracyByTime(String date,String max,String min);
->>>>>>> branch 'master' of https://github.com/lisen1226/ict_system.git
 
     Historyexams selectByPrimaryKey(Integer id);
 

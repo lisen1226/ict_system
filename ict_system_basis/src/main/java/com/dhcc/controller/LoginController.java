@@ -2,11 +2,9 @@ package com.dhcc.controller;
 
 import java.net.HttpCookie;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.text.Document;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dhcc.pojo.Personnel;
 import com.dhcc.service.LoginService;
-import com.sun.research.ws.wadl.Response;
 
 @Controller
 public class LoginController {

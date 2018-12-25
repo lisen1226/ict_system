@@ -24,8 +24,7 @@ public class ExaServiceimpl implements ExaService {
 	ExaminationMapper examinMap;
 	@Autowired
 	Examination examin;
-	@Autowired
-	ExaminationType examinationType;
+	
 	//分页查询信息
 	@Override
 	public Map<String,Object> finalAll(int currPage,int pageSize,String examinationGenre) {
@@ -35,7 +34,6 @@ public class ExaServiceimpl implements ExaService {
         PageHelper.startPage(currPage, pageSize);
         //查询
         List<Examination> list = examinMap.finalAll(examinationGenre);
-        list=change(list);
         // 取分页信息
         PageInfo<Examination> pageInfo = new PageInfo<Examination>(list);
         //获取总记录数
@@ -46,6 +44,7 @@ public class ExaServiceimpl implements ExaService {
         }else {
         	total=total/pageSize+1;
         }
+       
         PageBean<Examination > bean=new PageBean<Examination>(num,total, list);
         map.put("PageBean", bean);
       
@@ -62,7 +61,6 @@ public class ExaServiceimpl implements ExaService {
         examin.setExaminationGenre(examinationGenre);
         examin.setExaminationType(type);
         List<Examination> list = examinMap.finalByType(examin);//查询
-        list=change(list);
         // 取分页信息
         PageInfo<Examination> pageInfo = new PageInfo<Examination>(list);
         Long total = pageInfo.getTotal(); //获取总记录数
@@ -102,119 +100,63 @@ public class ExaServiceimpl implements ExaService {
 		return examinMap.selectAllTestType();
 	}
 
-	//导入Excel文件
+	
 	@SuppressWarnings( "resource" )
-	public String importExaminExcel(MultipartFile myFile,int num) throws Exception {
+	public List<Integer> importExaminExcel(MultipartFile myFile) throws Exception {
 		Excel<Examination> excel=new Excel();
 		List lists=excel.importExcel(myFile);
 		int type=0;
-		String hint="第";
 		List<Integer> errors=new ArrayList<Integer>();
 		
 		for(int i=0;i<lists.size();i++) {
 			
 			List list= (List) lists.get(i);
-			if(list.size()==num) {
-				//System.out.println("type:"+list.get(1)+"  :"+list.size());
+			if(list.size()==7) {
+				System.out.println("type:"+list.get(1));
 				type=examinMap.selectTestType((String)list.get(1));
 				if(type==0) {
-					hint+=i+1+",";
-					
+					errors.add(i+1);
 				}
-				if(i==lists.size()-1&&!hint.equals("第")) {
-					hint=hint.substring(0,hint.length()-1);
-					hint+="条试题类型错误,请修改后重新导入";
-				}
-			} else {
-				hint="文件格式不符合上传要求,请使用模板上传数据";
+			}else {
+				errors.add(0);
+				return errors;
 			}
+			
 		}
-		
-		if("第".equals(hint)) {
+		if(errors.size()==0) {
 			for(int i=0;i<lists.size();i++) {
 				try {
 					List list= (List) lists.get(i);
 					Date now=new Date();
 					SimpleDateFormat f=new SimpleDateFormat((String)list.get(0)+(String)list.get(1)+"yyyyMMddHHmmss"+i);
-					if(num==7) {
-						examin.setExaminationNumber(f.format(now));
-						examin.setExaminationGenre((String)list.get(0));
-						examin.setExaminationType((String)list.get(1));
-						examin.setExaminationTitle((String)list.get(2));
-						examin.setExaminationRight((String)list.get(3));
-						examin.setExaminationWrong1((String)list.get(4));
-						examin.setExaminationWrong2((String)list.get(5));
-						examin.setExaminationWrong3((String)list.get(6));
-					}else {
-						examin.setExaminationNumber(f.format(now));
-						examin.setExaminationGenre((String)list.get(0));
-						examin.setExaminationType((String)list.get(1));
-						examin.setExaminationTitle((String)list.get(2));
-						examin.setExaminationRight((String)list.get(3));
-						examin.setExaminationWrong1((String)list.get(4));
-					}
+					examin.setExaminationNumber(f.format(now));
+					examin.setExaminationGenre((String)list.get(0));
+					examin.setExaminationType((String)list.get(1));
+					examin.setExaminationTitle((String)list.get(2));
+					examin.setExaminationRight((String)list.get(3));
+					examin.setExaminationWrong1((String)list.get(4));
+					examin.setExaminationWrong2((String)list.get(5));
+					examin.setExaminationWrong3((String)list.get(6));
 					examinMap.addExamin(examin);
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
 			}
-			hint="上传成功";
 		}
 		
-		return hint;
+		return errors;
 	}
-	//根据id查询试题
+
 	@Override
 	public Examination updateFindExamin(Integer id) {
 		
 		return examinMap.updateFindExamin(id);
 	}
-	//修改试题
+
 	@Override
-	public void updateExamin(Examination record) {
+	public int updateExamin(Examination record) {
 		examinMap.updateExamin(record);
+		return 0;
 	}
-	
-	public List<Examination> change(List<Examination> list){
-		 List<ExaminationType> types= selectAllTestType();
-	        for(int i=0;i<list.size();i++) {
-	        	for(int j=0;j<types.size();j++) {
-	        		if(types.get(j).getTypeNumber().equals(list.get(i).getExaminationType())) {
-	        			
-	        			examin=list.get(i);
-	        			examin.setExaminationType(types.get(j).getTypeName());
-	        			list.set(i, examin);
-	        		};
-	        	}	
-	        }
-	        return list;
-	}
-	//添加试题类型
-	@Override
-	public void addType(String typeName) {
-		Date now=new Date();
-		SimpleDateFormat f=new SimpleDateFormat("yyyyMMddHHmmss"+0);
-		examinationType.setTypeName(typeName);
-		examinationType.setTypeNumber(f.format(now));
-		examinMap.addType(examinationType);
-	}
-	//删除试题类型
-	@Override
-	public void deleteType(String typeNumber) {
-		examinMap.deleteType(typeNumber);
-		
-	}
-	//修改试题类型
-	@Override
-	public void updateType(ExaminationType examinationType) {
-		System.out.println("---------------:"+examinationType.getTypeName()+"  "+examinationType.getTypeNumber());
-		examinMap.updateType(examinationType);
-		
-	}
-	//根据试题类型编号查询试题类型
-	@Override
-	public ExaminationType finalTypeByNum(String typeNumber) {
-		
-		return examinMap.finalTypeByNum(typeNumber);
-	}
+
 }

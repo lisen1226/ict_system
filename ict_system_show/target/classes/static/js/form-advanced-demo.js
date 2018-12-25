@@ -196,12 +196,6 @@ $(document).ready(function () {
                 width: "95%"
             }
         }
-<<<<<<< HEAD
-        for (var selector in config) {
-            $(selector).chosen(config[selector]);
-        }
-=======
->>>>>>> branch 'master' of https://github.com/lisen1226/ict_system.git
 
         $("#ionrange_1").ionRangeSlider({
             min: 0,

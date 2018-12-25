@@ -1,23 +1,9 @@
 package com.dhcc.pojo;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class ExaminationType {
 	private int id;
 	private String typeNumber;
 	private String typeName;
-
-	
-	public ExaminationType() {
-		super();
-	}
-
-	public ExaminationType(String typeNumber, String typeName) {
-		super();
-		this.typeNumber = typeNumber;
-		this.typeName = typeName;
-	}
 
 	public int getId() {
 		return id;

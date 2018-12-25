@@ -240,17 +240,4 @@
       examType = #{examtype,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByUsername" parameterType="String" resultType="com.dhcc.pojo.Historyexams" >
-  	SELECT
-	  `id`,
-	  `username`,
-	  `testTime`,
-	  `uuid`,
-	  `accuracy`,
-	  `testType`,
-	  `examType`
-	FROM
-	  `historyexams`
-  	where username = #{username,jdbcType=VARCHAR}
-  </select>
 </mapper>

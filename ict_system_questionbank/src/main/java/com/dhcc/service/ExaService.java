@@ -15,11 +15,7 @@ public interface ExaService {
 	public void delectExaminById(Integer id);
 	public void addExamin(Examination record);
 	public List<ExaminationType> selectAllTestType();
-	public String importExaminExcel(MultipartFile myFile,int num) throws Exception ;
+	public List<Integer> importExaminExcel(MultipartFile myFile) throws Exception ;
 	public Examination updateFindExamin(Integer id);
-	public void updateExamin(Examination record) ;
-	public void addType(String typeName);
-	public void deleteType(String typeNumber);
-	public void updateType(ExaminationType examinationType);
-	public ExaminationType finalTypeByNum(String typeNumber);
+	public int updateExamin(Examination record) ;
 }

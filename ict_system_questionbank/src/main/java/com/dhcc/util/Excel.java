@@ -52,9 +52,9 @@ public class Excel<T> {
 			throw new ELException("请写入数据");
 		}
 		List lists=new ArrayList();
-		Row firstRow=sheet.getRow(1);//获取表头
+		Row firstRow=sheet.getRow(0);//获取表头
 		int columnNum=firstRow.getPhysicalNumberOfCells();//获取表列数
-		for(int i=2;i<=rows+1;i++) {
+		for(int i=1;i<=rows+1;i++) {
 			Row row=sheet.getRow(i);
 			List list=new ArrayList();
 			if(row!=null) {

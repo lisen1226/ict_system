@@ -6,10 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +15,8 @@ import org.springframework.web.client.RestTemplate;
 import com.dhcc.mapper.HistoryexamsMapper;
 
 @Controller
-
+@ResponseBody
 public class historyexamsController {
-	
-	@Autowired
-	private HistoryexamsMapper historyexamsMapper;
-	
 	@Autowired
 	private HistoryexamsMapper historyexamsMapper;
 	
@@ -32,13 +24,11 @@ public class historyexamsController {
 	private RestTemplate restTemplate;
 	
 	@RequestMapping(value="/show")
-	
 	public String show() {
-		return "exem_tongji";
+		return "index";
 	}
 	
 	@RequestMapping(value="/index")
-	@ResponseBody
 	public String returnIndex() {
 		System.out.println("qqq");
 		return this.restTemplate.getForObject("http://ict-system-basis/", String.class);
@@ -51,7 +41,7 @@ public class historyexamsController {
 	@ResponseBody
 	public List selectNumber1(String date) {
 		String time = null;
-		if("-".equals(date.charAt(6))) {
+		if("-".equals(String.valueOf(date.charAt(6)))) {
 			time = date.substring(0, 5);
 		}else {
 			time = date.substring(0, 6);
@@ -60,45 +50,12 @@ public class historyexamsController {
 		return data;
 	}
 	
-<<<<<<< HEAD
-	
-	@RequestMapping(value="/select1")
-	@ResponseBody
-	public List selectNumber1() {
-		String date = "2018-10";
-		List data1 = historyexamsMapper.selectByTime(date);
-		return data1;
-	}
-	
-	@RequestMapping(value="/select2")
-	@ResponseBody
-	public List selectNumber2() {
-		String date = "2018-10";
-		List data2 = historyexamsMapper.selectAvgByTime(date);
-		return data2;
-	}
-	
-	@RequestMapping(value="/select3")
-	@ResponseBody
-	public List selectNumber3() {
-		String date = "2018-10";
-		String max = "100";
-		String min = "80";
-		List data3 = historyexamsMapper.selectAccuracyByTime(date, max, min);
-		System.out.println("aaa");
-		for (Object object : data3) {
-			System.out.println(object.toString());
-		}
-		return data3;
-	}
-	
-=======
 	/*echarts2*/
 	@RequestMapping(value="/select_echarts2")
 	@ResponseBody
 	public List selectNumber2(String date) {
 		String time = null;
-		if("-".equals(date.charAt(6))) {
+		if("-".equals(String.valueOf(date.charAt(6)))) {
 			time = date.substring(0, 5);
 		}else {
 			time = date.substring(0, 6);
@@ -112,7 +69,7 @@ public class historyexamsController {
 	@ResponseBody
 	public Map selectNumber3(String date) {
 		String time = null;
-		if("-".equals(date.charAt(6))) {
+		if("-".equals(String.valueOf(date.charAt(6)))) {
 			time = date.substring(0, 6);
 		}else {
 			time = date.substring(0, 7);
@@ -145,5 +102,4 @@ public class historyexamsController {
 		
 		return data;
 	}
->>>>>>> branch 'master' of https://github.com/lisen1226/ict_system.git
 }

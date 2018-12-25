@@ -17,7 +17,11 @@ public class ShowExamServiceImpo implements ShowExamService {
 
 	@Override
 	public List<Historyexams> showToOne(String username) {
-		List<Historyexams> list = historyexamsMapper.selectByUsername(username);
+		HistoryexamsExample example = new HistoryexamsExample();
+		Historyexams historyexams = new Historyexams();
+		example.createCriteria().andUsernameEqualTo(username);
+		example.setOrderByClause(historyexams.getTesttime());
+		List<Historyexams> list = historyexamsMapper.selectByExample(example);
 		return list;
 	}
 

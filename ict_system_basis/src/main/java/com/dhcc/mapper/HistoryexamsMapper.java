@@ -7,8 +7,6 @@ import org.apache.ibatis.annotations.Param;
 
 public interface HistoryexamsMapper {
 	
-	List<Historyexams> selectByUsername(String username);
-	
     int countByExample(HistoryexamsExample example);
 
     int deleteByExample(HistoryexamsExample example);

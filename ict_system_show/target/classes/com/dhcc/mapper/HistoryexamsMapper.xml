@@ -284,17 +284,10 @@
   <!-- 根据时间按考试类别统计考试人数 -->
   <select id="selectAccuracyByTime" resultMap="eaxmNumberResult" parameterType="java.lang.String" >
     select
-<<<<<<< HEAD
-    count(username) num,testType
-    from historyexams
-    <where>
-    	testtime like "%"#{date,jdbcType=VARCHAR}"%" and #{min,jdbcType=VARCHAR} <![CDATA[ <= ]]> accuracy <![CDATA[ <= ]]> #{max,jdbcType=VARCHAR}
-=======
     count(testType) num,testType
     from historyexams
     <where>
     	testtime like "%"#{date,jdbcType=VARCHAR}"%" and accuracy between #{min,jdbcType=VARCHAR} and #{max,jdbcType=VARCHAR}
->>>>>>> branch 'master' of https://github.com/lisen1226/ict_system.git
     </where>
     group by testType
   </select>

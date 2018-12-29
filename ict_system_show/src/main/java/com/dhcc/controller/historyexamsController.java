@@ -15,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 import com.dhcc.mapper.HistoryexamsMapper;
 
 @Controller
-@ResponseBody
 public class historyexamsController {
 	@Autowired
 	private HistoryexamsMapper historyexamsMapper;
@@ -25,7 +24,7 @@ public class historyexamsController {
 	
 	@RequestMapping(value="/show")
 	public String show() {
-		return "index";
+		return "exem_tongji";
 	}
 	
 	@RequestMapping(value="/index")
@@ -78,27 +77,18 @@ public class historyexamsController {
 		
 	
 		
-		List data9 = historyexamsMapper.selectAccuracyByTime(time, "100", "90");
-		List data8 = historyexamsMapper.selectAccuracyByTime(time, "90", "80");
-		List data7 = historyexamsMapper.selectAccuracyByTime(time, "80", "70");
-		List data6 = historyexamsMapper.selectAccuracyByTime(time, "80", "60");
-		List data5 = historyexamsMapper.selectAccuracyByTime(time, "60", "50");
-		List data4 = historyexamsMapper.selectAccuracyByTime(time, "50", "40");
-		List data3 = historyexamsMapper.selectAccuracyByTime(time, "40", "30");
-		List data2 = historyexamsMapper.selectAccuracyByTime(time, "30", "20");
-		List data1 = historyexamsMapper.selectAccuracyByTime(time, "20", "10");
-		List data0 = historyexamsMapper.selectAccuracyByTime(time, "10", "0");
+		List data4 = historyexamsMapper.selectAccuracyByTime(time, 91, 100);
+		List data3 = historyexamsMapper.selectAccuracyByTime(time, 81, 90);
+		List data2 = historyexamsMapper.selectAccuracyByTime(time, 71, 80);
+		List data1 = historyexamsMapper.selectAccuracyByTime(time, 61, 70);
+		List data0 = historyexamsMapper.selectAccuracyByTime(time, 0, 60);
+
 		Map data = new HashMap<>();
-		data.put("zero", data0);
-		data.put("one", data1);
-		data.put("two", data2);
-		data.put("three", data3);
-		data.put("four", data4);
-		data.put("five", data5);
-		data.put("six", data6);
-		data.put("seven", data7);
-		data.put("eight", data8);
-		data.put("nine", data9);
+		data.put("sixty", data0);
+		data.put("seventy", data1);
+		data.put("eighty", data2);
+		data.put("ninety", data3);
+		data.put("hundred", data4);
 		
 		return data;
 	}

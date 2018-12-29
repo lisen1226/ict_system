@@ -8,12 +8,11 @@ import org.springframework.web.client.RestTemplate;
 
 @Controller
 public class basisController {
-	
-	/*@Controller
-	@ResponseBody
+	@Autowired
+	private RestTemplate restTemplate;
+	/*@ResponseBody
 	public class historyexamsController {
-		@Autowired
-		private RestTemplate restTemplate;
+		
 		
 		@RequestMapping(value="/show")
 		public String show() {
@@ -26,4 +25,15 @@ public class basisController {
 			return this.restTemplate.getForObject("http://ict-system-basis/", String.class);
 		}
 	}*/
+	
+	@RequestMapping("/exama")
+	public String eaxm() {
+		return "html/exam";
+	}
+	
+	@RequestMapping("/skilltest")
+	@ResponseBody
+	public String skillTest() {
+		return this.restTemplate.getForObject("http://ict-system-skilltest/"+"showAllExams", String.class);
+	}
 }

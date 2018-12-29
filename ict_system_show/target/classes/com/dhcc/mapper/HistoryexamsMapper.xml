@@ -258,7 +258,7 @@
   <!-- 根据时间按考试类别统计考试人数 -->
   <select id="selectByTime" resultMap="eaxmNumberResult" parameterType="java.lang.String" >
     select
-    count(testType) num,testType
+    count(testType) num,testType name
     from historyexams
     <where>
     	testtime like "%"#{date,jdbcType=VARCHAR}"%"
@@ -287,7 +287,7 @@
     count(testType) num,testType
     from historyexams
     <where>
-    	testtime like "%"#{date,jdbcType=VARCHAR}"%" and accuracy between #{min,jdbcType=VARCHAR} and #{max,jdbcType=VARCHAR}
+    	testtime like "%"#{date,jdbcType=VARCHAR}"%" and (accuracy between #{min,jdbcType=INTEGER} and #{max,jdbcType=INTEGER})
     </where>
     group by testType
   </select>

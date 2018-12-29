@@ -32,4 +32,6 @@ public class ShowExamControllor {
 		List<Historyexams> list = showExamService.showToOne("24");
 		return list;
 	}
+	
+	
 }

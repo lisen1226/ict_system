@@ -1,0 +1,166 @@
+
+*{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	outline: none;
+	text-decoration: none;
+}
+
+/* iconfont */
+.icon {
+   width: 1em; height: 1em;
+   vertical-align: -0.15em;
+   fill: currentColor;
+   overflow: hidden;
+}
+
+a:hover{
+	text-decoration: none;
+}
+
+
+/* 头部 */
+
+header{
+	background:  #337ab7;
+	padding: 10px 20px;
+	height: 91px;
+}
+.head-title{
+	float: left;
+	color: #fff;
+}
+.exam-time{
+	float: right;
+	background: #fff;
+	border-radius: 24px;
+	padding: 5px 15px;
+	margin-top: 20px;
+	font-size: 20px;
+
+}
+.time-icon{
+	font-size: 28px;
+	margin-right: 5px;
+}
+/* 考题部分 */
+.exam-paper-con{
+	width: 100%;
+	position: fixed;
+	left: 0;
+	top: 91px;
+	height: calc(100% - 91px);
+	display: flex;
+	flex-wrap: wrap;
+}
+.current{
+	background: #337ab7;
+	color: #fff;
+}
+
+/* 左边部分 */
+.exam-paper-left{
+	width: 30%;
+	max-width: 380px;
+	min-width: 280px;
+	/* margin: 0 auto; */
+	height: 100%;
+	box-shadow: 3px 0px 5px rgba(0, 0, 0, .2);
+	padding: 20px;
+	overflow: auto;
+}
+.exam-paper-left h2{
+	width: 100%;
+	color:  #3287ff;
+}
+.examinne-info{
+	width: 100%;
+	display: block;
+	overflow: hidden;
+}
+.examinne-info>p{
+	font-size: 18px;
+}
+.scantron{
+	width: 100%;
+}
+.scantron ol{
+	display: flex;
+	flex-wrap: wrap;
+    width: 90%;
+}
+.scantron ol>li{
+	width: 25px;
+	height: 25px;
+	margin: 5px;
+	text-align: center;
+	line-height: 25px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+	cursor: pointer;
+}
+.dart .add-icon{
+	display: none;
+}
+.tfng .sub-icon,.mcq .sub-icon{
+	display: none;
+}
+.scantron>.tfng .scantron-num,.scantron>.mcq .scantron-num{
+	display: none;
+}
+.scantron-icon{
+	cursor: pointer;
+}
+/* 右边部分 */
+.exam-question{
+	width: 68%;
+	padding-left: 10px;
+	background: #fff;
+	position: relative;
+}
+
+.exam-question>form{
+	
+	padding: 15px;
+	
+}
+.exam-question fieldset{
+	margin-bottom: 15px;
+
+	overflow: hidden;
+}
+.exam-question .submit-paper{
+	width: 100px;
+	height: 45px;
+	padding: 6px 12px;
+	background-color:  #00aeee;
+	border-radius: 6px;
+	border: 1px solid #00aeee;
+	color: #fff;
+	font-size: 18px;
+	margin-bottom: 20px;
+	margin-right: 15px;
+	text-align: center;
+	cursor: pointer;
+	position: absolute;
+	
+	bottom: 30px;
+}
+.exam-question fieldset>input{
+	margin:0px 10px;
+	width: 15px;
+	height: 15px;
+	vertical-align: middle;
+}
+.exam-question .pre{
+	left: 50px;
+}
+.exam-question .next{
+	left: 170px;
+}
+.exam-question-num{
+	display: none;
+}
+
+
+

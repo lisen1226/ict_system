@@ -1,11 +1,5 @@
 package com.dhcc.pojo;
 
-/**
- * 试题类型（JAVA题、C语言题）
- * 
- * @author 刘兆辉
- *
- */
 public class ExaminationType {
 	private int id;
 	private String typeNumber;

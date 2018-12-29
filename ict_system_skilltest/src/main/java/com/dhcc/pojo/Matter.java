@@ -5,15 +5,6 @@ public class Matter {
 	private String type;
 	private int fraction;
 	private int number;
-	private String people;
-
-	public String getPeople() {
-		return people;
-	}
-
-	public void setPeople(String people) {
-		this.people = people;
-	}
 
 	public int getFraction() {
 		return fraction;

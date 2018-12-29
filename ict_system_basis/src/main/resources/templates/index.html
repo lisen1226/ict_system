@@ -95,18 +95,17 @@
 				<!-- 登录 -->
 				<aside class="login-right animated fadeInRight">
 
-					<form action="" method="post" class="login-form">
+					<form action="jump_login" method="post" class="login-form">
 						<label for="">用户名：<sub>*</sub></label><br>
-						<input type="text" name="userName" placeholder="用户名..."><br>
+						<input type="text" name="userName" placeholder="用户名/手机登陆..."><br>
 						<label for="">密码：<sub>*</sub></label><br>
-						<input type="password"
-						name="password" placeholder="密码..."><br>
+						<input type="password" name="password" placeholder="密码..."><br>
 						<fieldset class="find-back clearfix">
-							<input type="checkbox" checked value="true">记住我
+							<input type="checkbox" checked value="true" name="remestatus">记住我
 							<span>找回密码</span>
 						</fieldset>
 						<input type="submit" class="register-btn login-btn" value="登录">
-						
+						<span id = "massagetip" th:text="${msg}" style="color: red"></span>
 					</form>
 					<p class="reg-text">还没有账号？注册</p>
 				</aside>
@@ -115,33 +114,35 @@
 				<!-- 注册 -->
 
 				<aside class="register-right animated fadeInRight">
-					<form action="#" method="post" class="register-form" onsubmit="return prevent()">
+					<form action="jump_regist" method="post" class="register-form" onsubmit="return prevent()">
 						<fieldset>
 							<label>姓名：<sub>*</sub></label><br />
-							<input type="text" value="" placeholder="姓名..."  class="non-null" />
+							<input id="uname" type="text" value="" placeholder="姓名..."  class="non-null" name="uname" />
 							<span class="glyphicon glyphicon-remove-sign remove input-icon"></span>
 							<span class="glyphicon glyphicon-ok-sign ok-sign input-icon"></span>
 						</fieldset>
 						<fieldset>
 							
 							<label>账号：<sub>*</sub></label><br />
-							<input type="text" placeholder="账号..."  class="non-null" />
+							<input id="unumber" type="text" placeholder="账号..."  class="unumber-num" name="unumber" />
 							<span class="glyphicon glyphicon-remove-sign remove input-icon"></span>
 							<span class="glyphicon glyphicon-ok-sign ok-sign input-icon"></span>
+							<span id = "unumber_tesulttip"  style="color: red"></span>
 						</fieldset>
 						<fieldset>
 							<label>密码：<sub>*</sub></label><br />
-							<input type="password" placeholder="密码..."  class="non-null" />
+							<input id="password" type="password" placeholder="密码..."  class="non-null" name="password" />
 							<span class="glyphicon glyphicon-remove-sign remove input-icon"></span>
 							<span class="glyphicon glyphicon-ok-sign ok-sign input-icon"></span>
 						</fieldset>
 						<fieldset>
 							<label>手机：<sub>*</sub></label><br />
-							<input type="text" placeholder="手机..." class="phone-num" />
+							<input id="phone" type="text" placeholder="手机..." class="phone-num" name="phone" />
 							<span class="glyphicon glyphicon-remove-sign remove input-icon"></span>
 							<span class="glyphicon glyphicon-ok-sign ok-sign input-icon"></span>
+							<span id = "phone_tesulttip" style="color: red"></span>
 						</fieldset>
-
+						
 						<input type="submit" class="register-btn" value="注册">
 					</form>
 					<p class="reg-text">已有账号？登录</p>
@@ -200,10 +201,10 @@
 			
 		</section>
 		<footer>
-			
 		</footer>
-
+ 
 
 		<script src="js/index.js"></script>
+		<script type="text/javascript" src="js/gzc.js"></script>
 	</body>
 </html>

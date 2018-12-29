@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.dhcc.mapper.ExaminationMapper">
+	<resultMap id="BaseResultMap"
+		type="com.dhcc.pojo.Examination">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="examination_number"
+			property="examinationNumber" jdbcType="VARCHAR" />
+		<result column="examination_type" property="examinationType"
+			jdbcType="VARCHAR" />
+		<result column="examination_title" property="examinationTitle"
+			jdbcType="VARCHAR" />
+		<result column="examination_answer1" 
+			property="examinationAnswer1" jdbcType="VARCHAR" />
+			
+		<result column="examination_answer2"
+			property="examinationAnswer2" jdbcType="VARCHAR" />
+			
+		<result column="examination_answer3"
+			property="examinationAnswer3" jdbcType="VARCHAR" />
+			
+		<result column="examination_answer4"
+			property="examinationAnswer4" jdbcType="VARCHAR" />
+			
+		<result column="examination_correct"
+			property="examinationCorrect" jdbcType="VARCHAR" />	
+		<result column="examination_complexity"
+			property="examinationComplexity" jdbcType="VARCHAR" />
+		
+
+		
+	</resultMap>
+
+	<resultMap id="testType" type="com.dhcc.pojo.ExaminationType">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="type_Number" property="typeNumber"
+			jdbcType="VARCHAR" />
+		<result column="type_Name" property="typeName"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	
+
+	<select id="selectAllTestType" resultMap="testType">
+		select * from
+		examination_type
+	</select>
+	
+	<select id="selectTestType" parameterType="String" resultType="java.lang.Integer">
+		SELECT COUNT(type_Number) FROM
+		examination_type WHERE type_Number=#{type}  
+	</select>
+
+	<!-- <select id="selectAllType" resultMap="String">
+		select type_Number from
+		examination_type
+	</select> -->
+	
+	<!-- 根据类型查询数据 -->	
+	<select  id="finalByType" parameterType="com.dhcc.pojo.Examination" resultMap="BaseResultMap">
+	  SELECT * FROM examination where examination_type =#{examinationType}
+	</select>
+	
+	<!-- 修改前显示数据 -->
+	<select  id="updateFindExamin" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	  SELECT * FROM examination where id=#{id}
+	</select>
+	
+	
+	<!-- 查询所有数据 -->
+	<select  id="finalAllExamination"  resultMap="BaseResultMap">
+		SELECT * FROM examination
+	</select>
+	
+	
+	<!-- 根据id删除数据 -->
+	<delete id="delectExaminById" parameterType="java.lang.Integer">
+		DELETE FROM examination WHERE id=#{num}
+	</delete> 
+	
+	<!-- 添加数据 -->
+	<insert id="addExamin" parameterType="com.dhcc.pojo.Examination">
+		insert into examination(examination_number,examination_type,examination_title,examination_answer1,examination_answer2,examination_answer3,examination_answer4,examination_correct,examination_complexity) values(#{examinationNumber},#{examinationType},#{examinationTitle},#{examinationAnswer1},#{examinationAnswer2},#{examinationAnswer3},#{examinationAnswer4},#{examinationCorrect},#{examinationComplexity})
+	</insert>
+	
+	<!-- 修改数据 -->
+	<update id="updateExamin" parameterType="com.dhcc.pojo.Examination">
+		update  examination  set examination_type=#{examinationType},
+		examination_title=#{examinationTitle},examination_answer1=#{examinationAnswer1},
+		examination_answer2=#{examinationAnswer2},examination_answer3=#{examinationAnswer3},
+		examination_answer4=#{examinationAnswer4},examination_correct=#{examinationCorrect},
+		examination_complexity=#{examinationComplexity} where id=#{id}
+	</update>
+<<<<<<< HEAD
+	
+	
+	
+
+	<!-- 查询所有题目类型 -->
+	<select id="selectAllTestType" resultMap="testType">
+		select * from
+		examination_type
+	</select>
+	
+	
+	<!-- 根据编号查询类型 -->
+	<select id="finalTypeByNum" parameterType="String" resultMap="testType">
+		select * from
+		examination_type where type_Number=#{typeNumber}
+	</select>
+	
+	
+	<!-- 根据编号查询类型 个数 -->
+	<select id="selectTestType" parameterType="String" resultType="java.lang.Integer">
+		SELECT COUNT(type_Number) FROM
+		examination_type WHERE type_Number=#{type}  
+	</select>
+	
+	<!-- 添加类型  -->
+	<insert id="addType" parameterType="com.dhcc.pojo.Examination">
+		insert into examination_type(type_Number,type_Name) values(#{typeNumber},#{typeName})
+	</insert>
+	
+	<!-- 删除类型  -->
+	<delete id="deleteType" parameterType="String">
+		DELETE FROM examination_type WHERE type_Number=#{typeNumber}
+	</delete> 
+	
+	<!-- 修改类型 -->
+	<update id="updateType" parameterType="com.dhcc.pojo.ExaminationType">
+		update  examination_type  set type_Name=#{typeName} where type_Number=#{typeNumber}
+	</update>
+=======
+>>>>>>> branch 'master' of https://github.com/lisen1226/ict_system.git
+</mapper>

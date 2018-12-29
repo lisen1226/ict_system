@@ -6,7 +6,7 @@ public class PageBean<T> {
 	 // 当前页
     private Integer currentPage;
     // 每页显示的总条数
-    private Integer pageSize;
+    private Integer pageSize=20;
     
     //总记录条数
     private Long totalNum;

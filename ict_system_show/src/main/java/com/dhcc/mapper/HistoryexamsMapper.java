@@ -2,8 +2,6 @@ package com.dhcc.mapper;
 
 
 import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.annotations.Param;
 
 import com.dhcc.pojo.Historyexams;
@@ -26,7 +24,7 @@ public interface HistoryexamsMapper {
     
     List selectAvgByTime(String date);
     
-    List selectAccuracyByTime( @Param("date") String date,@Param("min") int min,@Param("max") int max);
+    List selectAccuracyByTime(String date,String max,String min);
 
     Historyexams selectByPrimaryKey(Integer id);
 

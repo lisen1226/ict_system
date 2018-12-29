@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhcc.mapper.ShortAnswerMapper">
+  <resultMap id="BaseResultMap" type="com.dhcc.pojo.ShortAnswer">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="short_answer_number" jdbcType="VARCHAR" property="shortAnswerNumber" />
+    <result column="short_answer_type" jdbcType="VARCHAR" property="shortAnswerType" />
+    <result column="short_answer_title" jdbcType="VARCHAR" property="shortAnswerTitle" />
+    <result column="short_answer_correct" jdbcType="VARCHAR" property="shortAnswerCorrect" />
+    <result column="short_answer_complexity" jdbcType="VARCHAR" property="shortAnswerComplexity" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, short_answer_number, short_answer_type, short_answer_title, short_answer_correct, 
+    short_answer_complexity
+  </sql>
+  <select id="selectByExample" parameterType="com.dhcc.pojo.ShortAnswerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from short_answer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.dhcc.pojo.ShortAnswerExample">
+    delete from short_answer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dhcc.pojo.ShortAnswer">
+    insert into short_answer (id, short_answer_number, short_answer_type, 
+      short_answer_title, short_answer_correct, short_answer_complexity
+      )
+    values (#{id,jdbcType=INTEGER}, #{shortAnswerNumber,jdbcType=VARCHAR}, #{shortAnswerType,jdbcType=VARCHAR}, 
+      #{shortAnswerTitle,jdbcType=VARCHAR}, #{shortAnswerCorrect,jdbcType=VARCHAR}, #{shortAnswerComplexity,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dhcc.pojo.ShortAnswer">
+    insert into short_answer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="shortAnswerNumber != null">
+        short_answer_number,
+      </if>
+      <if test="shortAnswerType != null">
+        short_answer_type,
+      </if>
+      <if test="shortAnswerTitle != null">
+        short_answer_title,
+      </if>
+      <if test="shortAnswerCorrect != null">
+        short_answer_correct,
+      </if>
+      <if test="shortAnswerComplexity != null">
+        short_answer_complexity,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="shortAnswerNumber != null">
+        #{shortAnswerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="shortAnswerType != null">
+        #{shortAnswerType,jdbcType=VARCHAR},
+      </if>
+      <if test="shortAnswerTitle != null">
+        #{shortAnswerTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="shortAnswerCorrect != null">
+        #{shortAnswerCorrect,jdbcType=VARCHAR},
+      </if>
+      <if test="shortAnswerComplexity != null">
+        #{shortAnswerComplexity,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dhcc.pojo.ShortAnswerExample" resultType="java.lang.Long">
+    select count(*) from short_answer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update short_answer
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.shortAnswerNumber != null">
+        short_answer_number = #{record.shortAnswerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shortAnswerType != null">
+        short_answer_type = #{record.shortAnswerType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shortAnswerTitle != null">
+        short_answer_title = #{record.shortAnswerTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shortAnswerCorrect != null">
+        short_answer_correct = #{record.shortAnswerCorrect,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shortAnswerComplexity != null">
+        short_answer_complexity = #{record.shortAnswerComplexity,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update short_answer
+    set id = #{record.id,jdbcType=INTEGER},
+      short_answer_number = #{record.shortAnswerNumber,jdbcType=VARCHAR},
+      short_answer_type = #{record.shortAnswerType,jdbcType=VARCHAR},
+      short_answer_title = #{record.shortAnswerTitle,jdbcType=VARCHAR},
+      short_answer_correct = #{record.shortAnswerCorrect,jdbcType=VARCHAR},
+      short_answer_complexity = #{record.shortAnswerComplexity,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+   <select id="finalShort" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select * from  short_answer where id=#{id}
+  </select>
+</mapper>

@@ -1,5 +1,6 @@
 package com.dhcc.controller;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dhcc.pojo.ExamTem;
+import com.dhcc.pojo.ExamType;
 import com.dhcc.pojo.ExaminationType;
 import com.dhcc.pojo.Exams;
 import com.dhcc.pojo.Matter;
@@ -19,6 +22,9 @@ import com.dhcc.pojo.Person;
 import com.dhcc.pojo.Subject;
 import com.dhcc.pojo.TestType;
 import com.dhcc.service.ExaminationService;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class ExaminationController {
@@ -27,7 +33,7 @@ public class ExaminationController {
 	private ExaminationService examService;
 
 	// 根据用户 查出权限 返回对应权限全部的考试信息
-	@RequestMapping("/showAllExams")
+	@RequestMapping("showAllExams")
 	public ModelAndView showAllExams() {
 		ModelAndView mv = new ModelAndView("all_exams");
 		String per = "1"; // 权限 应根据用户查询
@@ -70,26 +76,25 @@ public class ExaminationController {
 		List<Subject> exams = examService.selectByTypeAndNumber(examType, matters);
 		return exams;
 	}
-	
+
 	// 根据类型出卷
-		@RequestMapping("showBasicTest1")
-		public ModelAndView showBasicTest1(HttpSession session, String examid) {
-			ModelAndView mv = new ModelAndView("test_paper3");
- 
-			/**
-			 * 查出该用户所对应的出题类型
-			 */
-			String examType = "00";
-			// 查出出题标准
-			List<Matter> matters = examService.selectMatters(examid);
-			// 根据标准进行随机抽题
-			List<Subject> exams = examService.selectByTypeAndNumber(examType, matters);
-			mv.addObject("exams", exams);
-			mv.addObject("examid", examid);
-			return mv;
-		}
-	
-	
+	@RequestMapping("showBasicTest1")
+	public ModelAndView showBasicTest1(HttpSession session, String examid) {
+		ModelAndView mv = new ModelAndView("test_paper3");
+
+		/**
+		 * 查出该用户所对应的出题类型
+		 */
+		String examType = "00";
+		// 查出出题标准
+		List<Matter> matters = examService.selectMatters(examid);
+		// 根据标准进行随机抽题
+		List<Subject> exams = examService.selectByTypeAndNumber(examType, matters);
+		mv.addObject("exams", exams);
+		mv.addObject("examid", examid);
+		return mv;
+	}
+
 	// 根据类型出卷
 	@RequestMapping(value = "showBasicTest", produces = "text/html;charset=UTF-8")
 	public ModelAndView showBasicTest(HttpSession session, String examid) {
@@ -135,6 +140,61 @@ public class ExaminationController {
 		Person p = (Person) session.getAttribute("person");
 		String accuracy = examService.dealExam("xiaoming", map, examid);
 		out.print(accuracy);
+
+	}
+
+	// 管理试卷
+	@RequestMapping("examsManage")
+	public ModelAndView examsManage() {
+		ModelAndView mv = new ModelAndView("exams_manage");
+		String per = "1"; // 权限 应根据用户查询
+		List<Exams> exams = examService.selectAllExamsByPer(per);
+		List<ExaminationType> examTypes = examService.selectAllTestType();
+		List<TestType> types = examService.selectAllType();
+		mv.addObject("examTypes", examTypes);
+		mv.addObject("types", types);
+		mv.addObject("exams", exams);
+		return mv;
+	}
+
+	// 显示考试模板页面
+	@RequestMapping("showExamsTems")
+	public ModelAndView showExamsTems() {
+		ModelAndView mv = new ModelAndView("exams_templates");
+		List<ExamTem> examTems = examService.selectAllExamTems();
+		mv.addObject("tems", examTems);
+		return mv;
+	}
+
+	@RequestMapping("showExamsManage")
+	public ModelAndView showExamsManage() {
+		ModelAndView mv = new ModelAndView("new_exam");
+		List<ExaminationType> examTypes = examService.selectAllTestType();
+		List<ExamType> examType = examService.selectAllExamTypes();
+		mv.addObject("examType", examType);
+		mv.addObject("examTypes", examTypes);
+		return mv;
+	}
+
+	@RequestMapping("saveExam")
+	public void saveExam(String exam, PrintWriter out) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			Exams exams = mapper.readValue(exam, Exams.class);
+
+			// 获取出题人
+			exams.setExamVia("出题人");
+			out.print(examService.saveExam(exams));
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

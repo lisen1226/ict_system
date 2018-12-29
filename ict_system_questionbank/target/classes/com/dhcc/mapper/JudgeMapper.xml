@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhcc.mapper.JudgeMapper">
+  <resultMap id="BaseResultMap" type="com.dhcc.pojo.Judge">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="judge_number" jdbcType="VARCHAR" property="judgeNumber" />
+    <result column="judge_type" jdbcType="VARCHAR" property="judgeType" />
+    <result column="judge_title" jdbcType="VARCHAR" property="judgeTitle" />
+    <result column="judge_correct" jdbcType="VARCHAR" property="judgeCorrect" />
+    <result column="judge_complexity" jdbcType="VARCHAR" property="judgeComplexity" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, judge_number, judge_type, judge_title, judge_correct, judge_complexity
+  </sql>
+  <select id="selectByExample" parameterType="com.dhcc.pojo.JudgeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from judge
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.dhcc.pojo.JudgeExample">
+    delete from judge
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dhcc.pojo.Judge">
+    insert into judge (id, judge_number, judge_type, 
+      judge_title, judge_correct, judge_complexity
+      )
+    values (#{id,jdbcType=INTEGER}, #{judgeNumber,jdbcType=VARCHAR}, #{judgeType,jdbcType=VARCHAR}, 
+      #{judgeTitle,jdbcType=VARCHAR}, #{judgeCorrect,jdbcType=VARCHAR}, #{judgeComplexity,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dhcc.pojo.Judge">
+    insert into judge
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="judgeNumber != null">
+        judge_number,
+      </if>
+      <if test="judgeType != null">
+        judge_type,
+      </if>
+      <if test="judgeTitle != null">
+        judge_title,
+      </if>
+      <if test="judgeCorrect != null">
+        judge_correct,
+      </if>
+      <if test="judgeComplexity != null">
+        judge_complexity,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="judgeNumber != null">
+        #{judgeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="judgeType != null">
+        #{judgeType,jdbcType=VARCHAR},
+      </if>
+      <if test="judgeTitle != null">
+        #{judgeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="judgeCorrect != null">
+        #{judgeCorrect,jdbcType=VARCHAR},
+      </if>
+      <if test="judgeComplexity != null">
+        #{judgeComplexity,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dhcc.pojo.JudgeExample" resultType="java.lang.Long">
+    select count(*) from judge
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update judge
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.judgeNumber != null">
+        judge_number = #{record.judgeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.judgeType != null">
+        judge_type = #{record.judgeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.judgeTitle != null">
+        judge_title = #{record.judgeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.judgeCorrect != null">
+        judge_correct = #{record.judgeCorrect,jdbcType=VARCHAR},
+      </if>
+      <if test="record.judgeComplexity != null">
+        judge_complexity = #{record.judgeComplexity,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update judge
+    set id = #{record.id,jdbcType=INTEGER},
+      judge_number = #{record.judgeNumber,jdbcType=VARCHAR},
+      judge_type = #{record.judgeType,jdbcType=VARCHAR},
+      judge_title = #{record.judgeTitle,jdbcType=VARCHAR},
+      judge_correct = #{record.judgeCorrect,jdbcType=VARCHAR},
+      judge_complexity = #{record.judgeComplexity,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="finalJudge" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select * from  judge where id=#{id}
+  </select>
+</mapper>

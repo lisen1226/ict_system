@@ -5,6 +5,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.dhcc.pojo.Empower;
+import com.dhcc.pojo.ExamSub;
+import com.dhcc.pojo.ExamTem;
+import com.dhcc.pojo.ExamType;
 import com.dhcc.pojo.Examination;
 import com.dhcc.pojo.ExaminationType;
 import com.dhcc.pojo.Exams;
@@ -40,4 +44,14 @@ public interface ExaminationMapper {
 	List<Exams> selectAllExamsByPer(String per);
 
 	List<Matter> selectMatters(String examid);
+
+	List<ExamTem> selectAllExamTems();
+
+	List<ExamType> selectAllExamTypes();
+
+	void saveSub(ExamSub sub);
+
+	int saveExam(Exams exams);
+
+	int saveEmpower(Empower ep);
 }

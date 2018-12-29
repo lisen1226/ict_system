@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<script src="../js/jquery-1.9.1.js"></script>
+	<script src="../js/bootstrap.js"></script>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/listAllExa.css">
+	<link rel="stylesheet" href="../css/animate.css">
+	<link rel="stylesheet" href="../css/exam.css">
+	<style type="text/css">
+		li{
+			float: 
+		}
+		.panel-body{
+		padding-top: 0px;
+		}
+	</style>
+</head>
+<body>
+	<!-- 导航栏 -->
+		<header class="home-head">
+			<nav class="navbar navbar-default container">
+			  <div class="container-fluid">
+			    <div class="navbar-header">
+			    	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+			        <span class="sr-only">Toggle navigation</span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			      </button>
+			      <a class="navbar-brand" href="../index.html">ICT能力资源管理平台</a>
+			    </div>
+			    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			      <ul class="nav navbar-nav navbar-right">
+			        <li><a href="#">人力资源管理</a></li>
+			        <li><a href="#" class="exam">考试系统</a></li>
+			        <li><a href="#">项目管理</a></li>
+					<li>
+						<a href="#" class="search-parent">
+							<input type="text">
+							<span href="#" class="glyphicon glyphicon-search search"></span>
+						</a>
+						
+					</li>
+					<li class="details"><a href="#"><img src="../img/head-img.jpg" alt="头像" class="img-circle"></a></li>
+			      </ul>
+			    </div>
+			  </div>
+			</nav>
+		</header>
+	
+
+	<section class="exam-con">
+		<div>
+		    <div class="tabs-container" style="float: left;width: 7%">
+		        <ul class="nav nav-pills nav-stacked" >
+		            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true" onclick="questionType('单选')"> 单选题</a>
+		            </li>
+		            <li class=""><a data-toggle="tab" href="#tab-1" aria-expanded="false" onclick="questionType('多选')">多选题</a>
+		            </li>
+		             <li class=""><a data-toggle="tab" href="#tab-1" aria-expanded="false" onclick="questionType('判断')">判断题</a>
+		            </li>
+		             <li class=""><a data-toggle="tab" href="#tab-1" aria-expanded="false" onclick="questionType('简答')">简答题</a>
+		            </li>
+		            </li>
+		             <li class=""><a data-toggle="tab" href="#tab-5" aria-expanded="false" >其他</a>
+		            </li>
+		        </ul>
+		    </div>
+		    <div class="tab-content" style="float: left;width: 93%">
+	
+		            <div id="tab-1" class="tab-pane active">
+		                <div class="panel-body" style="height: 540px">
+						 	 <!-- <iframe  src="singleChoice" width="100%" height="100%" class="iframe" scrolling="auto" marginheight="0px" marginwidth="0px"></iframe> -->
+		               		<div>
+								<div class="ibox float-e-margins">
+								
+								    <div class="ibox-title">
+								        <samp>
+								            <button class="btn btn-info" type="button" id="main-btn"  data-toggle="modal" data-target="#addData1">
+								                <i class="glyphicon glyphicon-plus"></i>&nbsp;新增
+								            </button>
+								            
+								             <button class="btn btn-default " type="button"  data-toggle="modal" data-target="#import" onclick="visible()">
+								                <i class="glyphicon glyphicon-import"></i>&nbsp;导入
+								            </button>
+								            <button class="btn btn-default " type="button"  onclick="deleteAll()">
+								                <i class="glyphicon glyphicon-trash"></i>&nbsp;删除
+								            </button>
+								            <i style="color: gray;">共有：<span id="in-total" style="color: red;">0</span>条数据</i>
+								        </samp>
+								        <div class="ibox-tools">
+								            <div class="input-group">
+								               	<select class="form-control selectType" id="finalType">
+								               		<option>全部</option>
+								
+								               	</select>
+								                <span class="input-group-btn">
+								                 <button type="button" class="btn btn-default" onclick="finalType(1)">
+								                     <i class="glyphicon glyphicon-search"></i>
+								                 </button>
+								                </span>   
+								            </div>
+								        </div>
+								    </div>
+								
+								    <div class="ibox-content" style="overflow-y:auto;overflow-x:auto;width:1210px ;height:400px;">
+								    	<div id="div-table">
+								        	<table class="table table-bordered" id="singleChoice-table">
+								            	<tr class="active">
+								                	<th>
+								                    	<div class="checkbox">
+								                        	<label>
+								                            	<input type="checkbox" id="checkAll" onclick="checkAll()">
+								                            </label>
+								                         </div>
+								                    </th>
+								                    <th>试题编号</th>
+								                    <th>题目类型</th>
+								                    <th>题目</th>
+								                    <th>正确答案</th>
+								                    <th>难易程度</th>
+								                    <th>操作</th>
+								                 </tr>
+								                 <tbody id="table-body">
+								                  	
+								                 </tbody>
+								                  
+								              </table>
+								              
+										</div>
+								    </div>
+									<div style="text-align: right;">
+										<p>
+											<span class="glyphicon glyphicon-fast-backward" id="first"  onclick="paging('first')"  style="display:none;"> </span> 
+											<span class="glyphicon glyphicon-step-backward" id="prior" onclick="paging('prior')"  style="display:none;"></span>
+											&nbsp当前 <input type="text" id="page" style="width: 40px" value=""/> 页  &nbsp
+											<span class="glyphicon glyphicon-step-forward" id="next" onclick="paging('next')"></span> 
+											<span class="glyphicon glyphicon-fast-forward" id="last" onclick="paging('last')"> </span>
+											<span style="color: gray;"> &nbsp&nbsp&nbsp&nbsp共有
+											<span id="totalPages" style="color: red;"></span>
+												页   
+											</span>
+										</p>
+									</div>
+								</div>
+							</div>
+								                          
+		                </div>
+		            </div>
+		            <div id="tab-5" class="tab-pane">
+		                <div class="panel-body" style="height: 540px">
+		                   <iframe  src="topicType" width="100%" height="100%" class="iframe" scrolling="auto" marginheight="0px" marginwidth="0px"></iframe>
+		                </div>
+		            </div>
+		        </div>
+		    
+		</div>
+	</section>
+	<div class="modal inmodal fade" id="addData1" tabindex="-1" role="dialog"  aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		            <h4 class="modal-title">添加</h4>
+		        </div>
+		        <div class="modal-body">
+			        <p>
+						题目类型：
+						<select class="selectType" id="examinationType">
+					
+						</select>
+					</p>
+					<p>难易程度：
+						<select id="examinationComplexity">
+							<option>易</option>
+							<option>偏易</option>
+							<option>适中</option>
+							<option>偏难</option>
+							<option>难</option>
+						</select>
+					</p>
+					<p>题目：</p>
+					<p> <textarea id="examinationTitle"></textarea></p>
+					<p>答案A：</p>
+					<p> <textarea id="examinationRight"></textarea></p>
+					<p> 答案B：</p>	
+					<p> <textarea id="examinationWrong1"></textarea></p>
+					<p> 答案C：</p>
+					<p> <textarea id="examinationWrong2"></textarea></p>
+					<p> 答案D：</p>     
+					<p> <textarea id="examinationWrong3"></textarea></p>
+					<p> 正确答案：</p>     
+					<p> <textarea id="examinationCorrect"></textarea></p>
+				</div>
+				<div class="modal-footer">
+				    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+				    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addExamin()">保存</button>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	
+	<div class="modal inmodal fade" id="updateFind" tabindex="-1" role="dialog"  aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		            <h4 class="modal-title">修改</h4>
+		        </div>
+		        <div class="modal-body">
+		        	<input type="hidden" id="examinId"/>
+			        <p>
+						题目类型：
+						<select class="selectType" id="examinType">
+					
+						</select>
+					</p>
+					<p>难易程度：
+						<select id="examinationComplexity1">
+							<option value="易">易</option>
+							<option  value="偏易">偏易</option>
+							<option  value="适中">适中</option>
+							<option  value="偏难">偏难</option>
+							<option  value="难">难</option>
+						</select>
+					</p>
+					<p>题目：</p>
+					<p> <textarea id="Title" style="width: 200px"></textarea></p>
+					<p>答案A：</p>
+					<p> <textarea id="Right" style="width: 200px"></textarea></p>
+					<p>答案B：</p>	
+					<p> <textarea id="Wrong1" style="width: 200px"></textarea></p>
+					<p>答案C：</p>
+					<p> <textarea id="Wrong2" style="width: 200px"></textarea></p>
+					<p>答案D：</p>     
+					<p> <textarea id="Wrong3" style="width: 200px"></textarea></p>
+					<p>正确答案：</p>     
+					<p> <textarea id="Correct" style="width: 200px"></textarea></p>
+				</div>
+				<div class="modal-footer">
+				    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+				    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updateExamin()">保存</button>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	
+	
+	<div class="modal inmodal fade" id="FindOne" tabindex="-1" role="dialog"  aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		            <h4 class="modal-title">查询</h4>
+		        </div>
+		        <div class="modal-body">
+		        	<div id="singleChoice-div">
+			        	<input type="hidden" id="examinId"/>
+				        <p>
+							题目编号：
+							<i id="p-examinationNumber" style="width: 200px"></i>
+						</p>
+						<p>难易程度：
+							<i id="p-examinationComplexity" style="width: 200px"></i>
+						</p>
+						<p>	题目：</p>
+						<p> 	<textarea id="p-Title" ></textarea>
+						</p>
+						<i id="a">
+							<p >A：</p>
+							<p> 	<textarea id="p-Right"></textarea>
+							</p>
+						</i>
+						<i id="b">
+							<p >B：</p>
+							<p> 	<textarea id="p-Wrong1" ></textarea>
+							</p>
+						</i>
+						
+						<i id="c">
+							<p >C：</p>
+							<p> 	<textarea id="p-Wrong2"></textarea>
+							</p>
+						</i>	
+						
+						
+						<i id="d">
+							<p>D：  </p>   
+							<p> 	<textarea id="p-Wrong3"></textarea>
+							</p>
+						</i>	
+						
+						<i id="e">
+							<p>E：  </p>   
+							<p> <textarea id="p-Wrong4" ></textarea>
+							</p>
+						</i>	
+						
+						<p> 正确答案：  </p>   
+						<p> 	<textarea id="p-Correct"></textarea>
+						</p>
+		        	</div>
+				</div>
+				<div class="modal-footer">
+				    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+				    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updateExamin()">保存</button>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	
+	
+    <div class="modal inmodal fade" id="import" tabindex="-1" role="dialog"  aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+		    <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal" ><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		            <h4 class="modal-title">导入</h4>
+		        </div>
+		        <div class="modal-body">
+		        	<p id="hint" style="color: red;"></p>
+		        	
+	          		<div class="input-group" id="import-input">
+	          	
+                        <input class="form-control yi-file yi-validation text-file1" type="text" name="fileUpload" placeholder="选择数据文件..." id="updateFile">
+                        <input id="file1" type="file" name="componentUpload" accept=".xlsx,.xls" style="display:none">
+                        <span class="input-group-btn" id="input-group-btn">
+                            <button class="btn btn-default" type="button" id="but-import">
+                                <span class="glyphicon glyphicon-folder-open"></span>
+                            </button>
+                        </span>
+                    </div>
+                    <p style="color: gray;" id="p-modal">单选题模板:<a onclick="downloadfile()" >下载</a></p>
+	                
+		        </div>
+		
+		        <div class="modal-footer" >
+		            <button type="button" class="btn btn-white" data-dismiss="modal" id="but-close">关闭</button>
+		            <button type="button" class="btn btn-primary" onclick="importNotarize()" id="but-next">下一步</button>
+		            <button type="button" class="btn btn-primary" onclick="visible()" id="but-prior">上一步</button>
+		            <button type="button" class="btn btn-primary" onclick="importExaminExcel()" id="save">上传</button>
+		        </div>
+		    </div>
+		</div>
+	</div>    
+        
+        
+        
+        
+        
+        
+        
+	<script type="text/javascript">
+		var type1="全部";
+		var examinationGenre="单选";
+		var pageObject={
+			currentPage: 1,//当前页面  
+		    numberOfPages: 10,//一页显示几个按钮（在ul里面生成5个li）  
+		    totalPages:0 ,//总页数 
+		    totalNum:0,//总数据条数
+		 	listId:new Array()
+		}
+		
+		
+		
+		function downloadfile(){
+		    window.location.href="../Excel/单选题模板.xlsx";
+		}
+		function questionType(str){
+			examinationGenre=str;
+			pageObject.currentPage=1;
+			$("#table-body").children().filter("tr").remove();
+			finalExamin();
+		}
+		
+		
+		//分页操作
+		function paging(page){
+			
+		 	if(page=="first" && pageObject.currentPage!=1){			//首页
+		 		$('#first').css({"display":"none"});
+		 		$('#prior').css({"display":"none"});
+		 		$('#next').css({"display":""});
+		 		$('#last').css({"display":""});
+		 		pageObject.currentPage = 1;
+		 		finalExamin();
+		 	}else if(page=="prior" && pageObject.currentPage>1){    //上一页
+		 		$('#last').css({"display":""});
+		 		$('#next').css({"display":""});
+		 		if(--pageObject.currentPage==1){
+		 			$('#first').css({"display":"none"});
+		 			$('#prior').css({"display":"none"});
+		 		}
+		 		finalExamin();	
+		 	}else if(page=="next" && pageObject.currentPage<pageObject.totalPages){     //下一页
+		 		$('#prior').css({"display":""});
+		 		$('#first').css({"display":""});
+		 		if(++pageObject.currentPage==pageObject.totalPages){
+		 			$('#next').css({"display":"none"});
+		 			$('#last').css({"display":"none"});
+		 		}
+		 		finalExamin();
+		 	}else if(page=="last" && pageObject.currentPage!=pageObject.totalPages){    //尾页
+		 		$('#last').css({"display":"none"});
+		 		$('#next').css({"display":"none"});
+		 		$('#prior').css({"display":""});
+		 		$('#first').css({"display":""});
+		 		pageObject.currentPage = pageObject.totalPages
+		 		finalExamin();
+		 	}
+	 	}
+
+		//查询数据:
+		function finalExamin(){
+			if(type1=="全部"){
+				$.ajax({
+			        url: "listAll",
+			        type:'post',
+			        data:{'currPage':pageObject.currentPage,'examinationGenre':examinationGenre},
+					dataType:'json',	
+			        success: function (data) {  
+			        	show(data);
+					}
+				}) 
+			}else{
+				finalType(2);
+			}
+		}
+	 	
+	 	
+	 	
+		//按类型查询数据
+		function finalType(d){
+			if(d==1){
+				pageObject.currentPage=1;
+				type1=$('#finalType').val();
+			}
+		
+			if(type1=="全部"){
+				finalExamin();
+			}else{
+				$.ajax({
+			        url: "finalByType",
+			        type:'post',
+			        data:{'currPage':pageObject.currentPage,"type":type1,"examinationGenre":examinationGenre},
+					dataType:'json',	
+			        success: function (data) {
+			        	show(data);
+					}
+				}) 
+			}
+			
+		}
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
+		//根据id查询试题信息
+		function findOne(number){
+			
+			$.ajax({
+		        url: "updateFindExamin",
+		        type:'post',
+		        data:{'id':number,'examinationGenre':examinationGenre},
+				dataType:'json',	
+		        success: function (data) {
+		        	
+		        	if(examinationGenre=="单选"){
+		   
+		        	  	$('#p-examinationNumber').text(data.obj.examinationNumber);
+			        	$('#p-examinationComplexity').text(data.obj.examinationComplexity);
+			        	$('#p-Title').val(data.obj.examinationTitle);
+			        	$('#p-Right').val(data.obj.examinationAnswer1);
+			        	$('#p-Wrong1').val(data.obj.examinationAnswer2);
+			        	$('#p-Wrong2').val(data.obj.examinationAnswer3);
+			        	$('#p-Wrong3').val(data.obj.examinationAnswer4);
+			        	$('#p-Correct').val(data.obj.examinationCorrect);
+			        	//隐藏、显示
+		        		display("","","","","none")
+		        	}else if(examinationGenre=="多选"){
+		        		
+			        	$('#p-examinationNumber').text(data.obj.multipleChoiceNumber);
+			        	$('#p-examinationComplexity').text(data.obj.multipleChoiceComplexity);
+			        	$('#p-Title').val(data.obj.multipleChoiceTitle);
+			        	$('#p-Right').val(data.obj.multipleChoiceAnswer1);
+			        	$('#p-Wrong1').val(data.obj.multipleChoiceAnswer2);
+			        	$('#p-Wrong2').val(data.obj.multipleChoiceAnswer3);
+			        	$('#p-Wrong3').val(data.obj.multipleChoiceAnswer4);
+			        	$('#p-Wrong4').val(data.obj.multipleChoiceAnswer5);
+			        	$('#p-Correct').val(data.obj.multipleChoiceCorrect);
+			        	//隐藏、显示
+			        	display("","","","","")
+		        	}else if(examinationGenre=="判断"){
+		        	 	$('#p-examinationNumber').text(data.obj.judgeNumber);
+			        	$('#p-examinationComplexity').text(data.obj.judgeComplexity);
+			        	$('#p-Title').val(data.obj.judgeTitle);
+			        	$('#p-Correct').val(data.obj.judgeCorrect); 
+			        	
+			        	//隐藏、显示
+			        	display("none","none","none","none","none")
+		        	}else if(examinationGenre=="简答"){
+		        		
+		        		$('#p-examinationNumber').text(data.obj.shortAnswerNumber);
+			        	$('#p-examinationComplexity').text(data.obj.shortAnswerComplexity);
+			        	$('#p-Title').val(data.obj.shortAnswerTitle);
+			        	$('#p-Correct').val(data.obj.shortAnswerCorrect); 
+		        		
+		        		//隐藏、显示
+		        		display("none","none","none","none","none")
+		        		
+		        	}
+				}
+			}) 
+			
+		}
+		function display(a,b,c,d,e){
+			$('#a').css({"display":a});
+    		$('#b').css({"display":b});
+    		$('#c').css({"display":c});
+    		$('#d').css({"display":d}); 
+        	$('#e').css({"display":e});
+		}
+		
+		function show(data){
+	 		var examinArray=data.PageBean.items;
+        	listTable(examinArray);//显示表格数据
+        	pageObject.totalNum=data.PageBean.totalNum;//总数据条数
+        	pageObject.totalPages=data.PageBean.totalPage;//总页数
+        	
+        	if(pageObject.currentPage>=pageObject.totalPages){
+				pageObject.currentPage=pageObject.totalPages;
+			}else{
+				$('#last').css({"display":""});
+		 		$('#next').css({"display":""});
+			}
+        	if(pageObject.totalPages==1){
+        		$('#last').css({"display":"none"});
+		 		$('#next').css({"display":"none"});
+		 		$('#prior').css({"display":"none"});
+		 		$('#first').css({"display":"none"});
+        	}
+        	if(pageObject.currentPage==0&&pageObject.totalPages!=0){
+        		pageObject.currentPage=1;
+        	}
+        	
+        	$('#totalPages').text(pageObject.totalPages);
+        	$('#in-total').html(pageObject.totalNum);//显示总数据条数
+        	$("#page").attr("value",pageObject.currentPage);//显示当前页
+	 	}
+		
+		
+		
+		
+		
+		
+		//遍历输出表格
+		function listTable(list){
+			$("#table-body").children().filter("tr").remove();
+			var tr="";
+			if(examinationGenre=="单选"){
+				for(var i=0;i<list.length;i++){
+					 tr+="<tr ><td><div class='checkbox'><label>"+
+		            "<input type='checkbox' class='checkId' id='"+i+"' value='"+list[i].id+"' onclick='choice("+i+")' ></label></div>     </td>"+
+		            "<td onclick='findOne("+list[i].id+")' data-toggle='modal' data-target='#FindOne'><a>"+list[i].examinationNumber +"</a> </td>"+
+		            "<td>"+list[i].examinationType +" </td>"+
+		            "<td>"+list[i].examinationTitle +" </td>"+
+		            "<td>"+list[i].examinationCorrect +" </td>"+
+		            "<td>"+list[i].examinationComplexity +" </td>"+
+		            "<td><a onclick='delectExaminOne("+list[i].id+")'><span class='glyphicon glyphicon-trash'></span>  </a>"+
+		            "<a onclick='updateFindExamin("+list[i].id+")' data-toggle='modal' data-target='#updateFind'>  <span class='glyphicon glyphicon-edit'></span></a></td></tr>"
+				}
+				
+			}else if(examinationGenre=="多选"){
+				for(var i=0;i<list.length;i++){
+					 tr+="<tr ><td><div class='checkbox'><label>"+
+		            "<input type='checkbox' class='checkId' id='"+i+"' value='"+list[i].id+"' onclick='choice("+i+")' ></label></div>     </td>"+
+		            "<td onclick='findOne("+list[i].id+")' data-toggle='modal' data-target='#FindOne'><a>"+list[i].multipleChoiceNumber +"</a> </td>"+
+		            "<td>"+list[i].multipleChoiceType +" </td>"+
+		            "<td>"+list[i].multipleChoiceTitle +" </td>"+
+		            "<td>"+list[i].multipleChoiceCorrect +" </td>"+
+		            "<td>"+list[i].multipleChoiceComplexity +" </td>"+
+		            "<td><a onclick='delectExaminOne("+list[i].id+")'><span class='glyphicon glyphicon-trash'></span>  </a>"+
+		            "<a onclick='updateFindExamin("+list[i].id+")' data-toggle='modal' data-target='#updateFind'>  <span class='glyphicon glyphicon-edit'></span></a></td></tr>"
+				}
+				
+				
+        	}else if(examinationGenre=="判断"){
+				for(var i=0;i<list.length;i++){
+					 tr+="<tr ><td><div class='checkbox'><label>"+
+		            "<input type='checkbox' class='checkId' id='"+i+"' value='"+list[i].id+"' onclick='choice("+i+")' ></label></div>     </td>"+
+		            "<td onclick='findOne("+list[i].id+")' data-toggle='modal' data-target='#FindOne'><a>"+list[i].judgeNumber +"</a> </td>"+
+		            "<td>"+list[i].judgeType +" </td>"+
+		            "<td>"+list[i].judgeTitle +" </td>"+
+		            "<td>"+list[i].judgeCorrect +" </td>"+
+		            "<td>"+list[i].judgeComplexity +" </td>"+
+		            "<td><a onclick='delectExaminOne("+list[i].id+")'><span class='glyphicon glyphicon-trash'></span>  </a>"+
+		            "<a onclick='updateFindExamin("+list[i].id+")' data-toggle='modal' data-target='#updateFind'>  <span class='glyphicon glyphicon-edit'></span></a></td></tr>"
+				}
+        		
+        	}else if(examinationGenre=="简答"){
+        		
+        		for(var i=0;i<list.length;i++){
+					 tr+="<tr ><td><div class='checkbox'><label>"+
+		            "<input type='checkbox' class='checkId' id='"+i+"' value='"+list[i].id+"' onclick='choice("+i+")' ></label></div>     </td>"+
+		            "<td onclick='findOne("+list[i].id+")' data-toggle='modal' data-target='#FindOne'><a>"+list[i].shortAnswerNumber +"</a> </td>"+
+		            "<td>"+list[i].shortAnswerType +" </td>"+
+		            "<td>"+list[i].shortAnswerTitle +" </td>"+
+		            "<td>"+list[i].shortAnswerCorrect +" </td>"+
+		            "<td>"+list[i].shortAnswerComplexity +" </td>"+
+		            "<td><a onclick='delectExaminOne("+list[i].id+")'><span class='glyphicon glyphicon-trash'></span>  </a>"+
+		            "<a onclick='updateFindExamin("+list[i].id+")' data-toggle='modal' data-target='#updateFind'>  <span class='glyphicon glyphicon-edit'></span></a></td></tr>"
+				}
+        		
+        	}
+			$("#table-body").append(tr);
+		}
+		
+		
+		
+		
+		
+		//删除一条信息
+		function delectExaminOne(number){
+			var rjudge = confirm("是否确认删除？");
+			if(rjudge == true){
+				$.ajax({
+			        url: "delectExaminById",
+			        type:'post',
+			        data:{'id':number,'examinationGenre':examinationGenre},
+					dataType:'json',	
+			        success: function (data) {
+			        	finalExamin();
+					}
+				}) 
+			}
+		}
+		
+		
+		//批量删除试题
+		function deleteAll(){
+			var rjudge = confirm("是否确认删除？");
+			if(rjudge == true){
+				if(pageObject.listId.length!=0){
+					 $.ajax({
+				        url: "deleteAll",
+				        type:'post',
+				        async : false,
+			            cache : false,
+			            traditional: true,
+				        data:{listId:pageObject.listId,'examinationGenre':examinationGenre},
+						dataType:'json',	
+				        success: function (data) {
+				        	$('#checkAll').prop('checked',false)
+				        	finalExamin(1);
+				        	pageObject.listId.length = 0;
+						}
+					})
+					
+				}else{
+					alert("请选择要删除的信息");
+				}
+			}
+		}
+		
+		
+		//添加数据
+		function addExamin(){
+			if(examinationGenre=="单选"){
+				$.ajax({
+			        url: "addExamin",
+			        type:'post',
+			        async : false,
+		            cache : false,
+		            traditional: true,
+		            
+			        data:{
+			        	"examinationType":$('#examinationType').val(),
+			        	"examinationTitle":$('#examinationTitle').val(),
+			        	"examinationAnswer1":$('#examinationRight').val(),
+			        	"examinationAnswer2":$('#examinationWrong1').val(),
+			        	"examinationAnswer3":$('#examinationWrong2').val(),
+			        	"examinationAnswer4":$('#examinationWrong3').val(),
+			        	"examinationCorrect":$('#examinationCorrect').val(),
+			        	"examinationComplexity":$('#examinationComplexity').val(),
+			        	"examinationGenre":examinationGenre},
+					dataType:'json',	
+			        success: function (data) {
+			        	$('#checkAll').prop('checked',false)
+			        	finalExamin(1);
+					}
+				})
+			}else if(examinationGenre=="多选"){
+        		
+				
+				
+        	}else if(examinationGenre=="判断"){
+        		
+        		
+        		
+        	}else if(examinationGenre=="简答"){
+        		
+        		
+        		
+        	}
+			
+			
+		}
+		//查询所有试题类型
+		function selectAllTestType(){
+			 $.ajax({
+		        url: "selectAllTestType",
+		        type:'post',
+		        dataType:'json',
+		        success: function (data) {
+		    		var option=""
+		        	for(var i=0;i<data.length;i++){
+		        		option+="<option value='"+data[i].typeNumber+"'>"+data[i].typeName+"</option>"
+		        	}
+		        	$('.selectType').append(option);
+				}     
+			 })
+		}
+		
+		//修改前查询数据
+		function updateFindExamin(number){
+			
+				$.ajax({
+			        url: "updateFindExamin",
+			        type:'post',
+			        data:{'id':number,'examinationGenre':examinationGenre},
+					dataType:'json',	
+			        success: function (data) {
+			        	
+			        	if(examinationGenre=="单选"){
+			        		
+			        		$('#examinId').val(data.obj.id);
+				        	$('#Title').val(data.obj.examinationTitle);
+				        	$('#Right').val(data.obj.examinationAnswer1);
+				        	$('#Wrong1').val(data.obj.examinationAnswer2);
+				        	$('#Wrong2').val(data.obj.examinationAnswer3);
+				        	$('#Wrong3').val(data.obj.examinationAnswer4);
+				        	$('#Correct').val(data.obj.examinationCorrect);
+				        	
+				        	
+				        	event.stopPropagation();
+			        	}else if(examinationGenre=="多选"){
+			        		
+			        	}else if(examinationGenre=="判断"){
+			        		
+			        	}else if(examinationGenre=="简答"){
+			        		
+			        	}
+			        	
+			        	
+					}
+				}) 	
+		}
+		
+		//修改数据
+		function updateExamin(){
+			var rjudge = confirm("是否确认修改吗？");
+			if(rjudge == true){
+				
+				if(examinationGenre=="单选"){
+					$.ajax({
+				        url: "updateExamin",
+				        type:'post',
+				        data:{'id':$('#examinId').val(),
+				        	'examinationType':$('#examinType').val(),
+				        	'examinationTitle':$('#Title').val(),
+				        	'examinationAnswer1':$('#Right').val(),
+				        	'examinationAnswer2':$('#Wrong1').val(),
+				        	'examinationAnswer3':$('#Wrong2').val(),
+				        	'examinationAnswer4':$('#Wrong3').val(),
+				        	'examinationCorrect':$('#Correct').val(),
+				        	'examinationComplexity':$('#examinationComplexity1').val()
+				        },
+						dataType:'json',	
+				        success: function (data) {
+							finalExamin();
+						}
+					}) 
+	        	}else if(examinationGenre=="多选"){
+	        		
+	        	}else if(examinationGenre=="判断"){
+	        		
+	        	}else if(examinationGenre=="简答"){
+	        		
+	        	}
+				
+			
+			}
+		}
+		
+	
+		
+		
+		//导入Excel文件
+		function importExaminExcel(){
+			$("#hint").text("");
+			var formData = new FormData();
+		    var name = $("#file1").val();
+		    formData.append("file",$("#file1")[0].files[0]);
+		    formData.append("name",name);
+		    formData.append("examinationGenre",examinationGenre);
+		    $.ajax({
+		        url : 'importExaminExcel',
+		        type : 'POST',
+		        async : false,
+		        data : formData,
+		        // 告诉jQuery不要去处理发送的数据
+		        processData : false,
+		        // 告诉jQuery不要去设置Content-Type请求头
+		        contentType : false,
+				success: function (data) {
+				   	if(data!="上传成功"){
+				
+						$("#hint").text(data);	   
+				   	}else{
+				   		finalExamin();
+					  	$("#but-prior").css("display","none");//上一步
+					   	$("#save").css("display","none");//上传按钮
+					   	$("#but-close").css("display","");//关闭按钮
+					   	$("#hint").text(data);
+				   }
+				}
+			})
+		}
+		function visible(){
+			$('.text-file1').val("");//上传文件显示文本框
+			$('#file1').val("");//上传文件文本框
+			$("#hint").text("");//提示信息
+			$("#import-input").css("display","");//导入框
+			$("#p-modal").css("display","");//模板下载
+			$('#but-next').css("display","");//下一步
+			$("#but-close").css("display","");//关闭按钮
+			$("#but-prior").css("display","none");//上一步
+			$("#save").css("display","none");//上传按钮
+			
+		}
+		
+		//下一步
+		function importNotarize(){
+			$("#hint").text("");
+			var formData = new FormData();
+		    var name = $("#file1").val();
+		    formData.append("file",$("#file1")[0].files[0]);
+		    formData.append("name",name);
+		    if(name!=""){
+		    	 $.ajax({
+				        url : 'importNotarize',
+				        type : 'POST',
+				        async : false,
+				        data : formData,
+				        // 告诉jQuery不要去处理发送的数据
+				        processData : false,
+				        // 告诉jQuery不要去设置Content-Type请求头
+				        contentType : false,
+						success: function (data) {
+							
+							$("#hint").text("您要上传的信息为： "+data[0]+"...");
+							$("#import-input").css("display","none");//导入框
+							$('#but-next').css("display","none");//下一步
+							$("#but-close").css("display","none");//关闭按钮
+							$("#p-modal").css("display","none");//模板下载
+							$("#but-prior").css("display","");//上一步
+							$('#save').css("display","");//上传按钮
+							
+						}
+					})
+		    }else{
+		    	$("#hint").text("请上传文件");
+		    }
+		   
+			
+			
+		}
+		
+		/* function empty(){
+			$("#hint").text("");
+		} */
+
+		function checkAll(){
+			if ($('#checkAll').is(':checked')) {
+				var i=0;
+				$(".checkId").each(function(){
+					pageObject.listId[i]=$(this).val();
+					  $(this).prop('checked',true)
+					  i++;
+				});
+			}else{
+				$(".checkId").each(function(){
+					  $(this).prop('checked',false) 
+				});
+				pageObject.listId.length = 0;
+				console.log(pageObject.listId); 
+			}
+		}
+		function choice(index){
+			if ($("#"+index).is(':checked')) {
+				pageObject.listId.push($("#"+index).val())
+			}else{
+				pageObject.listId.splice(index, 1);
+			}
+		}
+		
+		$(function() {
+			//点击updateFile文本框触发上传按钮
+			$("#updateFile").click(function() {
+				$("#file1").trigger("click");
+			});
+			
+			$("#but-import").click(function() {
+				$("#file1").trigger("click");
+			});
+			$("#file1").change(function(){
+				//获取FileUpload对象
+				var x = document.getElementById("file1").files;
+				//把获得的文件名放入text里面显示
+				$("#updateFile").val(x[0].name);
+			})
+			
+		});
+		$(document).ready(function(){
+			finalExamin();
+			selectAllTestType();
+		})
+	</script>
+</body>
+</html>

@@ -102,6 +102,5 @@
     <module>ict_system_skilltest</module>
     <module>ict_system_questionbank</module>
     <module>ict_system_eureka_server</module>
-    <module>ict_system_psychology</module>
-	 </modules>
+  </modules>
 </project>

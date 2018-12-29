@@ -9,19 +9,35 @@
 	margin:0px;
 	height: 20px;
 }
+
 th{
-	text-align: center;
-	height: 20px;
-}
-table{
+	height:30px;
 	text-align: center;
 }
-.Title{
-	width: 200px;
+.table{
+		width:1200px;
+		text-align: center;
+		table-layout: fixed;
+	}
+
+.table tr td{
+	width: 20%;
+	height:30px;
+	word-break:keep-all;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
 }
+
+
+
+
+
 textarea{
 	height: 30px;
-	width: 60px;
+	width: 265px;
+	max-width: 265px;
+	min-width: 265px;
 	margin: 0px,0px;
 	padding: 0px;
 }
@@ -38,3 +54,6 @@ textarea{
 .iframe{
 	border: 0px;
 }
+/* #save{
+	display: none;
+} */

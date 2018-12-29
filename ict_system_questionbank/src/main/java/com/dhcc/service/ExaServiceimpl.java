@@ -26,8 +26,8 @@ public class ExaServiceimpl implements ExaService {
 	Examination examin;
 	
 	//分页查询信息
-	@Override
-	public Map<String,Object> finalAll(int currPage,int pageSize,String examinationGenre) {
+	
+	/*public Map<String,Object> finalAll(int currPage,int pageSize,String examinationGenre) {
 		
 		Map<String,Object> map=new HashMap<String,Object>();
 		//分页处理，显示第一页的pageSize条数据
@@ -51,16 +51,21 @@ public class ExaServiceimpl implements ExaService {
         
 		return map;
 	}
+	
+	*/
+	@Override
+	public  List<Examination> finalAllExamination() {
+		return   examinMap.finalAllExamination();
+	}
+	
 
 	//根据类型查询数据
 	@Override
-	public Map<String,Object> finalByType(int currPage,int pageSize,String type,String examinationGenre) {
-		Map<String,Object> map=new HashMap<String,Object>();
-		//分页处理，显示第一页的pageSize条数据
-        PageHelper.startPage(currPage, pageSize);
-        examin.setExaminationGenre(examinationGenre);
-        examin.setExaminationType(type);
+	public List<Examination> finalByType(Examination examin) {
         List<Examination> list = examinMap.finalByType(examin);//查询
+
+		return list;
+
         // 取分页信息
         PageInfo<Examination> pageInfo = new PageInfo<Examination>(list);
         Long total = pageInfo.getTotal(); //获取总记录数
@@ -76,6 +81,7 @@ public class ExaServiceimpl implements ExaService {
       
         
 		return map;
+>>>>>>> branch 'master' of https://github.com/lisen1226/ict_system.git
 	}
 
 	//根据id删除数据
@@ -87,10 +93,6 @@ public class ExaServiceimpl implements ExaService {
 	//添加数据
 	@Override
 	public void addExamin(Examination record) {
-		
-		Date now=new Date();
-		SimpleDateFormat f=new SimpleDateFormat(record.getExaminationGenre()+record.getExaminationType()+"yyyyMMddHHmmss"+0);
-		record.setExaminationNumber(f.format(now));
 		examinMap.addExamin(record);
 	}
 	//查询题目类型
@@ -102,6 +104,10 @@ public class ExaServiceimpl implements ExaService {
 
 	
 	@SuppressWarnings( "resource" )
+<<<<<<< HEAD
+	public void importExaminExcel(Examination record) {
+		examinMap.addExamin(record);
+=======
 	public List<Integer> importExaminExcel(MultipartFile myFile) throws Exception {
 		Excel<Examination> excel=new Excel();
 		List lists=excel.importExcel(myFile);
@@ -145,6 +151,7 @@ public class ExaServiceimpl implements ExaService {
 		}
 		
 		return errors;
+>>>>>>> branch 'master' of https://github.com/lisen1226/ict_system.git
 	}
 
 	@Override
@@ -158,5 +165,38 @@ public class ExaServiceimpl implements ExaService {
 		examinMap.updateExamin(record);
 		return 0;
 	}
+<<<<<<< HEAD
+	//添加试题类型
+	@Override
+	public void addType(String typeName) {
+		Date now=new Date();
+		SimpleDateFormat f=new SimpleDateFormat("yyyyMMddHHmmss"+0);
+		examinationType.setTypeName(typeName);
+		examinationType.setTypeNumber(f.format(now));
+		examinMap.addType(examinationType);
+	}
+	//删除试题类型
+	@Override
+	public void deleteType(String typeNumber) {
+		examinMap.deleteType(typeNumber);
+		
+	}
+	//修改试题类型
+	@Override
+	public void updateType(ExaminationType examinationType) {
+		examinMap.updateType(examinationType);
+		
+	}
+	//根据试题类型编号查询试题类型
+	@Override
+	public ExaminationType finalTypeByNum(String typeNumber) {
+		return examinMap.finalTypeByNum(typeNumber);
+	}
+	@Override
+	public Integer selectTestType(String type) {
+		return examinMap.selectTestType(type);
+	}
+=======
 
+>>>>>>> branch 'master' of https://github.com/lisen1226/ict_system.git
 }

@@ -57,12 +57,64 @@
 		<result column="examDate" property="examDate"
 			jdbcType="VARCHAR" />
 		<result column="uuid" property="uuid" jdbcType="VARCHAR" />
+		<association property="uuid"
+			javaType="com.dhcc.pojo.Matter">
+			<result column="type" property="type" jdbcType="VARCHAR" />
+			<result column="number" property="number" jdbcType="INTEGER" />
+			<result column="fraction" property="fraction"
+				jdbcType="INTEGER" />
+			<result column="people" property="people" jdbcType="VARCHAR" />
+		</association>
 	</resultMap>
 
 	<resultMap id="matters" type="com.dhcc.pojo.Matter">
 		<result column="type" property="type" jdbcType="VARCHAR" />
 		<result column="number" property="number" jdbcType="INTEGER" />
-		<result column="fraction" property="fraction" jdbcType="INTEGER" />
+		<result column="fraction" property="fraction"
+			jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap type="com.dhcc.pojo.ExamTem" id="examTem">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="exam_tem_title" property="exam_tem_title"
+			jdbcType="VARCHAR" />
+		<result column="exam_tem_easys" property="exam_tem_easys"
+			jdbcType="VARCHAR" />
+		<result column="exam_tem_date" property="exam_tem_date"
+			jdbcType="VARCHAR" />
+		<result column="exam_tem_man" property="exam_tem_man"
+			jdbcType="VARCHAR" />
+		<result column="exam_tem_time" property="exam_tem_time"
+			jdbcType="VARCHAR" />
+		<result column="exam_tem_detail" property="exam_tem_detail"
+			jdbcType="VARCHAR" />
+		<collection property="examType"
+			ofType="com.dhcc.pojo.ExamType">
+			<result column="exam_name" property="exam_name"
+				jdbcType="VARCHAR" />
+		</collection>
+		<collection property="examSubs"
+			ofType="com.dhcc.pojo.ExamSub">
+			<id column="sid" property="id" jdbcType="INTEGER" />
+			<result column="exam_kind" property="exam_kind"
+				jdbcType="VARCHAR" />
+			<result column="exam_type" property="exam_type"
+				jdbcType="VARCHAR" />
+			<result column="exam_easy" property="exam_easy"
+				jdbcType="VARCHAR" />
+			<result column="exam_count" property="exam_count"
+				jdbcType="INTEGER" />
+			<result column="exam_score" property="exam_score"
+				jdbcType="VARCHAR" />
+			<result column="exam_tem" property="exam_tem"
+				jdbcType="INTEGER" />
+			<collection property="examType"
+				ofType="com.dhcc.pojo.ExaminationType">
+				<id column="eid" property="id" jdbcType="INTEGER" />
+				<result column="type_Name" property="typeName" />
+				<result column="type_Number" property="typeNumber" />
+			</collection>
+		</collection>
 	</resultMap>
 
 	<sql id="Example_Where_Clause">
@@ -408,14 +460,76 @@
 	</select>
 
 	<select id="selectAllExamsByPer" resultMap="exams">
-		select * from exams
-		where examPermission+0 &lt;= #{per}
+		SELECT e.*,q.*
+		FROM
+		exams as e LEFT JOIN question_type
+		as q on e.uuid = q.uuid where
+		examPermission+0 &lt;= #{per} GROUP BY q.people
 	</select>
 
 	<select id="selectMatters" resultType="com.dhcc.pojo.Matter">
 		select
-		type,number,fraction from
-		question_type where uuid=(select uuid from
+		type,number,fraction,people from
+		question_type where uuid=(select uuid
+		from
 		exams where id = #{examid})
 	</select>
+
+	<select id="selectAllExamTems" resultMap="examTem">
+		SELECT t.*,
+		s.id as
+		sid,s.exam_kind,s.exam_count,s.exam_easy,s.exam_type,s.exam_tem,s.exam_score,
+		e.id
+		as eid,e.type_Name,e.type_Number,p.exam_name
+		FROM exam_tem
+		as t LEFT
+		JOIN exam_sub
+		as s on t.exam_tem_detail =
+		s.exam_tem LEFT
+		JOIN
+		examination_type as e
+		on s.exam_kind =
+		e.type_Number LEFT JOIN exam_type
+		as p on t.exam_tem_type = p.id
+	</select>
+
+	<select id="selectAllExamTypes"
+		resultType="com.dhcc.pojo.ExamType">
+		select * from exam_type
+	</select>
+
+	<insert id="saveSub" parameterType="com.dhcc.pojo.ExamSub">
+		insert into
+		exam_sub(exam_kind,exam_type,exam_easy,exam_score,exam_count,exam_tem)
+		values(#{exam_kind,jdbcType=VARCHAR},
+		#{exam_type,jdbcType=VARCHAR},
+		#{exam_easy,jdbcType=VARCHAR},
+		#{exam_score,jdbcType=VARCHAR},
+		#{exam_count,jdbcType=INTEGER},
+		#{exam_tem,jdbcType=VARCHAR})
+	</insert>
+
+	<insert id="saveExam" parameterType="com.dhcc.pojo.Exams"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		exams(examTitle,examType,examPrivate,examDate,uuid,examStartDate,examVia,examEndDate,examCount,examEmpower,examTime,examFixed,examEasys)
+		values(#{examTitle,jdbcType=VARCHAR},
+		#{examType,jdbcType=VARCHAR},
+		#{examPrivate,jdbcType=VARCHAR},
+		#{examDate,jdbcType=VARCHAR},
+		#{uuid,jdbcType=INTEGER},
+		#{examStartDate,jdbcType=VARCHAR},
+		#{examVia,jdbcType=VARCHAR},
+		#{examEndDate,jdbcType=VARCHAR},
+		#{examCount,jdbcType=VARCHAR},
+		#{examEmpower,jdbcType=VARCHAR},
+		#{examTime,jdbcType=VARCHAR},
+		#{examFixed,jdbcType=VARCHAR},
+		#{examEasys,jdbcType=VARCHAR})
+	</insert>
+
+	<insert id="saveEmpower" parameterType="com.dhcc.pojo.Empower" keyProperty="id" useGeneratedKeys="true">
+		insert into empower
+		(user) values(#{user,jdbcType=VARCHAR})
+	</insert>
 </mapper>

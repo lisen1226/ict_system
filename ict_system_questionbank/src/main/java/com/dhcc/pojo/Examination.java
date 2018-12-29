@@ -7,110 +7,121 @@ public class Examination {
     private Integer id;
 
     private String examinationNumber;
-
-    private String examinationGenre;
     
     private String examinationType;
     
     private String examinationTitle;
 
-    private String examinationRight;
+    private String examinationAnswer1;
 
-    private String examinationWrong1;
+    private String examinationAnswer2;
 
-    private String examinationWrong2;
+    private String examinationAnswer3;
 
-    private String examinationWrong3;
+    private String examinationAnswer4;
+    private String examinationCorrect;
+    private String examinationComplexity;
 
     public Examination() {
 		super();
 	}
 
-	public Examination(String examinationNumber, String examinationGenre, String examinationType,
-			String examinationTitle, String examinationRight, String examinationWrong1, String examinationWrong2,
-			String examinationWrong3) {
+	public Examination(String examinationNumber, String examinationType, String examinationTitle,
+			String examinationAnswer1, String examinationAnswer2, String examinationAnswer3, String examinationAnswer4,
+			String examinationCorrect, String examinationComplexity) {
 		super();
 		this.examinationNumber = examinationNumber;
-		this.examinationGenre = examinationGenre;
 		this.examinationType = examinationType;
 		this.examinationTitle = examinationTitle;
-		this.examinationRight = examinationRight;
-		this.examinationWrong1 = examinationWrong1;
-		this.examinationWrong2 = examinationWrong2;
-		this.examinationWrong3 = examinationWrong3;
+		this.examinationAnswer1 = examinationAnswer1;
+		this.examinationAnswer2 = examinationAnswer2;
+		this.examinationAnswer3 = examinationAnswer3;
+		this.examinationAnswer4 = examinationAnswer4;
+		this.examinationCorrect = examinationCorrect;
+		this.examinationComplexity = examinationComplexity;
 	}
 
+
+
+
 	public Integer getId() {
-        return id;
-    }
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getExaminationNumber() {
-        return examinationNumber;
-    }
+	public String getExaminationNumber() {
+		return examinationNumber;
+	}
 
-    public void setExaminationNumber(String examinationNumber) {
-        this.examinationNumber = examinationNumber == null ? null : examinationNumber.trim();
-    }
+	public void setExaminationNumber(String examinationNumber) {
+		this.examinationNumber = examinationNumber;
+	}
 
-    public String getExaminationGenre() {
-        return examinationGenre;
-    }
-
-    public void setExaminationGenre(String examinationGenre) {
-        this.examinationGenre = examinationGenre == null ? null : examinationGenre.trim();
-    }
-
-    
-    
-    public String getExaminationType() {
+	public String getExaminationType() {
 		return examinationType;
 	}
 
 	public void setExaminationType(String examinationType) {
-		this.examinationType = examinationType== null ? null : examinationType.trim();
+		this.examinationType = examinationType;
 	}
 
 	public String getExaminationTitle() {
-        return examinationTitle;
-    }
+		return examinationTitle;
+	}
 
-    public void setExaminationTitle(String examinationTitle) {
-        this.examinationTitle = examinationTitle == null ? null : examinationTitle.trim();
-    }
+	public void setExaminationTitle(String examinationTitle) {
+		this.examinationTitle = examinationTitle;
+	}
 
-    public String getExaminationRight() {
-        return examinationRight;
-    }
+	public String getExaminationAnswer1() {
+		return examinationAnswer1;
+	}
 
-    public void setExaminationRight(String examinationRight) {
-        this.examinationRight = examinationRight == null ? null : examinationRight.trim();
-    }
+	public void setExaminationAnswer1(String examinationAnswer1) {
+		this.examinationAnswer1 = examinationAnswer1;
+	}
 
-    public String getExaminationWrong1() {
-        return examinationWrong1;
-    }
+	public String getExaminationAnswer2() {
+		return examinationAnswer2;
+	}
 
-    public void setExaminationWrong1(String examinationWrong1) {
-        this.examinationWrong1 = examinationWrong1 == null ? null : examinationWrong1.trim();
-    }
+	public void setExaminationAnswer2(String examinationAnswer2) {
+		this.examinationAnswer2 = examinationAnswer2;
+	}
 
-    public String getExaminationWrong2() {
-        return examinationWrong2;
-    }
+	public String getExaminationAnswer3() {
+		return examinationAnswer3;
+	}
 
-    public void setExaminationWrong2(String examinationWrong2) {
-        this.examinationWrong2 = examinationWrong2 == null ? null : examinationWrong2.trim();
-    }
+	public void setExaminationAnswer3(String examinationAnswer3) {
+		this.examinationAnswer3 = examinationAnswer3;
+	}
 
-    public String getExaminationWrong3() {
-        return examinationWrong3;
-    }
+	public String getExaminationAnswer4() {
+		return examinationAnswer4;
+	}
 
-    public void setExaminationWrong3(String examinationWrong3) {
-        this.examinationWrong3 = examinationWrong3 == null ? null : examinationWrong3.trim();
-    }
+	public void setExaminationAnswer4(String examinationAnswer4) {
+		this.examinationAnswer4 = examinationAnswer4;
+	}
+
+	public String getExaminationCorrect() {
+		return examinationCorrect;
+	}
+
+	public void setExaminationCorrect(String examinationCorrect) {
+		this.examinationCorrect = examinationCorrect;
+	}
+
+	public String getExaminationComplexity() {
+		return examinationComplexity;
+	}
+
+	public void setExaminationComplexity(String examinationComplexity) {
+		this.examinationComplexity = examinationComplexity;
+	}
+
 }

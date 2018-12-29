@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<script src="../js/jquery-1.9.1.js"></script>
+	<script src="../js/bootstrap.js"></script>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/listAllExa.css">
+	<style type="text/css">
+	</style>
+</head>
+<body>
+	<div>
+		<button class="btn btn-info" type="button" id="main-btn"  data-toggle="modal" data-target="#addData1">
+        	<i class="glyphicon glyphicon-plus"></i>&nbsp;新增
+        </button>
+	</div>
+	<div>
+		<table  class="table table-bordered"  style='width: 300px;'>
+			<thead>
+				<tr>
+					<th>类型编号</th>
+					<th>类型名称</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody id="tbody-Type">
+			
+			</tbody>
+		</table>
+	</div>
+	<div class="modal inmodal fade" id="addData1" tabindex="-1" role="dialog"  aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		            <h4 class="modal-title">添加</h4>
+		        </div>
+		        <div class="modal-body">
+					<p> 类型名称：</p>
+					<p><input type="text" id="typeName"> </p>
+				</div>
+				<div class="modal-footer">
+				    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+				    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addType()">添加</button>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	<div class="modal inmodal fade" id="updateFind" tabindex="-1" role="dialog"  aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		        <div class="modal-header">
+		            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		            <h4 class="modal-title">修改</h4>
+		        </div>
+		        <div class="modal-body">
+		        	<input type="hidden" id="typeNumber"/>
+			      	<p> 类型名称：</p>
+					<p><input type="text" id="type-Name"> </p>
+				</div>
+				<div class="modal-footer">
+				    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+				    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updateType()">保存</button>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			finalType();
+		})
+		function addType(){
+			 $.ajax({
+			        url: "addType",
+			        type:'post',
+			        data:{'typeName':$('#typeName').val()},
+			        dataType:'json',
+			        success: function (data) {
+			        	if(data==1){
+			        		finalType();
+			        		alert("添加成功");
+			        	}else{
+			        		alert("添加失败");
+			        	}
+			        	
+			        	
+			        }
+			 })
+			
+			
+		}
+		
+		function finalType(){
+			var tr=""
+			$.ajax({
+		        url: "selectAllTestType",
+		        type:'post',
+		        dataType:'json',
+		        success: function (data) {
+					for(var i=0;i<data.length;i++){
+						tr+="<tr><td style='width: 100px;'>"+data[i].typeNumber+"</td>"+
+						"<td style='width: 100px;'>"+ data[i].typeName+"</td>"+
+						"<td style='width: 100px;'><a onclick='deleteType("+data[i].typeNumber+")'><span class='glyphicon glyphicon-trash'></span>  </a>"+
+			            "<a onclick='finalTypeByNum("+data[i].typeNumber+")' data-toggle='modal' data-target='#updateFind'>  <span class='glyphicon glyphicon-edit'></span></a></td></tr>"
+					}
+					$("#tbody-Type").children().filter("tr").remove();
+		        	$('#tbody-Type').append(tr);
+		        	
+				}     
+			 })
+		}
+		function deleteType(typeNumber){
+			var rjudge = confirm("是否确认删除？");
+			if(rjudge == true){
+				$.ajax({
+			        url: "deleteType",
+			        type:'post',
+			        data:{'typeNumber':typeNumber},
+			        dataType:'json',
+			        success: function (data) {
+			        	finalType();
+			        	if(data==1){	
+			        		alert("删除成功");
+			        	}else{
+			        		alert("删除失败");
+			        	}
+			        	
+					}     
+				 })
+			}
+		}
+		function finalTypeByNum(typeNumber){
+			$.ajax({
+		        url: "finalTypeByNum",
+		        type:'post',
+		        data:{'typeNumber':typeNumber},
+		        dataType:'json',
+		        success: function (data) {
+		        	$('#typeNumber').val(data.typeNumber);
+					$('#type-Name').val(data.typeName);
+				}     
+			 })
+			
+		}
+		function updateType(){
+			alert($('#type-Name').val());
+			$.ajax({
+		        url: "updateType",
+		        type:'post',
+		        data:{'typeNumber':$('#typeNumber').val(),'typeName':$('#type-Name').val()},
+		        dataType:'json',
+		        success: function (data) {
+		        	finalType();
+		        	if(data==1){	
+		        		alert("修改成功");
+		        	}else{
+		        		alert("修改失败");
+		        	}
+		        	
+				}     
+			 })
+		}
+	</script>
+</body>
+</html>

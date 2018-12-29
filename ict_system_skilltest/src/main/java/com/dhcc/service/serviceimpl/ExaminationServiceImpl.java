@@ -12,6 +12,10 @@ import com.dhcc.mapper.DidExamsMapper;
 import com.dhcc.mapper.ExaminationMapper;
 import com.dhcc.mapper.HistoryExamsMapper;
 import com.dhcc.pojo.DidExams;
+import com.dhcc.pojo.Empower;
+import com.dhcc.pojo.ExamSub;
+import com.dhcc.pojo.ExamTem;
+import com.dhcc.pojo.ExamType;
 import com.dhcc.pojo.Examination;
 import com.dhcc.pojo.ExaminationType;
 import com.dhcc.pojo.Exams;
@@ -30,8 +34,6 @@ public class ExaminationServiceImpl implements ExaminationService {
 	private DidExamsMapper didExamsMapper;
 	@Autowired
 	private HistoryExamsMapper hesMapper;
-
-	
 
 	@Override
 	public List<Examination> selectAllExams() {
@@ -192,6 +194,42 @@ public class ExaminationServiceImpl implements ExaminationService {
 	public List<Matter> selectMatters(String examid) {
 		List<Matter> matters = examMapper.selectMatters(examid);
 		return matters;
+	}
+
+	@Override
+	public List<ExamTem> selectAllExamTems() {
+		List<ExamTem> examTems = examMapper.selectAllExamTems();
+		return examTems;
+	}
+
+	@Override
+	public List<ExamType> selectAllExamTypes() {
+		List<ExamType> examTypes = examMapper.selectAllExamTypes();
+		return examTypes;
+	}
+
+	@Override
+	public int saveExam(Exams exams) {
+		String uuid = Tools.getUUID32();
+		exams.setUuid(uuid);
+		Date date = new Date();
+		exams.setExamDate(date);
+		// 规则
+		for (ExamSub sub : exams.getExamSubs()) {
+			sub.setExam_tem(uuid);
+			examMapper.saveSub(sub);
+		}
+
+		if (!"-1".equals(exams.getExamEmpower())) {
+			Empower ep = new Empower();
+			ep.setUser(exams.getExamEmpower());
+			int result = examMapper.saveEmpower(ep);
+			int id = ep.getId();
+			exams.setExamEmpower(id + "");
+		}
+
+		return examMapper.saveExam(exams);
+
 	}
 
 }

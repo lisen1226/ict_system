@@ -24,7 +24,8 @@ public class ExaServiceimpl implements ExaService {
 	ExaminationMapper examinMap;
 	@Autowired
 	Examination examin;
-	
+	@Autowired
+	ExaminationType examinationType;
 	//分页查询信息
 	
 	/*public Map<String,Object> finalAll(int currPage,int pageSize,String examinationGenre) {
@@ -63,25 +64,7 @@ public class ExaServiceimpl implements ExaService {
 	@Override
 	public List<Examination> finalByType(Examination examin) {
         List<Examination> list = examinMap.finalByType(examin);//查询
-
 		return list;
-
-        // 取分页信息
-        PageInfo<Examination> pageInfo = new PageInfo<Examination>(list);
-        Long total = pageInfo.getTotal(); //获取总记录数
-        Long num=total;
-        if(total%pageSize==0) {
-        	total=total/pageSize;
-        }else {
-        	total=total/pageSize+1;
-        }
-       
-        PageBean<Examination > bean=new PageBean<Examination>(num,total, list);
-        map.put("PageBean", bean);
-      
-        
-		return map;
->>>>>>> branch 'master' of https://github.com/lisen1226/ict_system.git
 	}
 
 	//根据id删除数据
@@ -104,54 +87,8 @@ public class ExaServiceimpl implements ExaService {
 
 	
 	@SuppressWarnings( "resource" )
-<<<<<<< HEAD
 	public void importExaminExcel(Examination record) {
 		examinMap.addExamin(record);
-=======
-	public List<Integer> importExaminExcel(MultipartFile myFile) throws Exception {
-		Excel<Examination> excel=new Excel();
-		List lists=excel.importExcel(myFile);
-		int type=0;
-		List<Integer> errors=new ArrayList<Integer>();
-		
-		for(int i=0;i<lists.size();i++) {
-			
-			List list= (List) lists.get(i);
-			if(list.size()==7) {
-				System.out.println("type:"+list.get(1));
-				type=examinMap.selectTestType((String)list.get(1));
-				if(type==0) {
-					errors.add(i+1);
-				}
-			}else {
-				errors.add(0);
-				return errors;
-			}
-			
-		}
-		if(errors.size()==0) {
-			for(int i=0;i<lists.size();i++) {
-				try {
-					List list= (List) lists.get(i);
-					Date now=new Date();
-					SimpleDateFormat f=new SimpleDateFormat((String)list.get(0)+(String)list.get(1)+"yyyyMMddHHmmss"+i);
-					examin.setExaminationNumber(f.format(now));
-					examin.setExaminationGenre((String)list.get(0));
-					examin.setExaminationType((String)list.get(1));
-					examin.setExaminationTitle((String)list.get(2));
-					examin.setExaminationRight((String)list.get(3));
-					examin.setExaminationWrong1((String)list.get(4));
-					examin.setExaminationWrong2((String)list.get(5));
-					examin.setExaminationWrong3((String)list.get(6));
-					examinMap.addExamin(examin);
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
-			}
-		}
-		
-		return errors;
->>>>>>> branch 'master' of https://github.com/lisen1226/ict_system.git
 	}
 
 	@Override
@@ -165,7 +102,7 @@ public class ExaServiceimpl implements ExaService {
 		examinMap.updateExamin(record);
 		return 0;
 	}
-<<<<<<< HEAD
+
 	//添加试题类型
 	@Override
 	public void addType(String typeName) {
@@ -196,7 +133,5 @@ public class ExaServiceimpl implements ExaService {
 	public Integer selectTestType(String type) {
 		return examinMap.selectTestType(type);
 	}
-=======
 
->>>>>>> branch 'master' of https://github.com/lisen1226/ict_system.git
 }

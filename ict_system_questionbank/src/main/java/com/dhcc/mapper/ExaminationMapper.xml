@@ -41,15 +41,9 @@
 	</resultMap>
 	
 
-	<select id="selectAllTestType" resultMap="testType">
-		select * from
-		examination_type
-	</select>
 	
-	<select id="selectTestType" parameterType="String" resultType="java.lang.Integer">
-		SELECT COUNT(type_Number) FROM
-		examination_type WHERE type_Number=#{type}  
-	</select>
+	
+	
 
 	<!-- <select id="selectAllType" resultMap="String">
 		select type_Number from
@@ -91,7 +85,7 @@
 		examination_answer4=#{examinationAnswer4},examination_correct=#{examinationCorrect},
 		examination_complexity=#{examinationComplexity} where id=#{id}
 	</update>
-<<<<<<< HEAD
+
 	
 	
 	
@@ -130,6 +124,5 @@
 	<update id="updateType" parameterType="com.dhcc.pojo.ExaminationType">
 		update  examination_type  set type_Name=#{typeName} where type_Number=#{typeNumber}
 	</update>
-=======
->>>>>>> branch 'master' of https://github.com/lisen1226/ict_system.git
+
 </mapper>

@@ -15,9 +15,13 @@ public interface ExaminationMapper {
 	public List<Examination> finalAllExamination();
 	public void delectExaminById(Integer id);
 	public void addExamin(Examination record);
-	public List<ExaminationType> selectAllTestType();
 	public List<Examination> finalByType(Examination record);
 	public Integer selectTestType(String type);
 	public Examination updateFindExamin(Integer id);
 	public void updateExamin(Examination record) ;
+	public void addType(ExaminationType examinationType);
+	public void deleteType(String typeNumber);
+	public void updateType(ExaminationType examinationType);
+	public ExaminationType finalTypeByNum(String typeNumber);
+	public List<ExaminationType> selectAllTestType();
 }
